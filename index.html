@@ -8,172 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
-<style>
-/* Layout: sticky header with search, modality rail on the left (chip row on phones), topic grid or a single reading column on the right. */
-:root{
-  --bg:#f2f4f6; --surface:#ffffff; --sunk:#e8ecf0; --ink:#17212b; --muted:#566472; --line:#d5dce3;
-  --accent:#1f5687; --accent-ink:#ffffff; --accent-soft:#e1ebf5;
-  --warn:#9a3f12; --warn-soft:#fbede4; --ok:#25674a; --ok-soft:#e2f2ea;
-  --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
-  --f-body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
-  --r:8px;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#0d1216; --surface:#141b21; --sunk:#0a0e12; --ink:#e2e8ed; --muted:#91a0ad; --line:#26323c;
-    --accent:#86b9e6; --accent-ink:#0b1620; --accent-soft:#18283a;
-    --warn:#f1a37c; --warn-soft:#2c1c14; --ok:#7fcaa4; --ok-soft:#14261d;
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#0d1216; --surface:#141b21; --sunk:#0a0e12; --ink:#e2e8ed; --muted:#91a0ad; --line:#26323c;
-  --accent:#86b9e6; --accent-ink:#0b1620; --accent-soft:#18283a;
-  --warn:#f1a37c; --warn-soft:#2c1c14; --ok:#7fcaa4; --ok-soft:#14261d;
-  color-scheme:dark;
-}
-*{box-sizing:border-box}
-:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-body{margin:0}
-img{max-width:100%}
-[hidden]{display:none!important}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
-button,input,select,textarea{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-code,.mono{font-family:var(--f-mono);font-size:.88em}
-code{background:var(--sunk);padding:.05em .35em;border-radius:4px;white-space:nowrap}
-
-header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
-.top-in{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:20px;padding-block:12px;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);flex:none;background:none;border:0;padding:0;cursor:pointer}
-.brand svg{width:28px;height:28px;flex:none}
-.brand b{font-family:var(--f-display);font-weight:600;font-size:1.2rem;letter-spacing:-.01em;white-space:nowrap}
-.search{flex:1;max-width:520px;margin-left:auto;position:relative}
-.search input{width:100%;padding:9px 12px 9px 36px;border:1px solid var(--line);border-radius:var(--r);background:var(--bg)}
-.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted)}
-.search kbd{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-family:var(--f-mono);font-size:.75rem;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 5px}
-
-.shell{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px;padding-block:24px 64px;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-aside.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);align-self:start;display:flex;flex-direction:column;gap:18px}
-.rail nav{display:flex;flex-direction:column;gap:2px}
-.rail .lbl{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0 0 6px 10px;font-weight:600}
-.mod{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 10px;border:0;border-radius:6px;background:none;text-align:left;cursor:pointer;color:var(--ink)}
-.mod:hover{background:var(--sunk)}
-.mod[aria-current="true"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
-.mod .n{font-family:var(--f-mono);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
-.sync{font-size:.8rem;color:var(--muted);padding:0 10px;display:flex;gap:8px;align-items:flex-start}
-.sync i{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none;margin-top:6px}
-.sync.on i{background:var(--ok)}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:500;color:var(--ink)}
-.btn:hover{border-color:var(--accent)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.btn.danger{color:var(--warn);border-color:var(--warn)}
-.btn.ghost{border-color:transparent;background:none;padding-left:0;color:var(--accent)}
-.rail .btn{margin:0 10px}
-
-main{min-width:0}
-.group{display:flex;flex-direction:column;gap:12px;margin-bottom:36px}
-.group h2{font-family:var(--f-display);font-weight:600;font-size:1.35rem;margin:0;display:flex;align-items:baseline;gap:10px;text-wrap:balance}
-.group h2 small{font-family:var(--f-body);font-weight:400;font-size:.85rem;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
-.card{display:flex;flex-direction:column;gap:8px;text-align:left;padding:16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);cursor:pointer;color:var(--ink);min-width:0}
-.card:hover{border-color:var(--accent)}
-.card h3{margin:0;font-size:1rem;font-weight:600;line-height:1.3}
-.card p{margin:0;color:var(--muted);font-size:.9rem}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
-.chip{font-family:var(--f-mono);font-size:.72rem;padding:2px 7px;border-radius:4px;background:var(--sunk);color:var(--muted);white-space:nowrap}
-.chip.mine{background:var(--accent-soft);color:var(--accent)}
-.chip.note{background:var(--ok-soft);color:var(--ok)}
-.empty{padding:28px;border:1px dashed var(--line);border-radius:var(--r);color:var(--muted);display:flex;flex-direction:column;gap:12px;align-items:flex-start}
-.empty b{color:var(--ink)}
-.intro{margin:0 0 28px;max-width:62ch;color:var(--muted)}
-.intro strong{color:var(--ink);font-weight:600}
-
-article.topic{max-width:780px;display:flex;flex-direction:column;gap:22px}
-.eyebrow{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0}
-article.topic h1{font-family:var(--f-display);font-weight:600;font-size:clamp(1.7rem,4vw,2.3rem);line-height:1.15;margin:4px 0 0;text-wrap:balance;letter-spacing:-.01em}
-.lede{font-size:1.05rem;color:var(--muted);margin:0;max-width:65ch}
-.sec{display:flex;flex-direction:column;gap:8px}
-.sec h2{font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0;font-weight:600;padding-bottom:6px;border-bottom:1px solid var(--line)}
-.sec ul,.sec ol{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:5px;max-width:68ch}
-.sec ol li::marker{font-family:var(--f-mono);color:var(--accent)}
-.sec p{margin:0;max-width:68ch}
-.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
-table{border-collapse:collapse;width:100%;font-size:.9rem}
-th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
-th{font-weight:600;background:var(--sunk);font-size:.8rem;white-space:nowrap}
-tr:last-child td{border-bottom:0}
-td:first-child{font-weight:500}
-td{font-variant-numeric:tabular-nums}
-.callout{padding:12px 14px;border-radius:var(--r);background:var(--warn-soft);color:var(--ink);border-left:3px solid var(--warn)}
-.callout b{color:var(--warn)}
-.callout.info{background:var(--accent-soft);border-left-color:var(--accent)}
-.callout.info b{color:var(--accent)}
-
-/* HU scale */
-.hu{display:flex;flex-direction:column;gap:6px;padding:16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
-.hu-row{display:grid;grid-template-columns:12rem minmax(0,1fr);gap:12px;align-items:center}
-.hu-row>span{font-size:.82rem}
-.hu-row>span code{background:none;padding:0}
-.track{position:relative;height:18px}
-.win{position:absolute;top:5px;height:8px;left:var(--a);width:calc(var(--b) - var(--a));border:2px solid var(--accent);border-top:0;border-radius:0 0 3px 3px}
-.bar{height:22px;border-radius:3px;background:linear-gradient(to right,#000 0%,#fff 100%);border:1px solid var(--line)}
-.ticks,.marks{position:relative;height:18px;font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
-.ticks span,.marks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
-.ticks span:first-child{transform:none}.ticks span:last-child{transform:translateX(-100%)}
-.marks span{color:var(--ink)}
-.marks span::before{content:"";position:absolute;left:50%;top:-5px;height:4px;border-left:1px solid var(--muted)}
-
-/* calculators */
-.calc{display:flex;flex-direction:column;gap:14px;padding:16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
-.fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-.field{display:flex;flex-direction:column;gap:4px;min-width:0}
-.field label,.field legend{font-size:.8rem;color:var(--muted);font-weight:500;padding:0}
-.field select,.field input{padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);width:100%}
-fieldset.field{border:0;margin:0;padding:0}
-fieldset.field label{color:var(--ink);font-weight:400;display:flex;gap:6px;align-items:center;font-size:.88rem}
-.result{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;padding:12px 14px;border-radius:6px;background:var(--sunk)}
-.result .big{font-family:var(--f-mono);font-size:1.4rem;font-weight:500;color:var(--accent);font-variant-numeric:tabular-nums}
-.result p{margin:0;flex-basis:100%}
-
-/* notes */
-.notes{display:flex;flex-direction:column;gap:10px;padding:18px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface)}
-.notes-h{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.notes-h h2{margin:0;font-family:var(--f-display);font-weight:600;font-size:1.15rem}
-.notes-h span{font-size:.8rem;color:var(--muted)}
-.notes .body{white-space:pre-wrap;max-width:68ch}
-.notes .none{color:var(--muted)}
-textarea{width:100%;min-height:170px;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);line-height:1.5;resize:vertical}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.msg{font-size:.85rem;color:var(--warn)}
-.msg.ok{color:var(--ok)}
-.prose h3{font-size:1rem;margin:10px 0 0}
-.prose p,.prose ul{margin:0}
-.form{display:flex;flex-direction:column;gap:14px;max-width:780px}
-.form input[type=text],.form select{padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);width:100%}
-.form textarea{min-height:320px;background:var(--surface)}
-.hint{font-size:.82rem;color:var(--muted);margin:0}
-footer.disc{font-size:.8rem;color:var(--muted);max-width:68ch;border-top:1px solid var(--line);padding-top:14px;margin-top:8px}
-
-@media (max-width:820px){
-  .shell{grid-template-columns:minmax(0,1fr);gap:16px;padding-top:12px}
-  aside.rail{position:static;gap:10px}
-  .rail .lbl,.sync{display:none}
-  .rail nav{flex-direction:row;overflow-x:auto;gap:6px;padding-bottom:4px;scrollbar-width:none}
-  .mod{flex:none;border:1px solid var(--line);border-radius:20px;padding:5px 12px}
-  .rail .btn{display:none}
-  .brand b{font-size:1.05rem}
-  .search kbd{display:none}
-  .hu-row{grid-template-columns:minmax(0,1fr);gap:2px}
-  .hu-row>span:empty{display:none}
-}
-@media (max-width:480px){ .brand b{display:none} .top-in{gap:12px} }
-@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header class="top">
@@ -598,6 +433,264 @@ function textOf(t){
   if(t.body) parts.push(t.body);
   return strip(parts.join(" ")).toLowerCase();
 }
+
+/* ---------- diagrams ---------- */
+// Inline SVG figures, themed through the CSS tokens. Each one is spliced into its topic as a {h, fig, cap} section.
+const tx=(x,y,s,o={})=>`<text x="${x}" y="${y}"${o.a?` text-anchor="${o.a}"`:""}${o.c?` class="${o.c}"`:""}${o.s?` font-size="${o.s}"`:""}${o.w?` font-weight="${o.w}"`:""}${o.f?` style="fill:${o.f}"`:""}>${s}</text>`;
+const svg=(w,h,label,body)=>`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(label)}">${body}</svg>`;
+
+function ladder(items,{W=640,label="",groups=[],iconH=0}={}){
+  const n=items.length,gap=6,bw=(W-gap*(n-1))/n,lines=Math.max(...items.map(it=>[it.a,it.b,it.c].filter(Boolean).length));
+  const bh=iconH+42+lines*21,gh=groups.length?44:0;
+  let b="";
+  items.forEach((it,i)=>{
+    const x=i*(bw+gap),cx=x+bw/2,inv=it.tone==="hot"?"inv":"";
+    b+=`<rect x="${x}" y="0" width="${bw}" height="${bh}" rx="6" class="t-${it.tone||"mid"}"/>`;
+    if(it.icon) b+=it.icon(cx,iconH/2+8);
+    b+=tx(cx,iconH+30,it.k,{a:"middle",s:18,w:600,c:inv});
+    let y=iconH+52;
+    if(it.a){ b+=tx(cx,y,it.a,{a:"middle",c:inv}); y+=21; }
+    if(it.b){ b+=tx(cx,y,it.b,{a:"middle",c:inv||"mu"}); y+=21; }
+    if(it.c){ b+=tx(cx,y,it.c,{a:"middle",w:600,c:inv}); }
+  });
+  groups.forEach(g=>{
+    const x1=g.from*(bw+gap)+4,x2=(g.to+1)*(bw+gap)-gap-4,y=bh+12;
+    b+=`<path d="M${x1} ${y-6}V${y}H${x2}V${y-6}" class="s-mu" fill="none"/>`+tx((x1+x2)/2,y+20,g.label,{a:"middle",c:"mu"});
+  });
+  return svg(W,bh+gh,label,b);
+}
+
+function figPhases(){
+  const x0=160,W=460,sx=t=>x0+(t<=120?t/120*W*.55:W*.55+(t-120)/780*W*.45);
+  const rows=[["Early arterial / CTA",15,25],["Late arterial",35,40],["Pancreatic",40,50],["Portal venous",60,70,1],["Nephrographic",90,100],["Delayed",180,300],["Excretory",300,900],["Adrenal washout",900,900]];
+  let b="";
+  rows.forEach(([n,a,z,hi],i)=>{
+    const y=10+i*28,x=sx(a),w=Math.max(sx(z)-x,6);
+    b+=`<line x1="${x0}" y1="${y+9}" x2="${x0+W}" y2="${y+9}" class="s-ln" stroke-dasharray="2 4"/>`;
+    b+=tx(x0-12,y+14,n,{a:"end",w:hi?600:0})+`<rect x="${Math.min(x,x0+W-6)}" y="${y}" width="${w}" height="18" rx="4" class="${hi?"f-ac":"t-acs"}"/>`;
+  });
+  const ay=10+rows.length*28+6;
+  b+=`<line x1="${x0}" y1="${ay}" x2="${x0+W}" y2="${ay}" class="s-mu"/>`;
+  [[0,"0"],[30,"30 s"],[60,"60 s"],[90,"90 s"],[120,"2 min"],[300,"5"],[600,"10"],[900,"15 min"]].forEach(([t,l],i,a)=>{
+    const x=sx(t); b+=`<line x1="${x}" y1="${ay}" x2="${x}" y2="${ay+5}" class="s-mu"/>`+tx(x,ay+20,l,{a:i===0?"start":i===a.length-1?"end":"middle",c:"mu",s:12});
+  });
+  const bx=sx(120);
+  b+=`<path d="M${bx+4} ${ay-6}l-6 12M${bx+10} ${ay-6}l-6 12" class="s-mu"/>`;
+  return svg(640,ay+30,"Timeline of CT contrast phases after injection",b);
+}
+
+function figBirads(){
+  return ladder([
+    {k:"1",a:"Negative",b:"≈0%",tone:"ok"},{k:"2",a:"Benign",b:"≈0%",tone:"ok"},{k:"3",a:"Prob. benign",b:"≤2%",tone:"mid"},
+    {k:"4A",a:"Low",b:"2–10%",tone:"warn"},{k:"4B",a:"Moderate",b:"10–50%",tone:"warn"},{k:"4C",a:"High",b:"50–95%",tone:"warn"},{k:"5",a:"Highly susp.",b:"≥95%",tone:"hot"},
+  ],{W:700,label:"BI-RADS categories 1 to 5 with likelihood of malignancy",groups:[{from:0,to:1,label:"Routine screening"},{from:2,to:2,label:"6-month f/u"},{from:3,to:6,label:"Tissue diagnosis"}]});
+}
+function figTirads(){
+  return ladder([
+    {k:"TR1",a:"Benign",b:"0 pts",c:"No FNA",tone:"ok"},{k:"TR2",a:"Not susp.",b:"2 pts",c:"No FNA",tone:"ok"},
+    {k:"TR3",a:"Mildly susp.",b:"3 pts",c:"FNA ≥2.5 cm",tone:"mid"},{k:"TR4",a:"Moderately",b:"4–6 pts",c:"FNA ≥1.5 cm",tone:"warn"},
+    {k:"TR5",a:"Highly susp.",b:"≥7 pts",c:"FNA ≥1.0 cm",tone:"hot"},
+  ],{label:"TI-RADS levels with points and FNA size thresholds"});
+}
+function figBosniak(){
+  const cyst=(w,extra="")=>(cx,cy)=>`<circle cx="${cx}" cy="${cy}" r="20" class="cyst" stroke-width="${w}"/>`+extra.replace(/\{(-?\d+),(-?\d+)\}/g,(m,a,b)=>`${cx+ +a} ${cy+ +b}`);
+  return ladder([
+    {k:"I",a:"Simple cyst",c:"No follow-up",tone:"ok",icon:cyst(1.5)},
+    {k:"II",a:"Few thin septa",c:"No follow-up",tone:"ok",icon:cyst(1.5,`<path d="M{-19,-4}L{19,2}" class="sept"/>`)},
+    {k:"IIF",a:"Min. thick wall",c:"Follow-up",tone:"mid",icon:cyst(2.5,`<path d="M{-19,-6}L{19,-2}M{-17,8}L{18,6}M{-4,-19}L{2,19}" class="sept"/>`)},
+    {k:"III",a:"Thick wall/septa",c:"Treat or surveil",tone:"warn",icon:cyst(5,`<path d="M{-19,0}L{19,3}" class="sept" stroke-width="3"/>`)},
+    {k:"IV",a:"Enhancing nodule",c:"Treat",tone:"hot",icon:(cx,cy)=>cyst(2)(cx,cy)+`<circle cx="${cx+8}" cy="${cy+9}" r="8" class="nodule"/>`},
+  ],{label:"Bosniak classes I to IV with cyst drawings",iconH:56});
+}
+function figFleischner(){
+  const nod=r=>(cx,cy)=>`<circle cx="${cx}" cy="${cy}" r="${r}" class="nod"/>`;
+  return ladder([
+    {k:"&lt;6 mm",a:"Low risk: no routine f/u",b:"High risk: optional CT 12 mo",tone:"ok",icon:nod(5)},
+    {k:"6–8 mm",a:"CT at 6–12 months",b:"then CT 18–24 mo",tone:"mid",icon:nod(10)},
+    {k:"&gt;8 mm",a:"CT 3 mo, PET/CT",b:"or tissue sampling",tone:"warn",icon:nod(15)},
+  ],{label:"Fleischner single solid nodule management by size",iconH:48});
+}
+
+function figViews(){
+  const unit=`<path d="M150 46v34m-6-8 6 8 6-8" class="s-ac" fill="none" stroke-width="2"/>
+    <line x1="90" y1="70" x2="90" y2="190" class="s-mu" stroke-dasharray="4 4"/>
+    <rect x="90" y="92" width="150" height="8" rx="2" class="t-acs"/>
+    <path d="M90 100H200Q232 100 232 118Q232 136 200 136H90Z" class="tissue"/>
+    <circle cx="232" cy="118" r="3" class="f-ink"/>
+    <rect x="90" y="136" width="150" height="12" rx="2" class="f-mu"/>`;
+  let b=`<g transform="translate(10 0)">${unit}</g>`;
+  b+=tx(160,24,"CC · craniocaudal",{a:"middle",s:15,w:600});
+  b+=tx(258,100,"Paddle",{c:"mu",s:12})+tx(258,146,"Detector",{c:"mu",s:12})+tx(100,206,"Chest wall",{c:"mu",s:12});
+  b+=tx(160,236,"Beam straight down (0°)",{a:"middle",c:"mu"});
+  b+=`<g transform="translate(330 0) rotate(45 150 130)">${unit}</g>`;
+  b+=`<line x1="480" y1="44" x2="480" y2="214" class="s-ln" stroke-dasharray="3 4"/><path d="M480 70A60 60 0 0 1 522 88" class="s-ac" fill="none"/>`;
+  b+=tx(530,72,"30–60°",{c:"ac",w:600});
+  b+=tx(480,24,"MLO · mediolateral oblique",{a:"middle",s:15,w:600});
+  b+=tx(480,236,"Detector parallel to the pectoral muscle",{a:"middle",c:"mu"});
+  return svg(640,250,"Diagram of CC and MLO mammography positioning",b);
+}
+
+function figPNL(){
+  const img="#15191d",tis="#c3c9cf",pec="#7f8790",ms="#ffcf4d";
+  let b=`<rect x="10" y="30" width="290" height="220" rx="4" fill="${img}"/>
+    <path d="M10 40C150 40 240 120 232 170C225 215 120 245 10 248Z" fill="${tis}" opacity=".85"/>
+    <path d="M10 30H110L10 230Z" fill="${pec}"/>
+    <line x1="230" y1="170" x2="78" y2="94" stroke="${ms}" stroke-width="2.5"/><circle cx="230" cy="170" r="4" fill="#fff"/>
+    ${tx(150,122,"PNL",{f:ms,w:600})}${tx(20,48,"Pectoral",{f:"#fff",s:12})}`;
+  b+=`<rect x="340" y="30" width="290" height="220" rx="4" fill="${img}"/>
+    <path d="M340 50C460 50 565 100 565 140C565 180 460 230 340 230Z" fill="${tis}" opacity=".85"/>
+    <line x1="565" y1="140" x2="340" y2="140" stroke="${ms}" stroke-width="2.5"/><circle cx="565" cy="140" r="4" fill="#fff"/>
+    ${tx(450,132,"PNL",{f:ms,w:600,a:"middle"})}`;
+  b+=tx(155,20,"MLO",{a:"middle",s:15,w:600})+tx(485,20,"CC",{a:"middle",s:15,w:600});
+  b+=tx(155,272,"Nipple to pectoral edge, at 90°",{a:"middle",c:"mu"})+tx(485,272,"Nipple to pectoral or image edge",{a:"middle",c:"mu"});
+  b+=tx(320,300,"CC length should be within 1 cm of the MLO length",{a:"middle",w:600});
+  return svg(640,312,"Posterior nipple line measured on MLO and CC views",b);
+}
+
+function figZones(){
+  const z=[["I","Public areas","t-ok"],["II","Reception & screening","t-mid"],["III","Control room · screened people only","t-warn"],["IV","Magnet room · direct MR supervision","t-hot"]];
+  let b="";
+  z.forEach(([k,l,c],i)=>{
+    const p=i*34;
+    b+=`<rect x="${10+p}" y="${10+p}" width="${620-2*p}" height="${250-2*p}" rx="10" class="${c}"/>`;
+    b+=tx(26+p,34+p,`Zone ${k}`,{w:600,c:c==="t-hot"?"inv":""})+tx(90+p,34+p,l,{c:c==="t-hot"?"inv":"mu"});
+  });
+  b+=`<g transform="translate(320 166)"><rect x="-70" y="-30" width="140" height="60" rx="30" fill="none" class="s-inv" stroke-width="3"/><circle r="16" fill="none" class="s-inv" stroke-width="3"/></g>`;
+  return svg(640,270,"MRI safety zones I to IV as nested areas",b);
+}
+
+function figSwatch(){
+  const rows=[["T1","#1c1c1c","Dark","#ececec","Bright"],["T2 (FSE)","#f2f2f2","Bright","#d6d6d6","Bright"],["FLAIR","#262626","Dark (suppressed)","#d6d6d6","Bright"],["STIR / T2 fat-sat","#f2f2f2","Bright","#2a2a2a","Dark"],["T1 post-Gd fat-sat","#1c1c1c","Dark","#2a2a2a","Dark"],["MRCP","#ffffff","Very bright","#121212","Dark"]];
+  let b=tx(190+95,20,"Fluid (CSF, bile, cysts)",{a:"middle",c:"mu",w:600})+tx(400+95,20,"Fat",{a:"middle",c:"mu",w:600});
+  rows.forEach(([n,c1,l1,c2,l2],i)=>{
+    const y=32+i*40,fg=c=>parseInt(c.slice(1,3),16)>128?"#111":"#fff";
+    b+=tx(176,y+22,n,{a:"end",w:600});
+    b+=`<rect x="190" y="${y}" width="190" height="32" rx="4" fill="${c1}" class="s-ln"/>`+tx(285,y+21,l1,{a:"middle",f:fg(c1)});
+    b+=`<rect x="400" y="${y}" width="190" height="32" rx="4" fill="${c2}" class="s-ln"/>`+tx(495,y+21,l2,{a:"middle",f:fg(c2)});
+  });
+  return svg(600,32+rows.length*40,"Signal of fluid and fat on common MRI sequences",b);
+}
+
+function figKinetics(){
+  let b=`<path d="M60 20V210H600" class="s-mu" fill="none"/><line x1="190" y1="20" x2="190" y2="210" class="s-ln" stroke-dasharray="4 4"/>`;
+  b+=`<path d="M60 205C110 190 150 110 190 92" class="s-ink" fill="none" stroke-width="3"/>`;
+  b+=`<path d="M190 92C300 70 420 52 520 40" class="s-ok" fill="none" stroke-width="3"/>`;
+  b+=`<path d="M190 92C300 90 420 90 520 91" class="s-mu" fill="none" stroke-width="3"/>`;
+  b+=`<path d="M190 92C300 105 420 128 520 150" class="s-wa" fill="none" stroke-width="3"/>`;
+  b+=tx(528,44,"I · Persistent",{c:"ok",w:600})+tx(528,95,"II · Plateau",{c:"mu",w:600})+tx(528,154,"III · Washout",{c:"wa",w:600});
+  b+=tx(125,232,"Initial phase (≈2 min)",{a:"middle",c:"mu",s:12})+tx(360,232,"Delayed phase",{a:"middle",c:"mu",s:12});
+  b+=tx(20,115,"Signal",{c:"mu",s:12,a:"middle"}).replace("<text",'<text transform="rotate(-90 20 115)"');
+  return svg(640,244,"Breast MRI kinetic curve types I, II and III",b);
+}
+
+function figProbes(){
+  let b=`<rect x="80" y="26" width="60" height="12" rx="3" class="f-ink"/><rect x="80" y="38" width="60" height="150" class="t-acs"/>`;
+  b+=`<path d="M285.6 29.1A60 60 0 0 0 354.4 29.1L451.9 168.4A230 230 0 0 1 188.1 168.4Z" class="t-acs"/><path d="M285.6 29.1A60 60 0 0 0 354.4 29.1" class="s-ink" fill="none" stroke-width="7"/>`;
+  b+=`<path d="M560 36L672.5 170A175 175 0 0 1 447.5 170Z" class="t-acs"/><rect x="548" y="24" width="24" height="12" rx="3" class="f-ink"/>`;
+  [[110,"Linear","7–18 MHz","Thyroid, breast, vessels"],[320,"Curvilinear","2–6 MHz","Abdomen, pelvis, OB"],[560,"Phased array","1–5 MHz","Heart, between ribs"]].forEach(([x,n,f,u])=>{
+    b+=tx(x,212,n,{a:"middle",w:600})+tx(x,232,f,{a:"middle",c:"ac",w:600})+tx(x,252,u,{a:"middle",c:"mu"});
+  });
+  return svg(690,262,"Linear, curvilinear and phased array transducer footprints and image shapes",b);
+}
+
+function figETT(){
+  let b=`<rect x="250" y="60" width="120" height="80" class="t-ok" stroke="none" opacity=".9"/>`;
+  b+=`<path d="M290 0V190L220 260M330 0V190L400 260M270 260L310 205L350 260" class="s-ink" fill="none" stroke-width="2.5"/>`;
+  b+=`<rect x="301" y="0" width="18" height="100" rx="3" class="t-acs" stroke-width="2"/>`;
+  b+=`<line x1="420" y1="100" x2="420" y2="205" class="s-ac" stroke-width="1.5"/><path d="M414 100h12M414 205h12" class="s-ac"/>`;
+  b+=tx(432,158,"≈5 cm",{c:"ac",w:600,s:15});
+  b+=tx(240,104,"Tube tip",{a:"end",w:600})+tx(240,64,"3–7 cm zone",{a:"end",c:"ok"})+tx(240,214,"Carina",{a:"end",w:600});
+  b+=`<path d="M246 210H306" class="s-mu" stroke-dasharray="3 3"/>`;
+  b+=tx(470,40,"Head neutral.",{c:"mu"})+tx(470,60,"Flexion moves the tip down,",{c:"mu"})+tx(470,80,"extension moves it up (≈2 cm).",{c:"mu"});
+  return svg(680,266,"Endotracheal tube tip about 5 cm above the carina",b);
+}
+
+function figFluoro(){
+  let b=`<line x1="40" y1="130" x2="320" y2="130" class="s-ink" stroke-width="3"/>`;
+  b+=`<ellipse cx="180" cy="116" rx="120" ry="14" class="tissue"/>`;
+  b+=`<rect x="150" y="62" width="60" height="12" rx="2" class="f-mu"/>`+tx(180,52,"Detector (stand this side)",{a:"middle",c:"ok",s:12,w:600});
+  b+=`<rect x="160" y="146" width="40" height="22" rx="3" class="f-ink"/>`+tx(180,190,"Tube (most scatter)",{a:"middle",c:"wa",s:12,w:600});
+  [60,110,160].forEach(r=>{ b+=`<path d="M${180+r*.7} ${116-r*.7}A${r} ${r} 0 0 1 ${180+r*.7} ${116+r*.7}" class="s-mu" fill="none" stroke-dasharray="3 5"/>`; });
+  const person=(x,l1,l2)=>`<circle cx="${x}" cy="72" r="10" class="f-ac"/><rect x="${x-12}" y="86" width="24" height="54" rx="10" class="f-ac"/>`+tx(x,164,l1,{a:"middle",w:600})+tx(x,184,l2,{a:"middle",c:"mu"});
+  b+=person(400,"1 m","dose ×1")+person(540,"2 m","dose ×¼");
+  b+=tx(470,30,"Dose ∝ 1 / distance²",{a:"middle",w:600,s:15});
+  return svg(640,200,"Inverse square law: stepping from 1 m to 2 m cuts scatter dose to a quarter",b);
+}
+
+function figDose(){
+  const rows=[["Chest X-ray (PA + lat)",0.1,"0.1 mSv · 10 days"],["Mammogram",0.4,"0.4 mSv · 7 weeks"],["Lung screening CT",1.5,"1.5 mSv · 6 months"],["CT head",2,"2 mSv · 8 months"],["Background, 1 year",3,"3 mSv · 1 year",1],["CT chest",6,"6 mSv · 2 years"],["CT abdomen & pelvis",9,"8–10 mSv · 3 years"]];
+  const x0=180,W=300,sx=v=>v/10*W;
+  let b="";
+  [0,2,4,6,8,10].forEach(v=>{ b+=`<line x1="${x0+sx(v)}" y1="4" x2="${x0+sx(v)}" y2="${8+rows.length*30}" class="s-ln"/>`+tx(x0+sx(v),24+rows.length*30,v,{a:"middle",c:"mu",s:12}); });
+  rows.forEach(([n,v,l,bg],i)=>{
+    const y=10+i*30;
+    b+=tx(x0-10,y+15,n,{a:"end",w:bg?600:0})+`<rect x="${x0}" y="${y}" width="${Math.max(sx(v),2)}" height="20" rx="3" class="${bg?"f-ok":"f-ac"}"/>`+tx(x0+Math.max(sx(v),2)+8,y+15,l,{c:"mu",s:12});
+  });
+  b+=tx(x0+W,40+rows.length*30,"mSv",{a:"end",c:"mu",s:12});
+  return svg(640,46+rows.length*30,"Bar chart of typical effective dose by exam",b);
+}
+
+[
+  ["ct-phases",0,"Timeline after injection",figPhases,"The scale changes after 2 minutes. Portal venous is the routine phase."],
+  ["mammo-views",1,"CC and MLO at a glance",figViews],
+  ["mammo-quality",0,"Posterior nipple line (PNL)",figPNL],
+  ["birads",0,"Risk ladder",figBirads],
+  ["mri-safety",0,"Zones I–IV",figZones],
+  ["mri-sequences",0,"How fluid and fat look",figSwatch,"Simplified. Real signal depends on parameters and field strength."],
+  ["mri-breast",2,"Kinetic curve shapes",figKinetics],
+  ["us-knobology",0,"Probe footprints and image shapes",figProbes],
+  ["xr-chest",4,"Endotracheal tube position",figETT],
+  ["fluoro-dose",0,"Distance is the cheapest shield",figFluoro],
+  ["dose-ref",0,"Dose comparison",figDose],
+  ["tirads",1,"Levels at a glance",figTirads],
+  ["fleischner",1,"Single solid nodule at a glance",figFleischner],
+  ["bosniak",0,"Classes at a glance",figBosniak],
+].forEach(([id,at,h,fn,cap])=>{ const t=TOPICS.find(x=>x.id===id); if(t) t.secs.splice(at,0,{h,fig:fn,cap}); });
+
+/* ---------- see it & watch it ---------- */
+// Search phrases for real cases (Radiopaedia) and video walkthroughs (YouTube). Search links never go stale the way single video links do.
+const MEDIA={
+  "ct-windows":["CT windowing","CT window level explained"],"ct-head":["CT head","how to read a CT head"],
+  "ct-ap":["CT abdomen pelvis","CT abdomen pelvis with contrast protocol"],"ct-phases":["contrast phases CT","CT contrast phases arterial portal venous"],
+  "ct-pe":["pulmonary embolism CTPA","CTPA pulmonary embolism how to read"],"ct-kub":["CT KUB","CT KUB renal colic how to read"],
+  "mammo-views":["mammography views","mammography positioning CC MLO"],"mammo-quality":["posterior nipple line","mammography positioning image quality PNL"],
+  "birads":["BI-RADS","BI-RADS categories explained"],"mammo-lexicon":["breast calcifications","BI-RADS lexicon calcifications mammography"],
+  "mammo-workup":["diagnostic mammography","diagnostic mammogram callback workup"],
+  "mri-safety":["MRI safety","MRI safety zones screening"],"mri-sequences":["MRI sequences","MRI sequences T1 T2 FLAIR DWI explained"],
+  "mri-brain":["MRI brain","brain MRI protocol sequences"],"mri-breast":["breast MRI kinetic curve","breast MRI kinetic curves"],
+  "us-prep":["abdominal ultrasound","ultrasound patient preparation"],"us-knobology":["ultrasound transducer","ultrasound knobology"],
+  "us-normals":["normal ultrasound measurements","abdominal ultrasound normal measurements"],
+  "xr-chest":["chest radiograph","chest x-ray PA positioning"],"xr-projections":["radiographic projections","radiographic positioning"],
+  "fluoro-studies":["barium swallow","barium swallow fluoroscopy procedure"],"fluoro-dose":["fluoroscopy radiation dose","fluoroscopy radiation safety"],
+  "contrast-reactions":["contrast reaction","contrast reaction management radiology"],"contrast-iodinated":["contrast-induced nephropathy","iodinated contrast eGFR metformin"],
+  "gbca":["gadolinium","gadolinium contrast safety NSF"],"extravasation":["contrast extravasation","contrast extravasation management"],
+  "pregnancy":["imaging in pregnancy","imaging in pregnancy radiation contrast"],"dose-ref":["radiation dose","radiation dose from medical imaging"],
+  "tirads":["TI-RADS","ACR TI-RADS thyroid nodule"],"fleischner":["Fleischner","Fleischner guidelines 2017 lung nodules"],
+  "lungrads":["Lung-RADS","Lung-RADS 2022"],"adrenal":["adrenal washout","adrenal washout CT"],"bosniak":["Bosniak","Bosniak 2019 classification"],
+};
+function seeHTML(t){
+  const [rp,yt]=MEDIA[t.id]||[t.title,t.title], e=encodeURIComponent;
+  return `<section class="sec"><h2>See it &amp; watch it</h2><div class="see">
+    <a class="see-a" href="https://radiopaedia.org/search?q=${e(rp)}&scope=all" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-8 8"/></svg><span><b>Real case images</b><small>Radiopaedia: ${esc(rp)}</small></span></a>
+    <a class="see-a" href="https://www.youtube.com/results?search_query=${e(yt)}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 5 3-5 3z" class="fill"/></svg><span><b>Video walkthroughs</b><small>YouTube: ${esc(yt)}</small></span></a>
+  </div><p class="hint">Found a good video or image? Paste its link into the notes below and it will play or show right here.</p></section>`;
+}
+
+/* Notes: links become clickable, YouTube links become players, image links become pictures. */
+function notesBodyHTML(text){
+  const re=/https?:\/\/[^\s<>"']+/g, media=[];
+  let out="",last=0,m;
+  while((m=re.exec(text))){
+    const url=m[0].replace(/[.,;:)]+$/,"");
+    out+=esc(text.slice(last,m.index))+`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(url)}</a>`;
+    last=m.index+url.length;
+    const yt=url.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/);
+    if(yt) media.push(`<figure><iframe src="https://www.youtube-nocookie.com/embed/${yt[1]}" title="Video" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe><figcaption><a href="https://www.youtube.com/watch?v=${yt[1]}" target="_blank" rel="noopener">Open on YouTube</a></figcaption></figure>`);
+    else if(/\.(png|jpe?g|gif|webp|svg)(\?|#|$)/i.test(url)) media.push(`<figure><a href="${esc(url)}" target="_blank" rel="noopener"><img src="${esc(url)}" alt="" loading="lazy"></a></figure>`);
+  }
+  out+=esc(text.slice(last));
+  return `<div class="body">${out}</div>`+(media.length?`<div class="media">${media.join("")}</div>`:"");
+}
 TOPICS.forEach(t=>t.search=textOf(t));
 
 const state = { mod:"all", q:"", view:"list", topic:null, editing:null };
@@ -635,6 +728,7 @@ function renderRail(){
 /* ---------- list ---------- */
 function cardHTML(t){
   const chips=(t.custom?['<span class="chip mine">Mine</span>']:(t.tags||[]).slice(0,3).map(x=>`<span class="chip">${esc(x)}</span>`));
+  if(t.secs?.some(s=>s.fig)) chips.push('<span class="chip fig">Diagram</span>');
   if(live.notes[t.id]?.text) chips.push('<span class="chip note">Dept. notes</span>');
   return `<button class="card" type="button" data-open="${esc(t.id)}"><h3>${esc(t.title)}</h3>${t.sum?`<p>${esc(t.sum)}</p>`:""}<div class="chips">${chips.join("")}</div></button>`;
 }
@@ -678,6 +772,7 @@ function secHTML(s){
   else if(s.steps) b=`<ol>${s.steps.map(x=>`<li>${x}</li>`).join("")}</ol>`;
   else if(s.note) b=`<div class="callout ${s.tone==="info"?"info":""}">${s.note}</div>`;
   else if(s.p) b=`<p>${s.p}</p>`;
+  else if(s.fig) b=`<figure class="fig">${s.fig()}${s.cap?`<figcaption>${s.cap}</figcaption>`:""}</figure>`;
   return `<section class="sec"><h2>${s.h}</h2>${b}</section>`;
 }
 function bodyHTML(text){
@@ -707,6 +802,7 @@ function renderTopic(){
     html+=`<div class="row">${canEdit()?`<button class="btn" type="button" data-edit="${esc(t.docId)}">Edit protocol</button><span id="del-wrap"><button class="btn danger" type="button" data-del-ask>Delete</button></span>`:""}${t.updatedAt?`<span class="hint">Updated ${esc(fmtDate(t.updatedAt))}</span>`:""}</div>`;
   } else {
     html+=t.secs.map(secHTML).join("");
+    html+=seeHTML(t);
     html+=`<section class="notes" id="notes"></section>`;
   }
   html+=disclaimer()+"</article>";
@@ -720,7 +816,7 @@ function renderNotes(){
   const n=live.notes[state.topic];
   let html=`<div class="notes-h"><h2>Our department's notes</h2>${n?.updatedAt?`<span>Saved ${esc(fmtDate(n.updatedAt))}</span>`:""}</div>`;
   if(live.status==="connecting") html+=`<p class="none">Loading notes…</p>`;
-  else if(n?.text) html+=`<div class="body">${esc(n.text)}</div>`;
+  else if(n?.text) html+=notesBodyHTML(n.text);
   else html+=`<p class="none">${canEdit()?"No notes yet. Add your scanner settings, local doses, who to call or anything that differs from the reference above.":live.db?"No department notes for this topic.":"This browser is blocking storage, so notes cannot be saved here."}</p>`;
   if(canEdit()) html+=`<div class="row"><button class="btn" type="button" data-notes-edit>${n?.text?"Edit notes":"Add notes"}</button></div>`;
   box.innerHTML=html;
@@ -729,7 +825,7 @@ function openNotesEditor(){
   live.notesEditing=true;
   const n=live.notes[state.topic];
   $("#notes").innerHTML=`<div class="notes-h"><h2>Our department's notes</h2></div>
-    <textarea id="notes-text" aria-label="Department notes" placeholder="e.g. Our Siemens Force: 100 kVp, CARE Dose on. Trigger 120 HU in main PA. Call Dr. … for overnight protocoling.">${esc(n?.text||"")}</textarea>
+    <textarea id="notes-text" aria-label="Department notes" placeholder="e.g. Our Siemens Force: 100 kVp, CARE Dose on. Trigger 120 HU in main PA. Call Dr. … for overnight protocoling.&#10;&#10;Paste a YouTube or image link on its own line to show it here.">${esc(n?.text||"")}</textarea>
     <div class="row"><button class="btn primary" type="button" data-notes-save>Save notes</button><button class="btn" type="button" data-notes-cancel>Cancel</button><span class="msg" id="notes-msg" role="status"></span></div>`;
   $("#notes-text").focus();
 }
