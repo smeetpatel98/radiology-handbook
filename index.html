@@ -1,0 +1,969 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Reading Room Handbook</title>
+<meta name="description" content="Quick reference for CT, mammography, MRI, ultrasound, X-ray, fluoroscopy, contrast safety and reporting systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
+<style>
+/* Layout: sticky header with search, modality rail on the left (chip row on phones), topic grid or a single reading column on the right. */
+:root{
+  --bg:#f2f4f6; --surface:#ffffff; --sunk:#e8ecf0; --ink:#17212b; --muted:#566472; --line:#d5dce3;
+  --accent:#1f5687; --accent-ink:#ffffff; --accent-soft:#e1ebf5;
+  --warn:#9a3f12; --warn-soft:#fbede4; --ok:#25674a; --ok-soft:#e2f2ea;
+  --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --r:8px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1216; --surface:#141b21; --sunk:#0a0e12; --ink:#e2e8ed; --muted:#91a0ad; --line:#26323c;
+    --accent:#86b9e6; --accent-ink:#0b1620; --accent-soft:#18283a;
+    --warn:#f1a37c; --warn-soft:#2c1c14; --ok:#7fcaa4; --ok-soft:#14261d;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1216; --surface:#141b21; --sunk:#0a0e12; --ink:#e2e8ed; --muted:#91a0ad; --line:#26323c;
+  --accent:#86b9e6; --accent-ink:#0b1620; --accent-soft:#18283a;
+  --warn:#f1a37c; --warn-soft:#2c1c14; --ok:#7fcaa4; --ok-soft:#14261d;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+code,.mono{font-family:var(--f-mono);font-size:.88em}
+code{background:var(--sunk);padding:.05em .35em;border-radius:4px;white-space:nowrap}
+
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:20px;padding-block:12px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);flex:none;background:none;border:0;padding:0;cursor:pointer}
+.brand svg{width:28px;height:28px;flex:none}
+.brand b{font-family:var(--f-display);font-weight:600;font-size:1.2rem;letter-spacing:-.01em;white-space:nowrap}
+.search{flex:1;max-width:520px;margin-left:auto;position:relative}
+.search input{width:100%;padding:9px 12px 9px 36px;border:1px solid var(--line);border-radius:var(--r);background:var(--bg)}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted)}
+.search kbd{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-family:var(--f-mono);font-size:.75rem;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 5px}
+
+.shell{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px;padding-block:24px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+aside.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);align-self:start;display:flex;flex-direction:column;gap:18px}
+.rail nav{display:flex;flex-direction:column;gap:2px}
+.rail .lbl{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0 0 6px 10px;font-weight:600}
+.mod{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 10px;border:0;border-radius:6px;background:none;text-align:left;cursor:pointer;color:var(--ink)}
+.mod:hover{background:var(--sunk)}
+.mod[aria-current="true"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.mod .n{font-family:var(--f-mono);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.sync{font-size:.8rem;color:var(--muted);padding:0 10px;display:flex;gap:8px;align-items:flex-start}
+.sync i{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none;margin-top:6px}
+.sync.on i{background:var(--ok)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:500;color:var(--ink)}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.danger{color:var(--warn);border-color:var(--warn)}
+.btn.ghost{border-color:transparent;background:none;padding-left:0;color:var(--accent)}
+.rail .btn{margin:0 10px}
+
+main{min-width:0}
+.group{display:flex;flex-direction:column;gap:12px;margin-bottom:36px}
+.group h2{font-family:var(--f-display);font-weight:600;font-size:1.35rem;margin:0;display:flex;align-items:baseline;gap:10px;text-wrap:balance}
+.group h2 small{font-family:var(--f-body);font-weight:400;font-size:.85rem;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.card{display:flex;flex-direction:column;gap:8px;text-align:left;padding:16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);cursor:pointer;color:var(--ink);min-width:0}
+.card:hover{border-color:var(--accent)}
+.card h3{margin:0;font-size:1rem;font-weight:600;line-height:1.3}
+.card p{margin:0;color:var(--muted);font-size:.9rem}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+.chip{font-family:var(--f-mono);font-size:.72rem;padding:2px 7px;border-radius:4px;background:var(--sunk);color:var(--muted);white-space:nowrap}
+.chip.mine{background:var(--accent-soft);color:var(--accent)}
+.chip.note{background:var(--ok-soft);color:var(--ok)}
+.empty{padding:28px;border:1px dashed var(--line);border-radius:var(--r);color:var(--muted);display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.empty b{color:var(--ink)}
+.intro{margin:0 0 28px;max-width:62ch;color:var(--muted)}
+.intro strong{color:var(--ink);font-weight:600}
+
+article.topic{max-width:780px;display:flex;flex-direction:column;gap:22px}
+.eyebrow{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0}
+article.topic h1{font-family:var(--f-display);font-weight:600;font-size:clamp(1.7rem,4vw,2.3rem);line-height:1.15;margin:4px 0 0;text-wrap:balance;letter-spacing:-.01em}
+.lede{font-size:1.05rem;color:var(--muted);margin:0;max-width:65ch}
+.sec{display:flex;flex-direction:column;gap:8px}
+.sec h2{font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0;font-weight:600;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.sec ul,.sec ol{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:5px;max-width:68ch}
+.sec ol li::marker{font-family:var(--f-mono);color:var(--accent)}
+.sec p{margin:0;max-width:68ch}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+th{font-weight:600;background:var(--sunk);font-size:.8rem;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:500}
+td{font-variant-numeric:tabular-nums}
+.callout{padding:12px 14px;border-radius:var(--r);background:var(--warn-soft);color:var(--ink);border-left:3px solid var(--warn)}
+.callout b{color:var(--warn)}
+.callout.info{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout.info b{color:var(--accent)}
+
+/* HU scale */
+.hu{display:flex;flex-direction:column;gap:6px;padding:16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.hu-row{display:grid;grid-template-columns:12rem minmax(0,1fr);gap:12px;align-items:center}
+.hu-row>span{font-size:.82rem}
+.hu-row>span code{background:none;padding:0}
+.track{position:relative;height:18px}
+.win{position:absolute;top:5px;height:8px;left:var(--a);width:calc(var(--b) - var(--a));border:2px solid var(--accent);border-top:0;border-radius:0 0 3px 3px}
+.bar{height:22px;border-radius:3px;background:linear-gradient(to right,#000 0%,#fff 100%);border:1px solid var(--line)}
+.ticks,.marks{position:relative;height:18px;font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.ticks span,.marks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.ticks span:first-child{transform:none}.ticks span:last-child{transform:translateX(-100%)}
+.marks span{color:var(--ink)}
+.marks span::before{content:"";position:absolute;left:50%;top:-5px;height:4px;border-left:1px solid var(--muted)}
+
+/* calculators */
+.calc{display:flex;flex-direction:column;gap:14px;padding:16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field label,.field legend{font-size:.8rem;color:var(--muted);font-weight:500;padding:0}
+.field select,.field input{padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);width:100%}
+fieldset.field{border:0;margin:0;padding:0}
+fieldset.field label{color:var(--ink);font-weight:400;display:flex;gap:6px;align-items:center;font-size:.88rem}
+.result{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;padding:12px 14px;border-radius:6px;background:var(--sunk)}
+.result .big{font-family:var(--f-mono);font-size:1.4rem;font-weight:500;color:var(--accent);font-variant-numeric:tabular-nums}
+.result p{margin:0;flex-basis:100%}
+
+/* notes */
+.notes{display:flex;flex-direction:column;gap:10px;padding:18px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface)}
+.notes-h{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.notes-h h2{margin:0;font-family:var(--f-display);font-weight:600;font-size:1.15rem}
+.notes-h span{font-size:.8rem;color:var(--muted)}
+.notes .body{white-space:pre-wrap;max-width:68ch}
+.notes .none{color:var(--muted)}
+textarea{width:100%;min-height:170px;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);line-height:1.5;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.msg{font-size:.85rem;color:var(--warn)}
+.msg.ok{color:var(--ok)}
+.prose h3{font-size:1rem;margin:10px 0 0}
+.prose p,.prose ul{margin:0}
+.form{display:flex;flex-direction:column;gap:14px;max-width:780px}
+.form input[type=text],.form select{padding:9px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);width:100%}
+.form textarea{min-height:320px;background:var(--surface)}
+.hint{font-size:.82rem;color:var(--muted);margin:0}
+footer.disc{font-size:.8rem;color:var(--muted);max-width:68ch;border-top:1px solid var(--line);padding-top:14px;margin-top:8px}
+
+@media (max-width:820px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:16px;padding-top:12px}
+  aside.rail{position:static;gap:10px}
+  .rail .lbl,.sync{display:none}
+  .rail nav{flex-direction:row;overflow-x:auto;gap:6px;padding-bottom:4px;scrollbar-width:none}
+  .mod{flex:none;border:1px solid var(--line);border-radius:20px;padding:5px 12px}
+  .rail .btn{display:none}
+  .brand b{font-size:1.05rem}
+  .search kbd{display:none}
+  .hu-row{grid-template-columns:minmax(0,1fr);gap:2px}
+  .hu-row>span:empty{display:none}
+}
+@media (max-width:480px){ .brand b{display:none} .top-in{gap:12px} }
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <button class="brand" id="home" type="button" aria-label="Reading Room Handbook home">
+      <svg viewBox="0 0 28 28" aria-hidden="true"><rect x="1" y="1" width="26" height="26" rx="6" fill="var(--accent)"/><circle cx="14" cy="14" r="7.5" fill="none" stroke="var(--accent-ink)" stroke-width="2"/><path d="M14 6.5a7.5 7.5 0 0 1 0 15z" fill="var(--accent-ink)"/></svg>
+      <b>Reading Room Handbook</b>
+    </button>
+    <label class="search">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="m11 11 3.5 3.5"/></svg>
+      <input id="q" type="search" placeholder="Search protocols, windows, BI-RADS…" autocomplete="off" aria-label="Search">
+      <kbd>/</kbd>
+    </label>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="rail">
+    <nav id="mods" aria-label="Modalities"></nav>
+    <button class="btn" id="add-side" type="button" hidden>+ Add a protocol</button>
+    <div class="row" style="padding:0 10px"><button class="btn" id="backup" type="button">Back up</button><button class="btn" id="restore" type="button">Restore</button><input id="restore-file" type="file" accept="application/json" hidden></div>
+    <div class="sync" id="sync"><i></i><span>Connecting notes…</span></div>
+  </aside>
+  <main id="main"></main>
+</div>
+
+<script>
+const MODS = [
+  {id:"ct", name:"CT"},
+  {id:"mammo", name:"Mammography"},
+  {id:"mri", name:"MRI"},
+  {id:"us", name:"Ultrasound"},
+  {id:"xr", name:"X-ray"},
+  {id:"fluoro", name:"Fluoroscopy"},
+  {id:"contrast", name:"Contrast & safety"},
+  {id:"report", name:"Reporting systems"},
+];
+const MOD_NAME = Object.fromEntries(MODS.map(m=>[m.id,m.name]));
+
+const TOPICS = [
+/* ---------------- CT ---------------- */
+{id:"ct-windows", mod:"ct", title:"CT windows & Hounsfield units", sum:"Window/level presets and the HU values of common tissues.", tags:["W/L","HU"], secs:[
+  {h:"The HU scale and three common windows", hu:true},
+  {h:"Window presets", table:{head:["Window","Width / Level","Use"], rows:[
+    ["Brain","<code>W80 / L40</code>","Routine head CT"],
+    ["Subdural","<code>W200 / L75</code>","Thin extra-axial collections against the skull"],
+    ["Stroke","<code>W40 / L40</code>","Subtle gray–white loss in early infarct"],
+    ["Bone","<code>W2000 / L500</code>","Fractures, skull base, spine"],
+    ["Lung","<code>W1500 / L−600</code>","Parenchyma, nodules, airways"],
+    ["Mediastinum","<code>W350 / L40</code>","Mediastinum, hila, pleura"],
+    ["Abdomen soft tissue","<code>W400 / L40</code>","Routine abdomen and pelvis"],
+    ["Liver","<code>W150 / L30</code>","Subtle hypodense liver lesions"],
+    ["CTA","<code>W600 / L150</code>","Contrast-filled vessels"],
+  ]}},
+  {h:"Typical attenuation", table:{head:["Material","HU"], rows:[
+    ["Air","−1000"],["Lung","−900 to −500"],["Fat","−120 to −60"],["Water / simple fluid","0 to 20"],
+    ["Soft tissue / muscle","35 to 55"],["Acute blood","50 to 80"],["Contrast-filled artery","200 to 400+"],
+    ["Calcification / bone","400 to 1000+"],["Metal","3000+"],
+  ]}},
+  {h:"Rules of thumb", list:[
+    "Width = range of HU shown in grey. Level = HU at the middle of that range.",
+    "Narrow width raises contrast between tissues with similar HU (brain, liver).",
+    "Unenhanced adrenal nodule ≤10 HU is a lipid-rich adenoma. See the adrenal washout calculator under Reporting systems.",
+  ]},
+]},
+{id:"ct-head", mod:"ct", title:"Non-contrast CT head", sum:"Trauma, stroke and acute headache. Fast, no prep.", tags:["Head","Non-contrast","Stroke"], secs:[
+  {h:"Indications", list:["Head trauma, acute neurological deficit, suspected stroke (first study; add CTA ± perfusion per stroke pathway)","Thunderclap or worst headache, altered mental status, suspected hydrocephalus or shunt failure"]},
+  {h:"Patient prep & positioning", list:["No preparation. Remove hairpins, earrings, dentures, glasses.","Supine, head in head holder, chin slightly tucked; immobilise gently if confused.","Scan baseline parallel to the orbitomeatal line (or angle to spare the lenses on axial scanning)."]},
+  {h:"Technique", list:["Coverage: foramen magnum to vertex.","About <code>120 kVp</code>, dose-modulated mAs; check CTDIvol against your local reference level.","Reconstruct 4–5 mm axial for brain, thin (0.625–1.25 mm) bone algorithm, plus coronal and sagittal MPR."]},
+  {h:"Review checklist", list:["Blood: extra-axial, parenchymal, intraventricular, subarachnoid (look at sylvian fissures, interpeduncular cistern, occipital horns).","Stroke signs: hyperdense vessel, loss of insular ribbon, gray–white blurring, ASPECTS.","Mass effect: midline shift, effaced sulci, basal cisterns, herniation.","Ventricles: size and hydrocephalus.","Bone window: fractures, sinuses and mastoids (fluid in trauma)."]},
+]},
+{id:"ct-ap", mod:"ct", title:"CT abdomen & pelvis with contrast", sum:"Routine portal venous phase study.", tags:["Abdomen","IV contrast","Portal venous"], secs:[
+  {h:"Patient prep", list:["NPO for solids 2–4 hours (per local policy).","Oral contrast per protocol: positive oral contrast 60–90 min before, or water as neutral contrast.","Screen for prior contrast reaction, kidney function and metformin (see Contrast & safety).","20 G cannula, antecubital preferred."]},
+  {h:"Technique", list:["IV contrast about 1–1.5 mL/kg (often 80–120 mL) of 300–370 mgI/mL at 2–3 mL/s.","Scan delay <code>65–70 s</code> (portal venous).","Coverage: diaphragm domes through the pubic symphysis.","Arms above head, breath-hold at end inspiration.","Reconstruct 2.5–5 mm axial plus coronal and sagittal MPR."]},
+  {h:"Common add-on phases", list:["Late arterial (35–40 s): hypervascular liver lesions, pancreas.","Delayed (3–5 min): liver lesion washout, lesion characterisation.","Excretory (5–15 min): urothelium (CT urogram)."]},
+]},
+{id:"ct-phases", mod:"ct", title:"Contrast phase timing", sum:"When to scan after IV injection, and what each phase shows.", tags:["Timing","Multiphase"], secs:[
+  {h:"Phases", table:{head:["Phase","Delay after injection","Best for"], rows:[
+    ["Non-contrast","—","Calcification, blood, baseline HU, stones"],
+    ["Early arterial / CTA","15–25 s or bolus tracking","Arteries: aorta, dissection, GI bleed source"],
+    ["Late arterial","35–40 s","HCC and hypervascular metastases, pancreas"],
+    ["Pancreatic","40–50 s","Pancreatic adenocarcinoma conspicuity"],
+    ["Portal venous","60–70 s","Routine abdomen, hypovascular lesions"],
+    ["Nephrographic","90–100 s","Renal masses"],
+    ["Delayed","3–5 min","Washout, cholangiocarcinoma, fibrous lesions"],
+    ["Adrenal washout","15 min","Adenoma characterisation"],
+    ["Excretory","5–15 min","Collecting system, ureters, bladder"],
+  ]}},
+  {h:"Bolus tracking", list:["Place ROI on the target vessel (descending aorta for abdominal CTA, main pulmonary artery for CTPA).","Common trigger threshold 100–150 HU, then a short diagnostic delay.","Use a saline chaser to tighten the bolus and reduce streak artifact."]},
+]},
+{id:"ct-pe", mod:"ct", title:"CT pulmonary angiography", sum:"CTPA for suspected pulmonary embolism.", tags:["Chest","CTA","PE"], secs:[
+  {h:"Patient prep", list:["18–20 G cannula, right antecubital preferred.","Coach the breath-hold: gentle inspiration, no deep breath or Valsalva."]},
+  {h:"Technique", list:["50–80 mL of 350–370 mgI/mL at 4–5 mL/s, then 30–40 mL saline chaser.","Bolus track in the main pulmonary artery, trigger about 100 HU.","Scan caudocranial from the bases to the apices.","Reconstruct thin (≤1 mm) axial plus MIP and coronal MPR."]},
+  {h:"Is the study diagnostic?", list:["Aim for ≥250 HU in the main pulmonary artery.","Transient interruption of contrast: unopacified IVC blood from a deep breath. Bright SVC with dim PA is the clue.","Check RV/LV ratio (>1.0 suggests right heart strain) and contrast reflux into the IVC and hepatic veins."]},
+]},
+{id:"ct-kub", mod:"ct", title:"CT KUB (renal stone protocol)", sum:"Low-dose non-contrast CT for flank pain.", tags:["Non-contrast","Low dose","Stones"], secs:[
+  {h:"Technique", list:["No IV or oral contrast.","Low-dose protocol (reduced mAs; acceptable for stone detection).","Coverage: top of the kidneys to the bladder base.","Prone scanning separates a stone at the UVJ from one already in the bladder.","Thin axial plus coronal reconstructions."]},
+  {h:"Reading tips", list:["Nearly all stones are dense on CT, including uric acid stones. Indinavir stones are the classic exception.","Soft-tissue rim sign: ureteral wall around a stone.","Comet-tail sign: tapering tissue behind a pelvic phlebolith.","Report stone size, location, hydronephrosis and perinephric stranding."]},
+]},
+
+/* ---------------- Mammography ---------------- */
+{id:"mammo-views", mod:"mammo", title:"Standard views & positioning", sum:"CC and MLO technique, plus the supplemental views and when to use them.", tags:["CC","MLO","Positioning"], secs:[
+  {h:"Before the exam", list:["No deodorant, antiperspirant, powder or lotion on the day. These mimic calcifications.","Ask about lumps, nipple discharge, implants, prior surgery or biopsy (use scar markers).","Premenopausal patients with tender breasts: schedule the week after menses.","Get prior studies for comparison."]},
+  {h:"Craniocaudal (CC)", list:["Lift the breast to raise the inframammary fold, then set the detector height.","Nipple in profile, centred on the image.","Include all medial tissue and as much lateral tissue as possible.","Pectoral muscle is visible on about 30–40% of good CC views."]},
+  {h:"Mediolateral oblique (MLO)", list:["Angle the C-arm 30–60° so the detector is parallel to the pectoral muscle (often about 45°).","Pectoral muscle wide at the axilla, convex anterior edge, reaching the level of the posterior nipple line.","Inframammary fold open, nipple in profile, no skin folds."]},
+  {h:"Supplemental views", table:{head:["View","Use"], rows:[
+    ["Spot compression","Confirm a real finding vs. summation; evaluate mass margins"],
+    ["Magnification (1.5–2×)","Calcification morphology and distribution"],
+    ["90° lateral (ML / LM)","Triangulate location; milk of calcium layering (teacup)"],
+    ["XCCL (exaggerated CC lateral)","Far lateral and axillary tail tissue"],
+    ["Cleavage (CV)","Far medial tissue"],
+    ["Rolled (RL / RM)","Separate superimposed tissue"],
+    ["Implant displacement (Eklund)","Displaced views with implants pushed back"],
+    ["Tangential","Prove skin calcifications or palpable lump location"],
+  ]}},
+]},
+{id:"mammo-quality", mod:"mammo", title:"Mammogram image quality checklist", sum:"Positioning, compression and labeling checks before you read.", tags:["QA","PNL"], secs:[
+  {h:"Posterior nipple line (PNL) rule", list:["On the MLO, draw the PNL from the nipple perpendicular to the pectoral muscle edge.","On the CC, measure from the nipple to the pectoral muscle or the image edge.","The CC PNL should be within 1 cm of the MLO PNL. If shorter, posterior tissue is missing."]},
+  {h:"Checklist", list:["Pectoral muscle down to the PNL on the MLO.","Inframammary fold visible and open.","Nipple in profile on at least one view.","No skin folds, no motion blur (look at fine linear structures and calcifications).","Adequate compression: tissue evenly spread, not overlapping.","Correct laterality and view labels, placed on the axillary side.","Symmetric hanging protocol: right and left back to back."]},
+  {h:"Why compression matters", list:["Lowers breast thickness, so less dose and less scatter.","Reduces motion and overlap, sharper detail.","Brings structures closer to the detector, less geometric blur."]},
+]},
+{id:"birads", mod:"mammo", title:"BI-RADS assessment categories", sum:"Final assessment categories, likelihood of malignancy and management.", tags:["BI-RADS","ACR"], secs:[
+  {h:"Categories", table:{head:["Category","Meaning","Malignancy likelihood","Management"], rows:[
+    ["0","Incomplete","n/a","Recall for additional imaging or priors"],
+    ["1","Negative","Essentially 0%","Routine screening"],
+    ["2","Benign","Essentially 0%","Routine screening"],
+    ["3","Probably benign","&gt;0% to ≤2%","Short-interval follow-up (usually 6 months) or surveillance"],
+    ["4A","Low suspicion","&gt;2% to ≤10%","Tissue diagnosis"],
+    ["4B","Moderate suspicion","&gt;10% to ≤50%","Tissue diagnosis"],
+    ["4C","High suspicion","&gt;50% to &lt;95%","Tissue diagnosis"],
+    ["5","Highly suggestive of malignancy","≥95%","Tissue diagnosis"],
+    ["6","Known biopsy-proven malignancy","—","Surgical excision when clinically appropriate"],
+  ]}},
+  {h:"Notes", list:["Category 0 is for screening only, except rarely in diagnostic work (e.g. awaiting MRI).","Category 3 should come from a full diagnostic workup, not straight from screening.","After benign-concordant biopsy, return to routine screening or short follow-up per local policy."]},
+]},
+{id:"mammo-lexicon", mod:"mammo", title:"BI-RADS lexicon: density, masses, calcifications", sum:"Descriptor terms for the mammography report.", tags:["Lexicon","Calcifications","Density"], secs:[
+  {h:"Breast composition", table:{head:["Category","Description"], rows:[
+    ["a","Almost entirely fatty"],
+    ["b","Scattered areas of fibroglandular density"],
+    ["c","Heterogeneously dense, which may obscure small masses"],
+    ["d","Extremely dense, which lowers sensitivity"],
+  ]}},
+  {h:"Density notification", note:"In the US, the FDA MQSA rule (effective September 2024) requires every mammography report and patient letter to state whether the breasts are dense.", tone:"info"},
+  {h:"Masses", table:{head:["Feature","Terms (less to more suspicious)"], rows:[
+    ["Shape","Oval, round, irregular"],
+    ["Margin","Circumscribed, obscured, microlobulated, indistinct, spiculated"],
+    ["Density","Fat-containing, low, equal, high"],
+  ]}},
+  {h:"Calcifications", table:{head:["Group","Terms"], rows:[
+    ["Typically benign","Skin, vascular, coarse (popcorn), large rod-like, round, rim, dystrophic, milk of calcium, suture"],
+    ["Suspicious morphology","Amorphous, coarse heterogeneous, fine pleomorphic, fine linear or fine-linear branching"],
+    ["Distribution","Diffuse, regional, grouped, linear, segmental (linear and segmental raise suspicion)"],
+  ]}},
+  {h:"Other findings", list:["Architectural distortion","Asymmetry, global asymmetry, focal asymmetry, developing asymmetry","Intramammary lymph node, skin lesion, solitary dilated duct","Associated features: skin or nipple retraction, skin thickening, trabecular thickening, axillary adenopathy"]},
+]},
+{id:"mammo-workup", mod:"mammo", title:"Diagnostic workup after a recall", sum:"From screening callback to biopsy.", tags:["Workup","Biopsy"], secs:[
+  {h:"Sequence", steps:["Screening recall: BI-RADS 0 with the finding and location described.","Diagnostic mammogram: spot compression for masses and asymmetries, magnification for calcifications, 90° lateral to triangulate.","Targeted ultrasound for masses, asymmetries and palpable areas.","Final assessment: BI-RADS 1 to 5.","Biopsy for 4 and 5: ultrasound-guided core, stereotactic, or MRI-guided. Place a clip and get a post-procedure mammogram.","Radiology–pathology concordance review. Discordant benign results need repeat sampling or excision."]},
+]},
+
+/* ---------------- MRI ---------------- */
+{id:"mri-safety", mod:"mri", title:"MRI safety screening & zones", sum:"Who goes where, implant labels, and the screening questions.", tags:["Safety","Zones","Implants"], secs:[
+  {h:"ACR safety zones", table:{head:["Zone","Area","Access"], rows:[
+    ["I","Public areas outside the suite","Anyone"],
+    ["II","Reception, screening, changing","Patients under supervision"],
+    ["III","Control room and corridor to the magnet","Screened people with MR personnel only"],
+    ["IV","Magnet room","Screened people under direct MR personnel supervision"],
+  ]}},
+  {h:"Device labels", table:{head:["Label","Meaning"], rows:[
+    ["MR Safe (green square)","No known hazard in any MR environment"],
+    ["MR Conditional (yellow triangle)","Safe only under stated conditions: field strength, SAR, gradient limits, scan region"],
+    ["MR Unsafe (red circle)","Never enters Zone IV"],
+  ]}},
+  {h:"Screen every patient for", list:["Pacemaker, ICD or leads (many are MR Conditional; follow the device protocol).","Cochlear implant, neurostimulator, drug pump, programmable shunt.","Aneurysm clips, heart valves, stents, coils.","Metal fragments, especially in the eye (orbit radiograph if a metalworking history).","Medication patches with metal backing, tattoos, body piercings.","Pregnancy, claustrophobia, kidney function if gadolinium is planned."]},
+  {h:"Hazards in the room", list:["Projectile effect from ferromagnetic objects.","RF burns: no skin-to-skin loops, pad the patient, no coiled cables.","Acoustic noise: hearing protection for every patient.","Quench: know the emergency procedure and the quench button."]},
+]},
+{id:"mri-sequences", mod:"mri", title:"MRI sequence cheat sheet", sum:"What looks bright on which sequence, and what each sequence is for.", tags:["T1","T2","DWI","FLAIR"], secs:[
+  {h:"Sequences", table:{head:["Sequence","Fluid","Fat","Best for"], rows:[
+    ["T1","Dark","Bright","Anatomy, fat, subacute blood, melanin, post-contrast"],
+    ["T2","Bright","Bright (FSE)","Edema, cysts, most pathology"],
+    ["FLAIR","Dark (suppressed)","Bright","Periventricular and cortical lesions, MS, SAH"],
+    ["STIR / T2 fat-sat","Bright","Dark","Marrow edema, soft tissue inflammation"],
+    ["DWI + ADC","—","—","Restricted diffusion: bright DWI with dark ADC. Acute infarct, abscess, cellular tumour"],
+    ["SWI / GRE","—","—","Blooming from blood products, calcium, microbleeds"],
+    ["T1 post-gadolinium (fat-sat)","Dark","Dark","Enhancement: tumour, infection, inflammation"],
+    ["MRCP (heavy T2)","Very bright","Dark","Bile ducts and pancreatic duct"],
+  ]}},
+  {h:"Pitfalls", list:["T2 shine-through: bright DWI with bright ADC is not true restriction.","Fat-suppression failure near metal or at the neck and ankles: use STIR or Dixon.","Gadolinium shortens T1, so enhancing tissue is bright on T1."]},
+]},
+{id:"mri-brain", mod:"mri", title:"Routine brain MRI protocol", sum:"Core sequences and common add-ons.", tags:["Brain","Protocol"], secs:[
+  {h:"Core protocol", list:["Sagittal T1","Axial T2","Axial FLAIR","Axial DWI with ADC map","Axial SWI or GRE","Coronal T2 or FLAIR","With contrast: 3D T1 post-gadolinium (reformat axial and coronal)"]},
+  {h:"Add-ons by indication", table:{head:["Indication","Add"], rows:[
+    ["Stroke / vessels","TOF MRA head, ± neck MRA; perfusion"],
+    ["Tumour","Perfusion (DSC), spectroscopy, 3D post-contrast"],
+    ["Hearing loss / vertigo","Thin heavily T2-weighted IAC sequence, thin post-contrast"],
+    ["Pituitary","Thin coronal and sagittal T1, dynamic coronal post-contrast"],
+    ["Epilepsy","Thin coronal T2 and FLAIR perpendicular to the hippocampus, 3D T1"],
+    ["Multiple sclerosis","3D FLAIR, sagittal FLAIR, post-contrast T1"],
+  ]}},
+]},
+{id:"mri-breast", mod:"mri", title:"Breast MRI", sum:"Scheduling, positioning, dynamic contrast and kinetic curves.", tags:["Breast","DCE","Kinetics"], secs:[
+  {h:"Scheduling & prep", list:["Premenopausal: scan in the second week of the cycle (days 7–14) to reduce background enhancement.","Screen for gadolinium contraindications and MRI safety.","Implant rupture study: silicone-specific sequences, no contrast needed."]},
+  {h:"Technique", list:["Prone in a dedicated breast coil, both breasts, arms up.","T2 (or STIR) and T1 non-fat-sat.","Dynamic: one pre-contrast and several post-contrast fat-sat T1 acquisitions, with subtractions.","Optional DWI."]},
+  {h:"Kinetic curves (delayed phase)", table:{head:["Type","Shape","Suggests"], rows:[
+    ["I","Persistent: keeps rising","Usually benign"],
+    ["II","Plateau","Intermediate"],
+    ["III","Washout","Suspicious for malignancy"],
+  ]}},
+  {h:"Background parenchymal enhancement", p:"Report as minimal, mild, moderate or marked."},
+]},
+
+/* ---------------- Ultrasound ---------------- */
+{id:"us-prep", mod:"us", title:"Ultrasound patient prep", sum:"Fasting and bladder instructions by exam.", tags:["Prep","Scheduling"], secs:[
+  {h:"By exam", table:{head:["Exam","Preparation"], rows:[
+    ["Abdomen / RUQ / gallbladder","NPO 6–8 hours"],
+    ["Aorta","NPO 6–8 hours to reduce bowel gas"],
+    ["Renal artery Doppler","NPO about 8 hours"],
+    ["Pelvis (transabdominal)","Full bladder: about 1 L of water finished 1 hour before, do not void"],
+    ["Pelvis (transvaginal)","Empty bladder"],
+    ["Kidneys / bladder","Well hydrated; full bladder for bladder views"],
+    ["Early obstetric","Partly full bladder for transabdominal; empty for transvaginal"],
+    ["Thyroid, breast, scrotum, soft tissue, vascular","No preparation"],
+  ]}},
+]},
+{id:"us-knobology", mod:"us", title:"Transducers & knobology", sum:"Probe choice and the settings that fix most bad images.", tags:["Probes","Doppler"], secs:[
+  {h:"Transducers", table:{head:["Probe","Frequency","Use"], rows:[
+    ["Linear","7–18 MHz","Thyroid, breast, vessels, MSK, testes, superficial"],
+    ["Curvilinear","2–6 MHz","Abdomen, pelvis, obstetrics"],
+    ["Phased array","1–5 MHz","Cardiac, intercostal windows"],
+    ["Endocavitary","5–9 MHz","Transvaginal, transrectal"],
+  ]}},
+  {h:"Image optimisation", list:["Depth: area of interest fills about two-thirds of the screen.","Focus at or just below the area of interest.","Overall gain plus TGC so the liver is even from top to bottom.","Tissue harmonics for difficult patients.","Higher frequency gives better resolution but less penetration."]},
+  {h:"Doppler", list:["Keep the insonation angle ≤60° for velocity measurements.","Small colour box; steer it toward the flow.","Lower the scale (PRF) for slow flow; raise it to stop aliasing.","Spectral gate about two-thirds of the vessel width, in the centre."]},
+]},
+{id:"us-normals", mod:"us", title:"Common normal measurements", sum:"Adult normal values often used in reports.", tags:["Normals","Measurements"], secs:[
+  {h:"Adult values (typical cut-offs)", table:{head:["Structure","Normal"], rows:[
+    ["Common bile duct","≤6 mm (slightly larger with age and after cholecystectomy)"],
+    ["Gallbladder wall","≤3 mm"],
+    ["Portal vein diameter","&lt;13 mm"],
+    ["Spleen length","≤12–13 cm"],
+    ["Kidney length","10–12 cm"],
+    ["Abdominal aorta","&lt;3.0 cm (≥3.0 cm is aneurysmal)"],
+    ["Appendix","≤6 mm and compressible"],
+    ["Endometrium, postmenopausal with bleeding","≤4 mm is reassuring"],
+  ]}},
+  {h:"Paediatric: pyloric stenosis", list:["Muscle wall thickness ≥3 mm","Channel length ≥15–17 mm"]},
+  {h:"Caution", note:"Cut-offs differ between references and institutions. Add your department's values in the notes below.", tone:"info"},
+]},
+
+/* ---------------- X-ray ---------------- */
+{id:"xr-chest", mod:"xr", title:"Chest X-ray (PA & lateral)", sum:"Positioning, film quality check and a review system.", tags:["Chest","RIPE","Lines & tubes"], secs:[
+  {h:"PA positioning", list:["Erect, facing the detector, chin up, shoulders rolled forward to move the scapulae off the lungs.","Source-to-image distance 180 cm (72 in).","Full inspiration, central ray at about T7.","High kV technique, about 110–125 kVp."]},
+  {h:"Lateral", list:["Left side against the detector (less cardiac magnification).","Arms raised above the head."]},
+  {h:"Quality check: RIPE", table:{head:["","Check"], rows:[
+    ["Rotation","Spinous processes midway between the medial clavicle ends"],
+    ["Inspiration","About 6 anterior or 9–10 posterior ribs above the diaphragm"],
+    ["Projection","PA or AP? AP magnifies the heart, so cardiothoracic ratio is unreliable"],
+    ["Exposure","Vertebral bodies just visible behind the heart"],
+  ]}},
+  {h:"Lines and tubes", list:["Endotracheal tube: tip about 5 cm (±2 cm) above the carina with the head neutral.","Nasogastric tube: tip below the diaphragm in the stomach, side hole past the GE junction.","Central venous catheter: tip at the lower SVC or cavoatrial junction."]},
+]},
+{id:"xr-projections", mod:"xr", title:"Standard radiograph projections", sum:"Routine views by body part.", tags:["MSK","Projections"], secs:[
+  {h:"Routine series", table:{head:["Body part","Views"], rows:[
+    ["Hand","PA, oblique, lateral"],
+    ["Wrist","PA, lateral, oblique; add scaphoid (ulnar deviation) view if scaphoid injury"],
+    ["Elbow","AP, lateral (look for fat pads)"],
+    ["Shoulder","AP (internal/external rotation), axillary or Y view"],
+    ["Cervical spine","AP, lateral (C7–T1 visible), open-mouth odontoid"],
+    ["Lumbar spine","AP, lateral"],
+    ["Pelvis / hip","AP pelvis, lateral hip (cross-table or frog-leg)"],
+    ["Knee","AP, lateral; skyline for patellofemoral joint"],
+    ["Ankle","AP, mortise, lateral"],
+    ["Foot","AP, oblique, lateral"],
+  ]}},
+  {h:"Rule of two", list:["Two views at 90° to each other.","Two joints for long bones.","Comparison with the other side in children when unsure."]},
+]},
+
+/* ---------------- Fluoroscopy ---------------- */
+{id:"fluoro-studies", mod:"fluoro", title:"Common fluoroscopy studies", sum:"Prep, contrast choice and key points.", tags:["GI","HSG","VCUG"], secs:[
+  {h:"Studies", table:{head:["Study","Prep","Contrast","Notes"], rows:[
+    ["Barium swallow / esophagram","NPO 2–4 h (or from midnight)","Thin and thick barium; tablet","Water-soluble first if leak or perforation suspected"],
+    ["Upper GI","NPO from midnight","Effervescent + high-density barium, then single contrast","Double contrast for mucosa"],
+    ["Small bowel follow-through","NPO from midnight","Barium","Serial images until contrast reaches the terminal ileum"],
+    ["Contrast enema","Bowel prep for double contrast","Barium or water-soluble","Water-soluble if perforation or obstruction risk"],
+    ["Hysterosalpingogram (HSG)","Days 7–10 of cycle, after bleeding stops","Iodinated (water- or oil-based)","Exclude pregnancy and active infection; NSAID beforehand"],
+    ["VCUG","None","Iodinated, via bladder catheter","Image during voiding, including urethra; grade reflux I–V"],
+  ]}},
+]},
+{id:"fluoro-dose", mod:"fluoro", title:"Fluoroscopy dose reduction", sum:"Habits that cut patient and staff dose.", tags:["Radiation","ALARA"], secs:[
+  {h:"Patient dose", list:["Use pulsed fluoroscopy at the lowest acceptable pulse rate.","Collimate tightly.","Use last-image hold instead of more fluoro.","Keep the detector close to the patient and the tube as far away as practical.","Limit magnification modes.","Track fluoro time and reference air kerma; follow up skin dose above local thresholds."]},
+  {h:"Staff dose", list:["Time, distance, shielding.","Stand on the detector side, not the tube side, for lateral projections.","Lead apron, thyroid shield, lead glasses; ceiling shield when available.","Wear your dosimeter in the right place."]},
+]},
+
+/* ---------------- Contrast & safety ---------------- */
+{id:"contrast-reactions", mod:"contrast", title:"Contrast reaction management", sum:"Adult treatment by reaction type.", tags:["Emergency","ACR","Adult"], secs:[
+  {h:"Before you use these doses", note:"<b>Adult doses based on the ACR Manual on Contrast Media.</b> Check them against the chart posted in your department and the current ACR manual. Call for help early.", tone:"warn"},
+  {h:"First steps for every reaction", list:["Stop the injection, keep IV access, call for help.","Check airway, breathing, pulse, blood pressure, oxygen saturation.","Give oxygen 6–10 L/min by mask for anything beyond mild."]},
+  {h:"Treatment", table:{head:["Reaction","Treatment"], rows:[
+    ["Mild urticaria","Observe. If symptomatic: diphenhydramine 25–50 mg PO, or IV slowly."],
+    ["Bronchospasm","O<sub>2</sub>; albuterol inhaler 2 puffs (90 mcg/puff), repeat up to 3 times. Severe: epinephrine IM 0.3–0.5 mg (1 mg/mL)."],
+    ["Laryngeal edema","O<sub>2</sub>; epinephrine IM 0.5 mg (1 mg/mL). Call the emergency team."],
+    ["Hypotension + tachycardia (anaphylaxis)","Legs up, O<sub>2</sub>, IV saline or Ringer's 1 L rapidly. Epinephrine IM 0.5 mg (1 mg/mL), or IV 1 mL of 0.1 mg/mL slowly, repeat as needed up to 1 mg total."],
+    ["Hypotension + bradycardia (vasovagal)","Legs up, O<sub>2</sub>, IV fluids 1 L. If no response: atropine 0.6–1.0 mg IV, repeat up to 3 mg total."],
+    ["Seizure","Protect the patient, O<sub>2</sub>, lorazepam 2–4 mg IV slowly if not self-limiting."],
+    ["Pulmonary edema","Sit up, O<sub>2</sub>, furosemide 20–40 mg IV slowly."],
+  ]}},
+]},
+{id:"contrast-iodinated", mod:"contrast", title:"Iodinated contrast: kidneys, metformin, premedication", sum:"Screening rules before CT contrast.", tags:["eGFR","Metformin","Premedication"], secs:[
+  {h:"Kidney function (ACR–NKF 2020)", table:{head:["eGFR (mL/min/1.73 m²)","Risk / action"], rows:[
+    ["≥45","Negligible risk of contrast-associated AKI"],
+    ["30–44","Very low risk; prophylaxis based on individual risk"],
+    ["&lt;30 (not on dialysis) or AKI","Higher risk: give IV normal saline prophylaxis unless contraindicated; use contrast only if the benefit justifies it"],
+    ["On dialysis","No need to change dialysis timing unless volume is a concern"],
+  ]}},
+  {h:"Metformin", list:["eGFR ≥30 and no AKI: no need to stop metformin.","eGFR &lt;30 or AKI: hold metformin at the time of contrast and for 48 hours, restart once kidney function is stable."]},
+  {h:"Premedication for prior allergic-like reaction", table:{head:["Regimen","Drugs"], rows:[
+    ["Elective (13-hour)","Prednisone 50 mg PO at 13, 7 and 1 hour before, plus diphenhydramine 50 mg IV/IM/PO 1 hour before"],
+    ["Elective (12-hour)","Methylprednisolone 32 mg PO at 12 and 2 hours before, ± diphenhydramine 50 mg 1 hour before"],
+    ["Accelerated IV (4–5 hours)","Methylprednisolone 40 mg IV or hydrocortisone 200 mg IV now and every 4 hours until contrast, plus diphenhydramine 50 mg IV 1 hour before"],
+  ]}},
+  {h:"Not a reason to premedicate", p:"Shellfish or iodine allergy, and reactions to topical iodine, do not predict reactions to iodinated contrast."},
+]},
+{id:"gbca", mod:"contrast", title:"Gadolinium contrast (GBCA)", sum:"Agent groups, NSF risk, pregnancy and breastfeeding.", tags:["MRI","NSF","GBCA"], secs:[
+  {h:"ACR agent groups", table:{head:["Group","Agents","NSF risk"], rows:[
+    ["I","Gadodiamide, gadopentetate dimeglumine, gadoversetamide","Highest; contraindicated in eGFR &lt;30, AKI and dialysis"],
+    ["II","Gadobenate, gadobutrol, gadoterate, gadoteridol","Very low; eGFR screening optional per ACR"],
+    ["III","Gadoxetate (liver agent)","Limited data"],
+  ]}},
+  {h:"Practice points", list:["Use the lowest dose needed for a diagnostic study.","Patients on dialysis: coordinate dialysis soon after the scan if possible.","Gadolinium is retained in the brain and other tissues; no clinical harm has been shown."]},
+]},
+{id:"extravasation", mod:"contrast", title:"Contrast extravasation", sum:"What to do when contrast leaks into the tissues.", tags:["IV","Injury"], secs:[
+  {h:"Immediate steps", list:["Stop the injection and remove the cannula.","Elevate the limb above heart level.","Cold or warm compresses (no consensus on which).","Document volume, site and patient symptoms.","Observe for 2–4 hours before discharge; give written instructions."]},
+  {h:"Get a surgical opinion if", list:["Swelling or pain is getting worse","Altered tissue perfusion or capillary refill","Change in sensation","Skin blistering or ulceration"]},
+]},
+{id:"pregnancy", mod:"contrast", title:"Pregnancy & breastfeeding", sum:"Imaging and contrast decisions in pregnant and nursing patients.", tags:["Pregnancy","Lactation"], secs:[
+  {h:"Imaging choice", list:["Prefer ultrasound and MRI when they answer the question.","Do not withhold a needed CT or radiograph. Fetal doses below 50 mGy have not been linked to anomalies or pregnancy loss.","Shield and collimate; use dose-reduced protocols."]},
+  {h:"Contrast", table:{head:["Agent","Pregnancy","Breastfeeding"], rows:[
+    ["Iodinated","Give if clinically needed","No need to interrupt"],
+    ["Gadolinium","Avoid unless essential to the diagnosis","No need to interrupt"],
+  ]}},
+]},
+{id:"dose-ref", mod:"contrast", title:"Radiation dose quick reference", sum:"Typical adult effective doses for common exams.", tags:["mSv","Counselling"], secs:[
+  {h:"Typical adult effective dose (approximate)", table:{head:["Exam","Effective dose","≈ Natural background"], rows:[
+    ["Chest X-ray (PA + lateral)","0.1 mSv","10 days"],
+    ["Mammogram (screening, 2 views each)","0.4 mSv","7 weeks"],
+    ["CT head","2 mSv","8 months"],
+    ["Low-dose lung screening CT","1.5 mSv","6 months"],
+    ["CT chest","6 mSv","2 years"],
+    ["CT abdomen & pelvis","8–10 mSv","3 years"],
+    ["Natural background (US average)","3 mSv per year","—"],
+  ]}},
+  {h:"Note", p:"Values vary with scanner, protocol and patient size. Use them for counselling, not for individual dose estimates."},
+]},
+
+/* ---------------- Reporting systems ---------------- */
+{id:"tirads", mod:"report", title:"ACR TI-RADS (thyroid nodules)", sum:"Point scoring, FNA thresholds and a calculator.", tags:["Thyroid","US","Calculator"], secs:[
+  {h:"Calculator", calc:"tirads"},
+  {h:"Levels and size thresholds", table:{head:["Level","Points","FNA if","Follow-up if"], rows:[
+    ["TR1 Benign","0","No FNA","None"],
+    ["TR2 Not suspicious","2","No FNA","None"],
+    ["TR3 Mildly suspicious","3","≥2.5 cm","≥1.5 cm"],
+    ["TR4 Moderately suspicious","4–6","≥1.5 cm","≥1.0 cm"],
+    ["TR5 Highly suspicious","≥7","≥1.0 cm","≥0.5 cm"],
+  ]}},
+  {h:"Follow-up schedule", list:["TR3: ultrasound at 1, 3 and 5 years.","TR4: at 1, 2, 3 and 5 years.","TR5: every year for up to 5 years.","Significant growth: ≥20% and ≥2 mm in two dimensions, or ≥50% volume increase."]},
+]},
+{id:"fleischner", mod:"report", title:"Fleischner 2017 (incidental lung nodules)", sum:"Follow-up of incidental nodules on CT in adults ≥35.", tags:["Chest","Nodules"], secs:[
+  {h:"Does not apply to", list:["Lung cancer screening (use Lung-RADS)","Patients under 35","Known cancer or immunosuppression"]},
+  {h:"Single solid nodule", table:{head:["Size","Low risk","High risk"], rows:[
+    ["&lt;6 mm","No routine follow-up","Optional CT at 12 months"],
+    ["6–8 mm","CT at 6–12 months, then consider CT at 18–24 months","CT at 6–12 months, then CT at 18–24 months"],
+    ["&gt;8 mm","Consider CT at 3 months, PET/CT or tissue sampling","Consider CT at 3 months, PET/CT or tissue sampling"],
+  ]}},
+  {h:"Multiple solid nodules", table:{head:["Size (largest)","Low risk","High risk"], rows:[
+    ["&lt;6 mm","No routine follow-up","Optional CT at 12 months"],
+    ["6–8 mm","CT at 3–6 months, then consider CT at 18–24 months","CT at 3–6 months, then CT at 18–24 months"],
+    ["&gt;8 mm","CT at 3–6 months, then consider CT at 18–24 months","CT at 3–6 months, then CT at 18–24 months"],
+  ]}},
+  {h:"Subsolid nodules", table:{head:["Type","&lt;6 mm","≥6 mm"], rows:[
+    ["Single ground-glass","No routine follow-up","CT at 6–12 months to confirm persistence, then every 2 years until 5 years"],
+    ["Single part-solid","No routine follow-up","CT at 3–6 months. If unchanged and solid part &lt;6 mm, yearly CT for 5 years. Solid part ≥6 mm is highly suspicious"],
+    ["Multiple subsolid","CT at 3–6 months; if stable consider CT at 2 and 4 years","CT at 3–6 months; then manage by the most suspicious nodule"],
+  ]}},
+]},
+{id:"lungrads", mod:"report", title:"Lung-RADS v2022 (screening CT)", sum:"Category summary and management for lung cancer screening.", tags:["Chest","Screening"], secs:[
+  {h:"Categories", table:{head:["Category","Meaning","Management"], rows:[
+    ["0","Incomplete","Additional screening CT or comparison needed"],
+    ["1","Negative","Annual low-dose CT in 12 months"],
+    ["2","Benign appearance or behaviour","Annual low-dose CT in 12 months"],
+    ["3","Probably benign","Low-dose CT in 6 months"],
+    ["4A","Suspicious","Low-dose CT in 3 months; PET/CT if solid component ≥8 mm"],
+    ["4B","Very suspicious","Diagnostic chest CT ± contrast, PET/CT and/or tissue sampling"],
+    ["4X","Category 3 or 4 with extra suspicious features","As for 4B"],
+    ["S modifier","Significant other finding","Report and manage separately"],
+  ]}},
+  {h:"Note", p:"Nodule-size cut-offs for each category depend on nodule type (solid, part-solid, ground-glass, airway) and baseline vs. new. Keep the ACR Lung-RADS v2022 table to hand for the exact thresholds."},
+]},
+{id:"adrenal", mod:"report", title:"Adrenal nodule washout", sum:"Unenhanced HU and washout calculator for adrenal adenoma.", tags:["Adrenal","CT","Calculator"], secs:[
+  {h:"Calculator", calc:"adrenal"},
+  {h:"Formulas", list:["Absolute washout (APW) = (enhanced − delayed) ÷ (enhanced − unenhanced) × 100","Relative washout (RPW) = (enhanced − delayed) ÷ enhanced × 100","Enhanced = portal venous phase (60–70 s). Delayed = 15 minutes."]},
+  {h:"Interpretation", list:["Unenhanced ≤10 HU: lipid-rich adenoma. No washout needed.","APW ≥60% or RPW ≥40%: consistent with adenoma.","Lower washout is indeterminate. Consider prior imaging, MRI chemical shift, or further workup.","Hypervascular metastases, pheochromocytoma and HCC metastases can wash out. Correlate clinically."]},
+]},
+{id:"bosniak", mod:"report", title:"Bosniak 2019 (cystic renal masses)", sum:"Classes and management for cystic kidney lesions.", tags:["Kidney","Cysts"], secs:[
+  {h:"Classes", table:{head:["Class","Typical features","Management"], rows:[
+    ["I","Thin smooth wall, no septa, simple fluid (−9 to 20 HU)","No follow-up"],
+    ["II","Few thin septa, fine calcification, homogeneous hyperattenuating cysts, or 21–30 HU at portal venous phase","No follow-up"],
+    ["IIF","Smooth minimally thickened wall or septa, or many thin septa","Follow-up at 6 and 12 months, then yearly for 5 years"],
+    ["III","Thick or irregular enhancing walls or septa","Surgery, ablation or active surveillance"],
+    ["IV","Enhancing nodule(s)","Surgery or ablation"],
+  ]}},
+  {h:"Note", p:"Use a dedicated renal-mass protocol (non-contrast + nephrographic phase) for accurate classification. Check the full Bosniak 2019 definitions before assigning a class."},
+]},
+];
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const strip = s => String(s).replace(/<[^>]+>/g," ").replace(/&[a-z]+;/g," ");
+function textOf(t){
+  const parts=[t.title,t.sum,(t.tags||[]).join(" "),MOD_NAME[t.mod]||""];
+  (t.secs||[]).forEach(s=>{parts.push(s.h,s.p||"",s.note||"");(s.list||[]).forEach(x=>parts.push(x));(s.steps||[]).forEach(x=>parts.push(x));
+    if(s.table){parts.push(s.table.head.join(" "));s.table.rows.forEach(r=>parts.push(r.join(" ")))}});
+  if(t.body) parts.push(t.body);
+  return strip(parts.join(" ")).toLowerCase();
+}
+TOPICS.forEach(t=>t.search=textOf(t));
+
+const state = { mod:"all", q:"", view:"list", topic:null, editing:null };
+let restoreMod = null;
+try{ restoreMod = localStorage.getItem("rrh-mod"); }catch(e){}
+if(restoreMod && (restoreMod==="all"||restoreMod==="mine"||MOD_NAME[restoreMod])) state.mod = restoreMod;
+
+const live = { db:null, user:null, canWrite:null, status:"connecting", notes:{}, custom:[], notesEditing:false };
+
+function customTopics(){
+  return live.custom.map(c=>{
+    const t={id:"my-"+c.id, docId:c.id, mod:MOD_NAME[c.mod]?c.mod:"ct", title:c.title||"Untitled protocol", sum:(c.summary||"").trim(), body:c.body||"", custom:true, tags:["Mine"], updatedAt:c.updatedAt};
+    t.search=textOf(t); return t;
+  });
+}
+function allTopics(){ return TOPICS.concat(customTopics()); }
+function findTopic(id){ return allTopics().find(t=>t.id===id); }
+function canEdit(){ return !!live.db && live.canWrite !== false; }
+function fmtDate(iso){ try{ return new Date(iso).toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"}); }catch(e){ return ""; } }
+
+/* ---------- rail ---------- */
+function renderRail(){
+  const ts=allTopics(), q=state.q.trim().toLowerCase();
+  const count = id => ts.filter(t=>(id==="all"||(id==="mine"?t.custom:t.mod===id)) && (!q||t.search.includes(q))).length;
+  const items=[{id:"all",name:"All topics"}].concat(MODS,[{id:"mine",name:"My protocols"}]);
+  $("#mods").innerHTML = `<p class="lbl">Browse</p>` + items.map(m=>
+    `<button class="mod" type="button" data-mod="${m.id}" aria-current="${state.mod===m.id && state.view==="list"}"><span>${esc(m.name)}</span><span class="n">${count(m.id)}</span></button>`).join("");
+  $("#add-side").hidden = !canEdit();
+  const sync=$("#sync");
+  const msgs={connecting:"Connecting notes…",on:"Notes and your protocols are saved in this browser. Use Back up to copy them to another device.",readonly:"You can read saved notes. Ask the page owner for edit access to change them.",off:"This browser is blocking storage, so notes cannot be saved here.",err:"Notes could not load. Reload the page to try again."};
+  sync.className="sync"+(live.status==="on"?" on":"");
+  sync.querySelector("span").textContent=msgs[live.status]||"";
+}
+
+/* ---------- list ---------- */
+function cardHTML(t){
+  const chips=(t.custom?['<span class="chip mine">Mine</span>']:(t.tags||[]).slice(0,3).map(x=>`<span class="chip">${esc(x)}</span>`));
+  if(live.notes[t.id]?.text) chips.push('<span class="chip note">Dept. notes</span>');
+  return `<button class="card" type="button" data-open="${esc(t.id)}"><h3>${esc(t.title)}</h3>${t.sum?`<p>${esc(t.sum)}</p>`:""}<div class="chips">${chips.join("")}</div></button>`;
+}
+function renderList(){
+  const q=state.q.trim().toLowerCase();
+  const ts=allTopics().filter(t=>(state.mod==="all"||(state.mod==="mine"?t.custom:t.mod===state.mod)) && (!q||t.search.includes(q)));
+  let html="";
+  if(state.mod==="all" && !q){
+    html+=`<p class="intro"><strong>${TOPICS.length} reference topics</strong> across CT, mammography, MRI, ultrasound, X-ray, fluoroscopy, contrast safety and reporting systems. Open any topic to add your department's own settings in its notes, or add a full protocol of your own.</p>`;
+  }
+  if(state.mod==="mine"){
+    html+=`<div class="group"><h2>My protocols <small>${ts.length}</small></h2>`;
+    if(!ts.length){
+      html+=`<div class="empty"><b>No protocols of your own yet.</b><span>Add your department's version of an exam: technique, doses, timing, who to call. It is saved here and appears under its modality too.</span>${canEdit()?'<button class="btn primary" type="button" data-add>+ Add a protocol</button>':`<span>${live.db?"You have read-only access to this page.":"This browser is blocking storage, so notes cannot be saved here."}</span>`}</div>`;
+    } else html+=`<div class="grid">${ts.map(cardHTML).join("")}</div>`;
+    html+="</div>";
+  } else {
+    const mods=state.mod==="all"?MODS:MODS.filter(m=>m.id===state.mod);
+    let any=false;
+    mods.forEach(m=>{
+      const g=ts.filter(t=>t.mod===m.id); if(!g.length) return; any=true;
+      html+=`<section class="group"><h2>${esc(m.name)} <small>${g.length} topic${g.length>1?"s":""}</small></h2><div class="grid">${g.map(cardHTML).join("")}</div></section>`;
+    });
+    if(!any) html+=`<div class="empty"><b>Nothing matches “${esc(state.q)}”.</b><span>Try a shorter word such as “MLO”, “HU”, “metformin” or “BI-RADS”.</span><button class="btn" type="button" data-clear>Clear search</button></div>`;
+  }
+  html+=disclaimer();
+  $("#main").innerHTML=html;
+}
+function disclaimer(){
+  return `<footer class="disc">A quick reference drawn from ACR guidance, the Fleischner Society and standard radiography texts. Protocols, doses and thresholds vary between institutions and guidelines change. Your department's protocols and the current source documents take precedence.</footer>`;
+}
+
+/* ---------- topic ---------- */
+function secHTML(s){
+  let b="";
+  if(s.hu) b=huHTML();
+  else if(s.calc==="tirads") b=tiradsHTML();
+  else if(s.calc==="adrenal") b=adrenalHTML();
+  else if(s.table) b=`<div class="tbl"><table><thead><tr>${s.table.head.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${s.table.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+  else if(s.list) b=`<ul>${s.list.map(x=>`<li>${x}</li>`).join("")}</ul>`;
+  else if(s.steps) b=`<ol>${s.steps.map(x=>`<li>${x}</li>`).join("")}</ol>`;
+  else if(s.note) b=`<div class="callout ${s.tone==="info"?"info":""}">${s.note}</div>`;
+  else if(s.p) b=`<p>${s.p}</p>`;
+  return `<section class="sec"><h2>${s.h}</h2>${b}</section>`;
+}
+function bodyHTML(text){
+  const lines=String(text||"").split(/\r?\n/); let out="",list=false,para=[];
+  const flushP=()=>{ if(para.length){ out+=`<p>${para.join("<br>")}</p>`; para=[]; } };
+  const flushL=()=>{ if(list){ out+="</ul>"; list=false; } };
+  lines.forEach(l=>{
+    const t=l.trim();
+    if(!t){ flushP(); flushL(); return; }
+    if(t.startsWith("## ")){ flushP(); flushL(); out+=`<h3>${esc(t.slice(3))}</h3>`; return; }
+    if(/^[-*•]\s+/.test(t)){ flushP(); if(!list){ out+="<ul>"; list=true; } out+=`<li>${esc(t.replace(/^[-*•]\s+/,""))}</li>`; return; }
+    flushL(); para.push(esc(t));
+  });
+  flushP(); flushL(); return out;
+}
+function renderTopic(){
+  const t=findTopic(state.topic);
+  if(!t){
+    $("#main").innerHTML=`<div class="empty"><b>This topic isn't available.</b><span>It may have been deleted, or saved notes are still loading.</span><button class="btn" type="button" data-back>All topics</button></div>`;
+    return;
+  }
+  let html=`<article class="topic"><div><button class="btn ghost" type="button" data-back>← All topics</button></div>
+    <header><p class="eyebrow">${esc(MOD_NAME[t.mod])}${t.custom?" · My protocol":""}</p><h1>${esc(t.title)}</h1></header>`;
+  if(t.sum) html+=`<p class="lede">${esc(t.sum)}</p>`;
+  if(t.custom){
+    html+=`<section class="sec prose">${bodyHTML(t.body)||'<p class="hint">This protocol has no content yet.</p>'}</section>`;
+    html+=`<div class="row">${canEdit()?`<button class="btn" type="button" data-edit="${esc(t.docId)}">Edit protocol</button><span id="del-wrap"><button class="btn danger" type="button" data-del-ask>Delete</button></span>`:""}${t.updatedAt?`<span class="hint">Updated ${esc(fmtDate(t.updatedAt))}</span>`:""}</div>`;
+  } else {
+    html+=t.secs.map(secHTML).join("");
+    html+=`<section class="notes" id="notes"></section>`;
+  }
+  html+=disclaimer()+"</article>";
+  $("#main").innerHTML=html;
+  if(!t.custom){ renderNotes(); }
+  if(t.secs?.some(s=>s.calc==="tirads")) bindTirads();
+  if(t.secs?.some(s=>s.calc==="adrenal")) bindAdrenal();
+}
+function renderNotes(){
+  const box=$("#notes"); if(!box || live.notesEditing) return;
+  const n=live.notes[state.topic];
+  let html=`<div class="notes-h"><h2>Our department's notes</h2>${n?.updatedAt?`<span>Saved ${esc(fmtDate(n.updatedAt))}</span>`:""}</div>`;
+  if(live.status==="connecting") html+=`<p class="none">Loading notes…</p>`;
+  else if(n?.text) html+=`<div class="body">${esc(n.text)}</div>`;
+  else html+=`<p class="none">${canEdit()?"No notes yet. Add your scanner settings, local doses, who to call or anything that differs from the reference above.":live.db?"No department notes for this topic.":"This browser is blocking storage, so notes cannot be saved here."}</p>`;
+  if(canEdit()) html+=`<div class="row"><button class="btn" type="button" data-notes-edit>${n?.text?"Edit notes":"Add notes"}</button></div>`;
+  box.innerHTML=html;
+}
+function openNotesEditor(){
+  live.notesEditing=true;
+  const n=live.notes[state.topic];
+  $("#notes").innerHTML=`<div class="notes-h"><h2>Our department's notes</h2></div>
+    <textarea id="notes-text" aria-label="Department notes" placeholder="e.g. Our Siemens Force: 100 kVp, CARE Dose on. Trigger 120 HU in main PA. Call Dr. … for overnight protocoling.">${esc(n?.text||"")}</textarea>
+    <div class="row"><button class="btn primary" type="button" data-notes-save>Save notes</button><button class="btn" type="button" data-notes-cancel>Cancel</button><span class="msg" id="notes-msg" role="status"></span></div>`;
+  $("#notes-text").focus();
+}
+async function saveNotes(){
+  const text=$("#notes-text").value.trim(), msg=$("#notes-msg"), btn=document.querySelector("[data-notes-save]");
+  btn.disabled=true; msg.className="msg"; msg.textContent="Saving…";
+  try{
+    const ref=live.db.doc("notes/"+state.topic);
+    if(text) await ref.set({text, updatedAt:new Date().toISOString()});
+    else await ref.delete();
+    live.notes[state.topic]= text?{text,updatedAt:new Date().toISOString()}:undefined;
+    live.notesEditing=false; renderNotes();
+  }catch(e){ btn.disabled=false; msg.textContent=dbErr(e); }
+}
+function dbErr(e){
+  if(e?.code==="invalid_argument"){ live.canWrite=false; live.status="readonly"; renderRail(); return "You can read these notes but not change them. Ask the page owner for edit access."; }
+  if(e?.code==="quota_exceeded") return "Storage is full. Delete some old protocols, then save again.";
+  if(e?.code==="resource_exhausted") return "Too many saves at once. Wait a few seconds and save again.";
+  return "Couldn't save. Check your connection and try again.";
+}
+
+/* ---------- custom protocol editor ---------- */
+function renderEditor(){
+  const c=state.editing&&state.editing!=="new"?live.custom.find(x=>x.id===state.editing):null;
+  const mod=c?.mod||(MOD_NAME[state.mod]?state.mod:"ct");
+  $("#main").innerHTML=`<form class="form" id="proto-form">
+    <div><button class="btn ghost" type="button" data-cancel-edit>← Cancel</button></div>
+    <header><p class="eyebrow">My protocols</p><h1 style="font-family:var(--f-display);font-weight:600;font-size:clamp(1.6rem,4vw,2.1rem);margin:4px 0 0">${c?"Edit protocol":"New protocol"}</h1></header>
+    <div class="field"><label for="p-title">Title</label><input id="p-title" type="text" required maxlength="140" value="${esc(c?.title||"")}" placeholder="e.g. CT liver triple phase (our department)"></div>
+    <div class="fields">
+      <div class="field"><label for="p-mod">Modality</label><select id="p-mod">${MODS.map(m=>`<option value="${m.id}"${m.id===mod?" selected":""}>${esc(m.name)}</option>`).join("")}</select></div>
+      <div class="field"><label for="p-sum">One-line summary</label><input id="p-sum" type="text" maxlength="200" value="${esc(c?.summary||"")}" placeholder="Shown on the topic card"></div>
+    </div>
+    <div class="field"><label for="p-body">Protocol</label><textarea id="p-body" placeholder="## Patient prep&#10;- NPO 4 hours&#10;- 20 G antecubital&#10;&#10;## Technique&#10;- 100 mL Omnipaque 350 at 4 mL/s&#10;- Arterial: bolus track aorta 150 HU + 18 s">${esc(c?.body||"")}</textarea>
+    <p class="hint">Start a line with “## ” for a heading and “- ” for a bullet.</p></div>
+    <div class="row"><button class="btn primary" type="submit">Save protocol</button><button class="btn" type="button" data-cancel-edit>Cancel</button><span class="msg" id="p-msg" role="status"></span></div>
+  </form>`;
+  $("#p-title").focus();
+  $("#proto-form").addEventListener("submit",async ev=>{
+    ev.preventDefault();
+    const data={title:$("#p-title").value.trim(), mod:$("#p-mod").value, summary:$("#p-sum").value.trim(), body:$("#p-body").value, updatedAt:new Date().toISOString()};
+    const msg=$("#p-msg"); if(!data.title){ msg.textContent="Add a title to save."; return; }
+    msg.className="msg"; msg.textContent="Saving…";
+    try{
+      let id=c?.id;
+      if(id) await live.db.doc("custom/"+id).set(data);
+      else { const ref=await live.db.collection("custom").add(data); id=ref.id; }
+      const i=live.custom.findIndex(x=>x.id===id); const rec={id,...data};
+      if(i>=0) live.custom[i]=rec; else live.custom.push(rec);
+      state.editing=null; go("my-"+id);
+    }catch(e){ msg.textContent=dbErr(e); }
+  });
+}
+
+/* ---------- HU scale ---------- */
+function huHTML(){
+  const pct=hu=>((Math.max(-1000,Math.min(1000,hu))+1000)/20).toFixed(1)+"%";
+  const win=(name,w,l)=>{const a=pct(l-w/2),b=pct(l+w/2);return `<div class="hu-row"><span>${name} <code>W${w} / L${String(l).replace("-","−")}</code></span><div class="track"><div class="win" style="--a:${a};--b:${b}"></div></div></div>`};
+  const mark=(label,hu)=>`<span style="left:${pct(hu)}">${label}</span>`;
+  return `<div class="hu" role="img" aria-label="Hounsfield scale from minus 1000 to plus 1000 with lung, soft tissue and bone windows marked">
+    ${win("Lung",1500,-600)}${win("Soft tissue",400,40)}${win("Bone",1800,400)}
+    <div class="hu-row"><span></span><div class="bar"></div></div>
+    <div class="hu-row"><span></span><div class="ticks"><span style="left:0">−1000</span><span style="left:25%">−500</span><span style="left:50%">0</span><span style="left:75%">+500</span><span style="left:100%">+1000</span></div></div>
+    <div class="hu-row"><span></span><div class="marks">${mark("Air",-950)}${mark("Fat",-100)}${mark("Bone",700)}</div></div>
+    <div class="hu-row"><span></span><div class="marks">${mark("Lung",-700)}${mark("Water",0)}</div></div>
+  </div>`;
+}
+
+/* ---------- TI-RADS ---------- */
+function tiradsHTML(){
+  const sel=(id,label,opts)=>`<div class="field"><label for="${id}">${label}</label><select id="${id}">${opts.map(([v,t])=>`<option value="${v}">${t}</option>`).join("")}</select></div>`;
+  return `<div class="calc">
+    <div class="fields">
+      ${sel("tr-comp","Composition",[[0,"Cystic or almost completely cystic (0)"],[0,"Spongiform (0)"],[1,"Mixed cystic and solid (1)"],[2,"Solid or almost completely solid (2)"]])}
+      ${sel("tr-echo","Echogenicity",[[0,"Anechoic (0)"],[1,"Hyperechoic or isoechoic (1)"],[2,"Hypoechoic (2)"],[3,"Very hypoechoic (3)"]])}
+      ${sel("tr-shape","Shape",[[0,"Wider-than-tall (0)"],[3,"Taller-than-wide (3)"]])}
+      ${sel("tr-margin","Margin",[[0,"Smooth (0)"],[0,"Ill-defined (0)"],[2,"Lobulated or irregular (2)"],[3,"Extrathyroidal extension (3)"]])}
+      <fieldset class="field"><legend>Echogenic foci (add all that apply)</legend>
+        <label><input type="checkbox" id="tr-f1" value="1"> Macrocalcifications (1)</label>
+        <label><input type="checkbox" id="tr-f2" value="2"> Peripheral or rim calcifications (2)</label>
+        <label><input type="checkbox" id="tr-f3" value="3"> Punctate echogenic foci (3)</label>
+      </fieldset>
+      <div class="field"><label for="tr-size">Maximum diameter (cm)</label><input id="tr-size" type="number" min="0" step="0.1" inputmode="decimal" value="1.6"></div>
+    </div>
+    <div class="result" id="tr-out" aria-live="polite"></div>
+  </div>`;
+}
+function bindTirads(){
+  const ids=["tr-comp","tr-echo","tr-shape","tr-margin","tr-f1","tr-f2","tr-f3","tr-size"];
+  // sensible example so the calculator opens in a worked state
+  $("#tr-comp").selectedIndex=3; $("#tr-echo").selectedIndex=2;
+  const calc=()=>{
+    let pts=+$("#tr-comp").value + +$("#tr-echo").value + +$("#tr-shape").value + +$("#tr-margin").value;
+    ["tr-f1","tr-f2","tr-f3"].forEach(i=>{ if($("#"+i).checked) pts+=+$("#"+i).value; });
+    const lvl=pts<=1?1:pts===2?2:pts===3?3:pts<=6?4:5;
+    const th={3:[2.5,1.5],4:[1.5,1.0],5:[1.0,0.5]}[lvl];
+    const size=parseFloat($("#tr-size").value);
+    let rec;
+    if(!th) rec="No FNA, no follow-up.";
+    else if(isNaN(size)) rec=`FNA if ≥${th[0]} cm; follow-up if ≥${th[1]} cm.`;
+    else if(size>=th[0]) rec=`FNA recommended (≥${th[0]} cm).`;
+    else if(size>=th[1]) rec=`Ultrasound follow-up (≥${th[1]} cm, below FNA threshold of ${th[0]} cm).`;
+    else rec=`No FNA or follow-up needed at this size (below ${th[1]} cm).`;
+    const names=["","Benign","Not suspicious","Mildly suspicious","Moderately suspicious","Highly suspicious"];
+    $("#tr-out").innerHTML=`<span class="big">TR${lvl}</span><span>${pts} point${pts===1?"":"s"} · ${names[lvl]}</span><p>${rec}</p>`;
+  };
+  ids.forEach(i=>$("#"+i).addEventListener("input",calc)); calc();
+}
+
+/* ---------- Adrenal ---------- */
+function adrenalHTML(){
+  const f=(id,l,v)=>`<div class="field"><label for="${id}">${l}</label><input id="${id}" type="number" step="1" inputmode="numeric" value="${v}"></div>`;
+  return `<div class="calc"><div class="fields">${f("ad-u","Unenhanced (HU)",28)}${f("ad-e","Portal venous (HU)",95)}${f("ad-d","15-min delayed (HU)",40)}</div><div class="result" id="ad-out" aria-live="polite"></div></div>`;
+}
+function bindAdrenal(){
+  const calc=()=>{
+    const u=parseFloat($("#ad-u").value), e=parseFloat($("#ad-e").value), d=parseFloat($("#ad-d").value);
+    let out="";
+    if(!isNaN(u) && u<=10){ out=`<span class="big">≤10 HU</span><p>Lipid-rich adenoma. No washout study needed.</p>`; }
+    else if(isNaN(e)||isNaN(d)){ out=`<p>Enter the enhanced and delayed values.</p>`; }
+    else{
+      const apw=(!isNaN(u)&&e>u)?(e-d)/(e-u)*100:null, rpw=e>0?(e-d)/e*100:null;
+      const adenoma=(apw!==null&&apw>=60)||(rpw!==null&&rpw>=40);
+      out=`<span class="big">${apw===null?"—":apw.toFixed(0)+"%"}</span><span>absolute washout</span><span class="big">${rpw===null?"—":rpw.toFixed(0)+"%"}</span><span>relative washout</span>
+        <p>${adenoma?"Consistent with adenoma (APW ≥60% or RPW ≥40%).":"Indeterminate washout. Consider prior imaging, chemical-shift MRI or further workup."}</p>`;
+    }
+    $("#ad-out").innerHTML=out;
+  };
+  ["ad-u","ad-e","ad-d"].forEach(i=>$("#"+i).addEventListener("input",calc)); calc();
+}
+
+/* ---------- routing ---------- */
+function go(id){ if(location.hash.slice(1)===id) route(); else location.hash=id; }
+function route(){
+  const h=decodeURIComponent(location.hash.slice(1));
+  live.notesEditing=false;
+  if(state.editing){ state.view="edit"; }
+  else if(h && h!=="home"){ state.view="topic"; state.topic=h; }
+  else { state.view="list"; state.topic=null; }
+  render(); window.scrollTo(0,0);
+}
+function render(){
+  renderRail();
+  if(state.view==="edit") renderEditor();
+  else if(state.view==="topic") renderTopic();
+  else renderList();
+}
+function setMod(id){
+  state.mod=id; try{ localStorage.setItem("rrh-mod",id); }catch(e){}
+  state.editing=null;
+  if(location.hash && location.hash!=="#home") location.hash="home"; else route();
+}
+
+document.addEventListener("click",async ev=>{
+  const el=ev.target.closest("button"); if(!el) return;
+  if(el.dataset.mod){ setMod(el.dataset.mod); return; }
+  if(el.dataset.open){ go(el.dataset.open); return; }
+  if(el.id==="home"){ state.q=""; $("#q").value=""; setMod("all"); return; }
+  if(el.hasAttribute("data-back")){ state.editing=null; location.hash="home"; return; }
+  if(el.hasAttribute("data-clear")){ state.q=""; $("#q").value=""; render(); return; }
+  if(el.hasAttribute("data-add")||el.id==="add-side"){ state.editing="new"; state.view="edit"; render(); window.scrollTo(0,0); return; }
+  if(el.dataset.edit){ state.editing=el.dataset.edit; state.view="edit"; render(); return; }
+  if(el.hasAttribute("data-cancel-edit")){ const back=state.editing!=="new"?"my-"+state.editing:null; state.editing=null; if(back) go(back); else { location.hash="home"; route(); } return; }
+  if(el.hasAttribute("data-notes-edit")){ openNotesEditor(); return; }
+  if(el.hasAttribute("data-notes-cancel")){ live.notesEditing=false; renderNotes(); return; }
+  if(el.hasAttribute("data-notes-save")){ saveNotes(); return; }
+  if(el.hasAttribute("data-del-ask")){
+    $("#del-wrap").innerHTML=`<span class="row"><span>Delete this protocol?</span><button class="btn danger" type="button" data-del-yes>Delete</button><button class="btn" type="button" data-del-no>Keep</button></span>`; return;
+  }
+  if(el.hasAttribute("data-del-no")){ renderTopic(); return; }
+  if(el.hasAttribute("data-del-yes")){
+    const t=findTopic(state.topic); if(!t) return;
+    try{ await live.db.doc("custom/"+t.docId).delete(); live.custom=live.custom.filter(c=>c.id!==t.docId); state.mod="mine"; location.hash="home"; }
+    catch(e){ $("#del-wrap").innerHTML=`<span class="msg">${esc(dbErr(e))}</span>`; }
+  }
+});
+let qTimer;
+$("#q").addEventListener("input",e=>{
+  clearTimeout(qTimer);
+  qTimer=setTimeout(()=>{ state.q=e.target.value; if(state.view!=="list"){ state.editing=null; location.hash="home"; } else render(); },120);
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="/" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){ e.preventDefault(); $("#q").focus(); }
+  if(e.key==="Escape" && document.activeElement===$("#q") && $("#q").value){ $("#q").value=""; state.q=""; render(); }
+});
+window.addEventListener("hashchange",route);
+route();
+
+/* ---------- live notes ---------- */
+function onLive(){
+  renderRail();
+  if(state.view==="list") renderList();
+  else if(state.view==="topic"){
+    const t=findTopic(state.topic);
+    if(!t || t.custom){ if(!document.querySelector("[data-del-yes]")) renderTopic(); }
+    else renderNotes();
+  }
+}
+/* Notes and custom protocols live in this browser's localStorage, behind the same small API the page uses. */
+const STORE="rrh-data-v1";
+function loadStore(){ try{ return JSON.parse(localStorage.getItem(STORE))||{notes:{},custom:{}}; }catch(e){ return {notes:{},custom:{}}; } }
+function saveStore(s){ try{ localStorage.setItem(STORE,JSON.stringify(s)); }catch(e){ throw {code:"quota_exceeded"}; } }
+function syncLive(){ const s=loadStore(); live.notes=s.notes||{}; live.custom=Object.entries(s.custom||{}).map(([id,v])=>({id,...v})); }
+live.db={
+  doc(path){ const [col,id]=path.split("/"); return {
+    async set(data){ const s=loadStore(); (s[col]=s[col]||{})[id]=data; saveStore(s); syncLive(); },
+    async delete(){ const s=loadStore(); if(s[col]) delete s[col][id]; saveStore(s); syncLive(); },
+  }; },
+  collection(col){ return { async add(data){ const id=Date.now().toString(36)+Math.random().toString(36).slice(2,6); await live.db.doc(col+"/"+id).set(data); return {id}; } }; },
+};
+try{ localStorage.setItem("rrh-probe","1"); localStorage.removeItem("rrh-probe"); live.status="on"; }
+catch(e){ live.db=null; live.status="off"; }
+if(live.db) syncLive();
+onLive();
+window.addEventListener("storage",e=>{ if(e.key===STORE){ syncLive(); onLive(); } });
+
+$("#backup").addEventListener("click",()=>{
+  const blob=new Blob([JSON.stringify(loadStore(),null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download="reading-room-backup-"+new Date().toISOString().slice(0,10)+".json"; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+});
+$("#restore").addEventListener("click",()=>$("#restore-file").click());
+$("#restore-file").addEventListener("change",async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  try{
+    const data=JSON.parse(await f.text());
+    const s=loadStore();
+    Object.assign(s.notes,data.notes||{}); Object.assign(s.custom,data.custom||{});
+    saveStore(s); syncLive(); onLive();
+  }catch(err){ const sp=$("#sync span"); if(sp) sp.textContent="That file is not a Reading Room backup."; }
+  e.target.value="";
+});
+
+</script>
+</body>
+</html>
