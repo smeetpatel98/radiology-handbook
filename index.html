@@ -555,7 +555,7 @@ function figZones(){
     b+=`<rect x="${10+p}" y="${10+p}" width="${620-2*p}" height="${250-2*p}" rx="10" class="${c}"/>`;
     b+=tx(26+p,34+p,`Zone ${k}`,{w:600,c:c==="t-hot"?"inv":""})+tx(90+p,34+p,l,{c:c==="t-hot"?"inv":"mu"});
   });
-  b+=`<g transform="translate(320 166)"><rect x="-70" y="-30" width="140" height="60" rx="30" fill="none" class="s-inv" stroke-width="3"/><circle r="16" fill="none" class="s-inv" stroke-width="3"/></g>`;
+  b+=`<g transform="translate(490 135)"><rect x="-26" y="-14" width="52" height="28" rx="14" fill="none" class="s-inv" stroke-width="2.5"/><circle r="7" fill="none" class="s-inv" stroke-width="2.5"/></g>`;
   return svg(640,270,"MRI safety zones I to IV as nested areas",b);
 }
 
@@ -630,6 +630,233 @@ function figDose(){
   return svg(640,46+rows.length*30,"Bar chart of typical effective dose by exam",b);
 }
 
+// Numbered step cards for workflows. it.n overrides the number, it.icon replaces the badge, tone "hot" inverts the text.
+function cards(items,{cols=3,W=640,label=""}={}){
+  const gap=22,rg=16,bw=(W-gap*(cols-1))/cols,lines=Math.max(...items.map(it=>(it.d||[]).length)),bh=46+lines*18;
+  const rows=Math.ceil(items.length/cols); let b="";
+  items.forEach((it,i)=>{
+    const r=Math.floor(i/cols),c=i%cols,x=c*(bw+gap),y=r*(bh+rg),inv=it.tone==="hot"?"inv":"";
+    b+=`<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="8" class="t-${it.tone||"mid"}"/>`;
+    if(it.icon) b+=it.icon(x+20,y+22);
+    else b+=`<circle cx="${x+20}" cy="${y+22}" r="11" class="${inv?"f-inv":"f-ac"}"/>`+tx(x+20,y+26.5,it.n??i+1,{a:"middle",c:inv?"wa":"inv",w:600,s:12});
+    b+=tx(x+38,y+27,it.t,{w:600,c:inv});
+    (it.d||[]).forEach((l,j)=>{ b+=tx(x+14,y+50+j*18,l,{c:inv||"mu",s:12.5}); });
+    if(c<cols-1 && i<items.length-1) b+=`<path d="M${x+bw+7} ${y+bh/2-5}l6 5-6 5" class="s-ac" fill="none" stroke-width="2"/>`;
+  });
+  return svg(W,rows*bh+(rows-1)*rg,label,b);
+}
+const arrowR=(x1,x2,y)=>`<path d="M${x1} ${y}H${x2}m-7-5 7 5-7 5" class="s-mu" fill="none" stroke-width="1.6"/>`;
+const arrowD=(x,y1,y2)=>`<path d="M${x} ${y1}V${y2}m-5-7 5 7 5-7" class="s-mu" fill="none" stroke-width="1.6"/>`;
+function box(x,y,w,h,tone,title,lines=[]){
+  const inv=tone==="hot"?"inv":"";
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" class="t-${tone}"/>`+tx(x+14,y+24,title,{w:600,c:inv})+lines.map((l,i)=>tx(x+14,y+44+i*18,l,{c:inv||"mu",s:12.5})).join("");
+}
+// Small deterministic random generator so the drawn textures look the same on every load.
+function rng(seed){ let s=seed; return ()=>(s=(s*16807)%2147483647)/2147483647; }
+
+function figHeadSetup(){
+  return cards([
+    {t:"Prep",d:["Remove hairpins, earrings,","dentures, glasses"]},
+    {t:"Position",d:["Supine in head holder,","chin slightly tucked"]},
+    {t:"Plan",d:["Baseline parallel to OML","Foramen magnum → vertex"],tone:"ok"},
+  ],{label:"CT head set-up steps"});
+}
+function figHeadSearch(){
+  return cards([
+    {n:"B",t:"Blood",d:["Extra-axial, IVH,","parenchymal, SAH"],tone:"warn"},
+    {n:"C",t:"Cisterns",d:["Open or effaced?","Herniation"]},
+    {n:"B",t:"Brain",d:["Gray–white, shift,","hyperdense vessel"]},
+    {n:"V",t:"Ventricles",d:["Size,","hydrocephalus"]},
+    {n:"B",t:"Bone",d:["Fractures, sinus","and mastoid fluid"]},
+  ],{cols:5,W:720,label:"CT head search pattern: Blood Can Be Very Bad"});
+}
+function figAP(){
+  return cards([
+    {t:"Screen",d:["Prior reaction, eGFR,","metformin"]},
+    {t:"Prep",d:["NPO solids 2–4 h","Oral contrast 60–90 min"]},
+    {t:"IV access",d:["20 G cannula","Antecubital preferred"]},
+    {t:"Inject",d:["1–1.5 mL/kg (80–120 mL)","at 2–3 mL/s"]},
+    {t:"Scan",d:["Delay 65–70 s","Diaphragm → symphysis"],tone:"ok"},
+    {t:"Reconstruct",d:["2.5–5 mm axial","Coronal + sagittal MPR"]},
+  ],{label:"CT abdomen and pelvis workflow"});
+}
+function figKUB(){
+  return cards([
+    {t:"No contrast",d:["No IV or oral contrast"]},
+    {t:"Low dose",d:["Reduced mAs protocol"]},
+    {t:"Coverage",d:["Top of kidneys","to bladder base"],tone:"ok"},
+    {t:"Stone at UVJ?",d:["Scan prone to separate","it from a bladder stone"]},
+    {t:"Reconstruct",d:["Thin axial","+ coronal"]},
+  ],{label:"CT KUB workflow"});
+}
+function figBolus(){
+  const sx=t=>60+t*17.5,sy=h=>220-h*.45,hu=t=>40+310/(1+Math.exp(-(t-12)*.9))-(t>22?(t-22)*12:0);
+  let pts=[];for(let t=0;t<=30;t+=.5)pts.push(`${sx(t).toFixed(1)},${sy(hu(t)).toFixed(1)}`);
+  const trig=10.4,s0=14.4,s1=19.5;
+  let b=`<rect x="${sx(s0)}" y="20" width="${sx(s1)-sx(s0)}" height="200" class="t-acs" opacity=".7"/>`;
+  b+=tx((sx(s0)+sx(s1))/2,36,"Scan",{a:"middle",c:"ac",w:600});
+  b+=`<path d="M60 14V220H590" class="s-mu" fill="none"/>`;
+  [0,100,200,300,400].forEach(h=>{ b+=tx(52,sy(h)+4,h,{a:"end",c:"mu",s:11}); });
+  [0,10,20,30].forEach(t=>{ b+=tx(sx(t),238,t+" s",{a:"middle",c:"mu",s:11}); });
+  b+=`<line x1="60" y1="${sy(100)}" x2="590" y2="${sy(100)}" class="s-wa" stroke-dasharray="5 4"/>`+tx(70,sy(100)-6,"Trigger ≈100 HU",{c:"wa",w:600,s:12});
+  b+=`<line x1="60" y1="${sy(250)}" x2="590" y2="${sy(250)}" class="s-ok" stroke-dasharray="2 4"/>`+tx(70,sy(250)-6,"Goal ≥250 HU in main PA",{c:"ok",w:600,s:12});
+  b+=`<polyline points="${pts.join(" ")}" fill="none" class="s-ink" stroke-width="2.5"/>`;
+  for(let t=3;t<=trig;t+=1.5) b+=`<circle cx="${sx(t)}" cy="${sy(hu(t))}" r="3.5" class="f-ac"/>`;
+  b+=tx(sx(3),sy(40)-10,"Monitoring scans",{c:"mu",s:12});
+  b+=`<path d="M${sx(trig)} ${sy(100)}V44M${sx(trig)} 44H${sx(s0)}" class="s-mu" fill="none" stroke-dasharray="3 3"/>`+tx((sx(trig)+sx(s0))/2,36,"delay",{a:"middle",c:"mu",s:12});
+  return svg(640,248,"Bolus tracking: HU in the main pulmonary artery over time, trigger threshold and scan window",b);
+}
+
+function figDensity(){
+  const L=[["a","Almost entirely fatty",3],["b","Scattered",16],["c","Heterogeneously dense",48],["d","Extremely dense",110]];
+  let b="";
+  L.forEach(([k,n,cnt],i)=>{
+    const x=i*164,r=rng(7+i*13);
+    b+=`<clipPath id="bd${i}"><path d="M${x} 10C${x+90} 10 ${x+148} 60 ${x+148} 90C${x+148} 120 ${x+90} 170 ${x} 170Z"/></clipPath>`;
+    b+=`<rect x="${x}" y="0" width="150" height="180" rx="4" fill="#15191d"/><path d="M${x} 10C${x+90} 10 ${x+148} 60 ${x+148} 90C${x+148} 120 ${x+90} 170 ${x} 170Z" fill="#454b52"/>`;
+    b+=`<g clip-path="url(#bd${i})">`;
+    for(let j=0;j<cnt;j++) b+=`<ellipse cx="${(x+r()*130).toFixed(1)}" cy="${(14+r()*152).toFixed(1)}" rx="${(5+r()*10).toFixed(1)}" ry="${(3+r()*7).toFixed(1)}" fill="#d4d9de" opacity=".8"/>`;
+    b+=`</g>`+tx(x+75,204,k,{a:"middle",s:18,w:600})+tx(x+75,224,n,{a:"middle",c:"mu",s:12});
+  });
+  return svg(640,232,"Breast density categories a to d",b);
+}
+function figCalcs(){
+  const W=148,H=86,img="#15191d",wh="#eef1f4";
+  const P=(x,y,draw)=>`<rect x="${x}" y="${y}" width="${W}" height="${H}" rx="4" fill="${img}"/>`+draw(x+W/2,y+H/2);
+  const dots=(seed,n,sp,rmin,rmax,op=1)=>(cx,cy)=>{const r=rng(seed);let s="";for(let i=0;i<n;i++)s+=`<circle cx="${(cx+(r()-.5)*sp).toFixed(1)}" cy="${(cy+(r()-.5)*sp*.6).toFixed(1)}" r="${(rmin+r()*(rmax-rmin)).toFixed(1)}" fill="${wh}" opacity="${op}"/>`;return s;};
+  const benign=[
+    ["Popcorn (coarse)",(cx,cy)=>`<path d="M${cx-14} ${cy}q4-14 14-10q10-8 14 6q6 10-6 14q-8 8-16 0q-10 0-6-10z" fill="${wh}"/>`],
+    ["Rim (eggshell)",(cx,cy)=>`<circle cx="${cx}" cy="${cy}" r="20" fill="none" stroke="${wh}" stroke-width="3"/>`],
+    ["Vascular (tram-track)",(cx,cy)=>`<path d="M${cx-60} ${cy-14}C${cx-20} ${cy-24} ${cx+20} ${cy+4} ${cx+60} ${cy-6}M${cx-60} ${cy-4}C${cx-20} ${cy-14} ${cx+20} ${cy+14} ${cx+60} ${cy+4}" stroke="${wh}" stroke-width="2" stroke-dasharray="9 4" fill="none"/>`],
+    ["Large rod-like",(cx,cy)=>[[-40,-18],[-10,-6],[16,-22],[-28,14],[8,16]].map(([dx,dy])=>`<line x1="${cx+dx}" y1="${cy+dy}" x2="${cx+dx+24}" y2="${cy+dy+6}" stroke="${wh}" stroke-width="4" stroke-linecap="round"/>`).join("")],
+  ];
+  const susp=[
+    ["Amorphous",dots(3,40,70,.8,1.3,.65)],
+    ["Coarse heterogeneous",dots(5,12,70,1.8,3.4)],
+    ["Fine pleomorphic",dots(11,22,60,.8,2.2)],
+    ["Fine linear branching",(cx,cy)=>`<path d="M${cx-55} ${cy+10}L${cx-25} ${cy+2}L${cx} ${cy-4}L${cx+30} ${cy-14}L${cx+55} ${cy-20}M${cx-25} ${cy+2}L${cx-8} ${cy+18}M${cx} ${cy-4}L${cx+18} ${cy+10}L${cx+40} ${cy+16}M${cx+30} ${cy-14}L${cx+44} ${cy-28}" stroke="${wh}" stroke-width="1.6" stroke-dasharray="5 3" fill="none"/>`],
+  ];
+  let b=tx(0,16,"Typically benign",{c:"ok",w:600})+tx(0,168,"Suspicious morphology",{c:"wa",w:600});
+  benign.forEach(([n,d],i)=>{ b+=P(i*164,26,d)+tx(i*164+W/2,130,n,{a:"middle",s:12}); });
+  susp.forEach(([n,d],i)=>{ b+=P(i*164,178,d)+tx(i*164+W/2,282,n,{a:"middle",s:12}); });
+  return svg(640,292,"Drawings of benign and suspicious calcification morphology",b);
+}
+function figWorkup(){
+  return cards([
+    {t:"Recall",d:["BI-RADS 0 from screening","Finding + location"]},
+    {t:"Diagnostic mammo",d:["Spot, magnification,","90° lateral"]},
+    {t:"Ultrasound",d:["Masses, asymmetries,","palpable areas"]},
+    {t:"Final BI-RADS",d:["Category 1 to 5"]},
+    {t:"Biopsy (4 and 5)",d:["US core, stereo or MRI","Clip + post mammogram"],tone:"warn"},
+    {t:"Rad–path match",d:["Discordant benign:","resample or excise"]},
+  ],{label:"Diagnostic workup after a screening recall"});
+}
+function figMRLabels(){
+  let b=`<rect x="72" y="10" width="70" height="70" fill="#2e8b57"/>`+tx(107,53,"MR",{a:"middle",f:"#fff",w:600,s:22});
+  b+=`<path d="M320 8L362 80H278Z" fill="#f2c200" stroke="#111" stroke-width="3" stroke-linejoin="round"/>`+tx(320,68,"MR",{a:"middle",f:"#111",w:600,s:20});
+  b+=`<circle cx="533" cy="45" r="34" fill="#fff" stroke="#d22" stroke-width="7"/>`+tx(533,53,"MR",{a:"middle",f:"#111",w:600,s:22})+`<line x1="509" y1="21" x2="557" y2="69" stroke="#d22" stroke-width="7"/>`;
+  [[107,"MR Safe","No known hazard"],[320,"MR Conditional","Only under stated conditions"],[533,"MR Unsafe","Never enters Zone IV"]].forEach(([x,n,d])=>{ b+=tx(x,108,n,{a:"middle",w:600})+tx(x,128,d,{a:"middle",c:"mu"}); });
+  return svg(640,136,"MR Safe, MR Conditional and MR Unsafe labels",b);
+}
+function figBrainProto(){
+  return cards([
+    {t:"Sag T1",d:["Anatomy, midline"]},
+    {t:"Ax T2",d:["Edema, most","pathology"]},
+    {t:"Ax FLAIR",d:["Periventricular,","cortical lesions"]},
+    {t:"DWI + ADC",d:["Acute infarct,","abscess"],tone:"warn"},
+    {t:"SWI / GRE",d:["Blood, calcium,","microbleeds"]},
+    {t:"Cor T2/FLAIR",d:["Second plane"]},
+    {t:"3D T1 + Gd",d:["If contrast","is ordered"],tone:"ok"},
+  ],{cols:4,label:"Routine brain MRI sequence order"});
+}
+function figUSPrep(){
+  const no=(x,y)=>`<circle cx="${x}" cy="${y}" r="10" fill="none" class="s-wa" stroke-width="2.5"/><path d="M${x-7} ${y-7}l14 14" class="s-wa" stroke-width="2.5"/>`;
+  const drop=fill=>(x,y)=>`<path d="M${x} ${y-12}C${x+7} ${y-3} ${x+9} ${y+2} ${x+9} ${y+4}A9 9 0 0 1 ${x-9} ${y+4}C${x-9} ${y+2} ${x-7} ${y-3} ${x} ${y-12}Z" class="${fill?"f-ac":"s-ac"}" fill="${fill?"":"none"}" stroke-width="2.2"/>`;
+  const ok=(x,y)=>`<path d="M${x-8} ${y}l5 6 11-12" class="s-ok" fill="none" stroke-width="3"/>`;
+  return cards([
+    {t:"NPO 6–8 h",d:["Abdomen, RUQ, GB,","aorta, renal Doppler"],tone:"warn",icon:no},
+    {t:"Full bladder",d:["Pelvis transabdominal","~1 L water, 1 h before"],icon:drop(1)},
+    {t:"Empty bladder",d:["Transvaginal pelvis"],icon:drop(0)},
+    {t:"No prep",d:["Thyroid, breast, scrotum,","soft tissue, vascular"],tone:"ok",icon:ok},
+  ],{cols:4,W:760,label:"Ultrasound preparation groups"}).replace(/<path d="M[\d.]+ [\d.]+l6 5-6 5"[^>]*\/>/g,"");
+}
+function figNormals(){
+  const rows=[["Common bile duct",0,6,12,"≤6 mm"],["Gallbladder wall",0,3,6,"≤3 mm"],["Portal vein",0,13,20,"&lt;13 mm"],["Spleen length",0,13,18,"≤12–13 cm"],["Kidney length",10,12,16,"10–12 cm"],["Abdominal aorta",0,3,5,"&lt;3.0 cm"],["Appendix",0,6,12,"≤6 mm"],["Endometrium, PM bleeding",0,4,10,"≤4 mm"],["Pyloric muscle (infant)",0,3,6,"&lt;3 mm"]];
+  const x0=200,W=330; let b="";
+  rows.forEach(([n,lo,hi,max,l],i)=>{
+    const y=8+i*32,sx=v=>x0+v/max*W;
+    b+=tx(x0-12,y+14,n,{a:"end"});
+    b+=`<rect x="${x0}" y="${y}" width="${W}" height="18" rx="4" class="t-warn"/><rect x="${sx(lo)}" y="${y}" width="${sx(hi)-sx(lo)}" height="18" rx="4" class="t-ok"/>`;
+    b+=tx(x0+W+12,y+14,l,{w:600});
+  });
+  return svg(640,12+rows.length*32,"Gauges of normal adult ultrasound measurements",b);
+}
+function figReactions(){
+  let b=box(0,0,720,74,"warn","Any reaction",["1  Stop the injection, keep IV access, call for help","2  Check airway, breathing, pulse, BP, SpO₂. O₂ 6–10 L/min beyond mild"]);
+  b+=`<path d="M360 74V92M${85.5} 92H${634.5}" class="s-mu" fill="none" stroke-width="1.6"/>`;
+  const cols=[["mid","Hives / itch",["Mild: observe","Symptomatic:","diphenhydramine","25–50 mg PO or IV"]],
+    ["warn","Wheeze",["Albuterol 2 puffs,","repeat up to 3×","Severe: epinephrine","IM 0.3–0.5 mg"]],
+    ["hot","Low BP + fast pulse",["Anaphylaxis","Legs up, IV fluid 1 L","Epinephrine IM 0.5 mg","(1 mg/mL)"]],
+    ["warn","Low BP + slow pulse",["Vasovagal","Legs up, IV fluid 1 L","No response: atropine","0.6–1 mg IV"]]];
+  const bw=(720-36)/4;
+  cols.forEach(([tone,t,ls],i)=>{ const x=i*(bw+12); b+=arrowD(x+bw/2,92,110)+box(x,110,bw,124,tone,t,ls); });
+  return svg(720,236,"Contrast reaction flowchart by reaction type",b);
+}
+function figEGFR(){
+  const x0=0,W=640,sx=v=>x0+Math.min(v,90)/90*W;
+  const seg=(y,a,z,tone,l)=>`<rect x="${sx(a)}" y="${y}" width="${sx(z)-sx(a)}" height="34" class="t-${tone}"/>`+tx((sx(a)+sx(z))/2,y+22,l,{a:"middle",w:600,s:12,c:tone==="hot"?"inv":""});
+  let b=tx(0,16,"Contrast-associated AKI risk",{c:"mu",w:600});
+  b+=seg(24,0,30,"hot","Higher risk: IV saline")+seg(24,30,45,"warn","Very low")+seg(24,45,90,"ok","Negligible risk");
+  b+=tx(0,84,"Metformin",{c:"mu",w:600});
+  b+=seg(92,0,30,"warn","Hold for 48 h")+seg(92,30,90,"ok","No need to stop");
+  [0,30,45,60,90].forEach((v,i,a)=>{ b+=`<line x1="${sx(v)}" y1="126" x2="${sx(v)}" y2="132" class="s-mu"/>`+tx(sx(v),148,v===90?"90+":v,{a:i===0?"start":i===a.length-1?"end":"middle",c:"mu",s:12}); });
+  b+=tx(320,168,"eGFR (mL/min/1.73 m²)",{a:"middle",c:"mu",s:12});
+  return svg(640,176,"eGFR bands for contrast risk and metformin",b);
+}
+function figGBCA(){
+  return ladder([
+    {k:"Group I",a:"Highest NSF risk",b:"Gadodiamide and others",c:"Avoid: eGFR&lt;30, AKI, dialysis",tone:"hot"},
+    {k:"Group II",a:"Very low NSF risk",b:"Gadobutrol, gadoterate…",c:"eGFR screen optional",tone:"ok"},
+    {k:"Group III",a:"Liver agent",b:"Gadoxetate",c:"Limited data",tone:"mid"},
+  ],{label:"ACR gadolinium agent groups"});
+}
+function figExtrav(){
+  return cards([
+    {t:"Stop",d:["Stop injection,","remove the cannula"]},
+    {t:"Elevate",d:["Limb above","heart level"]},
+    {t:"Compress",d:["Cold or warm","(no consensus)"]},
+    {t:"Document",d:["Volume, site,","symptoms"]},
+    {t:"Observe",d:["2–4 hours, written","instructions"]},
+    {n:"!",t:"Call surgery if",d:["Worsening swelling/pain","Poor perfusion, numbness","or blistering"],tone:"hot"},
+  ],{label:"Contrast extravasation steps"});
+}
+function figPreg(){
+  return cards([
+    {t:"US or MRI first",d:["When they answer","the question"],tone:"ok"},
+    {t:"Need CT or X-ray?",d:["Don't withhold it.","Fetal dose &lt;50 mGy: no","anomalies or loss linked"]},
+    {t:"Reduce dose",d:["Shield, collimate,","dose-reduced protocol"]},
+  ],{label:"Imaging in pregnancy decision steps"});
+}
+function figLungRADS(){
+  return ladder([
+    {k:"0",a:"Incomplete",c:"More imaging",tone:"mid"},{k:"1",a:"Negative",c:"LDCT 12 mo",tone:"ok"},{k:"2",a:"Benign",c:"LDCT 12 mo",tone:"ok"},
+    {k:"3",a:"Prob. benign",c:"LDCT 6 mo",tone:"mid"},{k:"4A",a:"Suspicious",c:"LDCT 3 mo",tone:"warn"},{k:"4B",a:"Very susp.",c:"Dx CT / PET",tone:"hot"},
+  ],{W:700,label:"Lung-RADS categories and follow-up"});
+}
+function figAdrenal(){
+  let b=box(0,0,240,66,"mid","Unenhanced CT",["Measure nodule HU"]);
+  b+=arrowR(240,400,33)+tx(320,25,"≤10 HU",{a:"middle",c:"ok",w:600,s:12});
+  b+=box(400,0,240,66,"ok","Lipid-rich adenoma",["No washout needed"]);
+  b+=arrowD(120,66,120)+tx(130,98,"&gt;10 HU",{c:"wa",w:600,s:12});
+  b+=box(0,120,240,66,"mid","Washout CT",["Enhanced 60–70 s + 15 min"]);
+  b+=arrowR(240,400,153)+tx(320,128,"APW ≥60%",{a:"middle",c:"ok",w:600,s:12})+tx(320,144,"or RPW ≥40%",{a:"middle",c:"ok",w:600,s:12});
+  b+=box(400,120,240,66,"ok","Consistent with adenoma",[]);
+  b+=arrowD(120,186,240)+tx(130,218,"Lower washout",{c:"wa",w:600,s:12});
+  b+=box(0,240,240,80,"warn","Indeterminate",["Priors, MRI chemical shift"]);
+  b+=box(400,240,240,80,"mid","Caution",["Pheo, hypervascular and HCC","metastases can also wash out"]);
+  return svg(640,320,"Adrenal nodule decision flow",b);
+}
+
 [
   ["ct-phases",0,"Timeline after injection",figPhases,"The scale changes after 2 minutes. Portal venous is the routine phase."],
   ["mammo-views",1,"CC and MLO at a glance",figViews],
@@ -645,6 +872,25 @@ function figDose(){
   ["tirads",1,"Levels at a glance",figTirads],
   ["fleischner",1,"Single solid nodule at a glance",figFleischner],
   ["bosniak",0,"Classes at a glance",figBosniak],
+  ["ct-head",1,"Set-up in three steps",figHeadSetup],
+  ["ct-head",5,"Search pattern: Blood Can Be Very Bad",figHeadSearch,"Go through these five in order on every head CT."],
+  ["ct-ap",0,"Workflow at a glance",figAP],
+  ["ct-pe",2,"Bolus tracking",figBolus,"Illustrative curve. Monitoring scans stop at the threshold, then a short delay before the scan."],
+  ["ct-kub",0,"Workflow at a glance",figKUB],
+  ["mammo-lexicon",1,"What each density looks like",figDensity,"Schematic drawings, not real images."],
+  ["mammo-lexicon",5,"Calcification shapes",figCalcs,"Schematic drawings. Use magnification views to judge real morphology."],
+  ["mammo-workup",0,"Pathway at a glance",figWorkup],
+  ["mri-safety",3,"What the labels look like",figMRLabels],
+  ["mri-brain",0,"Sequence order",figBrainProto],
+  ["us-prep",0,"Prep groups",figUSPrep],
+  ["us-normals",0,"Normal ranges at a glance",figNormals,"Green is the typical normal range. Check your department's cut-offs."],
+  ["contrast-reactions",1,"Flowchart",figReactions,"Laryngeal edema: O₂, epinephrine IM 0.5 mg, call the emergency team. Check doses against your department's chart."],
+  ["contrast-iodinated",0,"eGFR at a glance",figEGFR,"AKI at any eGFR counts as higher risk, and metformin is held."],
+  ["gbca",0,"Agent groups",figGBCA],
+  ["extravasation",0,"Steps at a glance",figExtrav],
+  ["pregnancy",0,"Decision steps",figPreg],
+  ["lungrads",0,"Categories at a glance",figLungRADS,"4X (category 3 or 4 with extra suspicious features) is managed as 4B."],
+  ["adrenal",1,"Decision flow",figAdrenal],
 ].forEach(([id,at,h,fn,cap])=>{ const t=TOPICS.find(x=>x.id===id); if(t) t.secs.splice(at,0,{h,fig:fn,cap}); });
 
 /* ---------- see it & watch it ---------- */

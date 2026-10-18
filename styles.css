@@ -159,7 +159,7 @@ footer.disc{font-size:.8rem;color:var(--muted);max-width:68ch;border-top:1px sol
 .fig .t-warn{fill:var(--warn-soft);stroke:var(--warn)}
 .fig .t-hot{fill:var(--warn);stroke:var(--warn)}
 .fig .t-acs{fill:var(--accent-soft);stroke:var(--accent)}
-.fig .f-ac{fill:var(--accent)} .fig .f-ok{fill:var(--ok)} .fig .f-mu{fill:var(--muted)} .fig .f-ink{fill:var(--ink)}
+.fig .f-inv{fill:var(--surface)} .fig .f-ac{fill:var(--accent)} .fig .f-ok{fill:var(--ok)} .fig .f-mu{fill:var(--muted)} .fig .f-ink{fill:var(--ink)}
 .fig .s-ln{stroke:var(--line)} .fig .s-mu{stroke:var(--muted)} .fig .s-ac{stroke:var(--accent)} .fig .s-ink{stroke:var(--ink)}
 .fig .s-ok{stroke:var(--ok)} .fig .s-wa{stroke:var(--warn)} .fig .s-inv{stroke:var(--surface)}
 .fig .tissue{fill:var(--warn-soft);stroke:var(--muted)}
