@@ -168,6 +168,7 @@ footer.disc{font-size:.8rem;color:var(--muted);max-width:68ch;border-top:1px sol
 .fig .nodule{fill:var(--accent);stroke:var(--surface);stroke-width:1.5}
 .fig .nod{fill:var(--muted)}
 .chip.fig{background:var(--accent-soft);color:var(--accent)}
+.src{font-size:.82rem;color:var(--muted);margin:-6px 0 0;padding-left:10px;border-left:2px solid var(--accent)}
 
 /* see it & watch it */
 .see{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Reading Room Handbook</title>
-<meta name="description" content="Quick reference for CT, mammography, MRI, ultrasound, X-ray, fluoroscopy, contrast safety and reporting systems.">
+<meta name="description" content="Quick reference and scan protocols for CT, mammography, MRI, ultrasound, X-ray, fluoroscopy, contrast safety and reporting systems.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
@@ -38,8 +38,10 @@
 <script>
 const MODS = [
   {id:"ct", name:"CT"},
+  {id:"ctp", name:"CT protocols"},
   {id:"mammo", name:"Mammography"},
   {id:"mri", name:"MRI"},
+  {id:"mrp", name:"MRI protocols"},
   {id:"us", name:"Ultrasound"},
   {id:"xr", name:"X-ray"},
   {id:"fluoro", name:"Fluoroscopy"},
@@ -47,6 +49,9 @@ const MODS = [
   {id:"report", name:"Reporting systems"},
 ];
 const MOD_NAME = Object.fromEntries(MODS.map(m=>[m.id,m.name]));
+
+// Source credit for the protocol topics summarised from the CT and MRI protocol book.
+const BOOK="Bhargava &amp; Bhargava, <i>CT and MRI Protocol: A Practical Approach</i>, 3rd ed. (2018)";
 
 const TOPICS = [
 /* ---------------- CT ---------------- */
@@ -419,6 +424,397 @@ const TOPICS = [
     ["IV","Enhancing nodule(s)","Surgery or ablation"],
   ]}},
   {h:"Note", p:"Use a dedicated renal-mass protocol (non-contrast + nephrographic phase) for accurate classification. Check the full Bosniak 2019 definitions before assigning a class."},
+]},
+/* ---------------- CT protocols (Bhargava) ---------------- */
+{id:"ctp-general", mod:"ctp", title:"Before any CT: patient prep", sum:"Fasting, kidney function, IV access, consent and after-care for contrast CT.", tags:["Prep","IV access","Consent"], src:BOOK, secs:[
+  {h:"Before the scan", list:[
+    "Fasting: the book uses about 6 hours before a contrast study. Many departments now fast for less or not at all, so follow local policy.",
+    "Check serum creatinine or eGFR from within the last 6 months in patients with risk factors.",
+    "Take consent for contrast. Ask about previous reactions, asthma, allergies, diabetes (metformin) and kidney disease.",
+    "Confirm pregnancy status in women of child-bearing age.",
+    "Remove metal and jewellery from the scan range and rehearse the breath-hold commands.",
+  ]},
+  {h:"IV access and injection", list:[
+    "18–20 G cannula in an antecubital vein, on the side away from the region of interest, so undiluted contrast in the vein doesn't streak over the target.",
+    "Use the pressure injector for timed phases and CTA.",
+    "Inject by hand only for small volumes, small-gauge cannulas, or central lines that aren't rated for power injection.",
+  ]},
+  {h:"After the scan", list:[
+    "Keep the cannula in and the patient nearby for about 30 minutes after contrast. Most reactions happen early.",
+    "Encourage oral fluids unless the patient is fluid-restricted.",
+    "For reaction treatment, use the Contrast & safety section.",
+  ]},
+  {h:"Where the book differs from the rest of this site", note:"Some values in this 2018 book are older than current ACR guidance. Examples: the routine abdomen delay is 40–60 s (this site: 65–70 s portal venous), and the contrast-reaction drug doses. Where they differ, the Contrast & safety section and your department's protocols take precedence.", tone:"info"},
+]},
+{id:"ctp-head", mod:"ctp", title:"Head & brain CT protocols", sum:"Routine, contrast, orbit, temporal bone, PNS, sella, CTA, venography, perfusion and cisternography.", tags:["Head","CTA","Perfusion"], src:BOOK, secs:[
+  {h:"Protocols", table:{head:["Study","Position / plane","Contrast (volume · rate · delay)","Slices","Notes"], rows:[
+    ["Routine head","Supine, axial parallel to the canthomeatal line","None","5–8 mm","Brain and bone windows"],
+    ["Contrast head","As routine","60–80 mL · 2–3 mL/s · 30–40 s","3–5 mm","Infection, tumour, metastases"],
+    ["Orbit","Prone coronal, or supine axial with coronal MPR","60–80 mL if needed","1–3 mm","Foreign body: no contrast"],
+    ["Temporal bone","Axial ± direct coronal","None","0.5–1 mm","Ultra-sharp (bone) kernel, each side reconstructed separately"],
+    ["Paranasal sinuses","Prone coronal, or axial with coronal MPR","None","1–1.5 mm","High-resolution: 16 × 0.5 mm"],
+    ["Sella / pituitary","Axial with coronal and sagittal MPR","40–50 mL · 3–4 mL/s","2–3 mm","CT only if MRI is not possible"],
+    ["CTA circle of Willis","Supine, C1 to vertex","100–150 mL · 4–5 mL/s · 20–25 s or bolus tracking","Thin","MIP, MPR and 3D VR"],
+    ["CT venography","Supine, whole head","80–100 mL · 3–4 mL/s · 80–100 s","Thin","Sinus thrombosis"],
+    ["CT perfusion","Fixed slab, cine mode","40–50 mL · ≥5 mL/s · scan starts with injection","5–10 mm","CBF, CBV, MTT maps"],
+    ["CT cisternography","Prone, coronal","15–20 mL intrathecal (lumbar puncture) · scan after 20–30 min","Thin","CSF leak"],
+  ]}},
+  {h:"Tips", list:[
+    "The contrast volumes for CTA here are the book's values. Modern multidetector scanners often get diagnostic CTA with less; check your local protocol.",
+    "In a stroke pathway, run non-contrast head first, then CTA ± perfusion, without moving the patient.",
+    "Angle the gantry or plan a tilted reconstruction to keep the lenses out of the beam where you can.",
+  ]},
+]},
+{id:"ctp-neck", mod:"ctp", title:"Neck CT protocols", sum:"Routine neck, larynx, carotid CTA, dacryocystography and sialography.", tags:["Neck","Larynx","Carotid"], src:BOOK, secs:[
+  {h:"Protocols", table:{head:["Study","Coverage / technique","Contrast (volume · rate · delay)","Notes"], rows:[
+    ["Routine neck","Aortic arch to skull base, quiet breathing, no swallowing","80–100 mL · 2–3 mL/s · 30–40 s","Vessels should reach >100 HU"],
+    ["Larynx","As routine, plus extra runs","As routine","Add phonation (“eee”) and modified Valsalva runs for cord movement and the pyriform sinuses"],
+    ["Carotid CTA","Aortic arch to circle of Willis","100–120 mL · 4–5 mL/s · 10–15 s or bolus tracking","MIP, curved MPR and VR"],
+    ["CT dacryocystography","Lipiodol into the canaliculi, then scan","Lipiodol","Coronal 2 mm and axial 5 mm, low dose (120 kV / 60 mAs)"],
+    ["CT sialography","Cannulate the parotid or submandibular duct, inject, then scan","Duct contrast","Stones, strictures, sialectasis"],
+  ]}},
+]},
+{id:"ctp-chest", mod:"ctp", title:"Chest CT protocols", sum:"Routine thorax, HRCT, nodule, CTPA, low-dose screening and airway studies.", tags:["Chest","HRCT","CTPA"], src:BOOK, secs:[
+  {h:"Protocols", table:{head:["Study","Contrast (volume · rate · delay)","Slices","Notes"], rows:[
+    ["Routine thorax","60–100 mL · 2–2.5 mL/s · 35–45 s","3–5 mm","Lung apices to adrenals"],
+    ["Non-contrast thorax","None","3–5 mm + thin lung recon","Nodule follow-up, interstitial disease"],
+    ["HRCT","None","0.5–1.5 mm every 10 mm (or volumetric), sharp kernel","Add prone images at the bases, and expiratory images at three levels (diagram)"],
+    ["Solitary nodule","As routine or none","1 mm, recon 0.5 mm through the nodule","Measure on thin sections"],
+    ["CTPA","Book: 3–4 mL/s · 15–20 s, or a 15 mL test bolus","Thin","Goal >200 HU in the pulmonary arteries. See also CT pulmonary angiography under CT."],
+    ["CTPA + leg venography","Total about 150 mL","Legs at 180–210 s","Veins should reach >85 HU"],
+    ["Low-dose screening","None","3 mm, recon 1.5 mm","Low mAs; report with Lung-RADS"],
+    ["Dynamic airway","None","2.5 mm, pitch 1.5","Inspiratory run about 170 mAs, then low-dose expiratory run (40 mAs, 120 kVp)"],
+    ["Airway / virtual bronchoscopy","None","Thin, overlapping","Virtual bronchoscopy thresholds about −520 (central) to −720 HU (peripheral)"],
+  ]}},
+  {h:"HRCT tips", list:[
+    "Prone images separate dependent atelectasis from early fibrosis at the posterior bases.",
+    "Expiratory images show air trapping (mosaic attenuation that persists in expiration).",
+    "Dynamic airway: a large drop in tracheal calibre on expiration (commonly >50%) suggests tracheomalacia.",
+  ]},
+]},
+{id:"ctp-cardiac", mod:"ctp", title:"Cardiac CT & aorta", sum:"Calcium score, coronary CTA with heart-rate control, and the aorta.", tags:["Cardiac","Coronary","Aorta"], src:BOOK, secs:[
+  {h:"Calcium score", list:[
+    "No contrast. Prospective ECG gating at about 70% of the R-R interval, 2–3 mm sections.",
+    "Calcium is counted where attenuation is ≥130 HU over an area of at least 1 mm² (Agatston).",
+  ]},
+  {h:"Coronary CTA", list:[
+    "Target heart rate about 60–68 bpm, with a steady rhythm.",
+    "Rate control in the book: oral metoprolol 50 mg, repeated after 30 min if needed, or IV metoprolol 3 mg every 10 min up to 3 doses. Check contraindications (asthma, heart block, hypotension) and follow local policy.",
+    "Contrast 60–100 mL at 4–5 mL/s (larger patients up to 100–140 mL). Time it with a test bolus, then add about 6 s.",
+    "Reconstruct 40–80% of the R-R interval in 5% steps. The RCA is often sharpest at 40–50%, the circumflex at 60–70%.",
+  ]},
+  {h:"Aorta", list:[
+    "Inject the right arm, so dense contrast in the left brachiocephalic vein doesn't streak across the arch.",
+    "100–150 mL at 4–5 mL/s, delay 25–30 s or bolus tracking. Aim for >200 HU in the aorta.",
+    "Suspected dissection: add a delayed run at about 70 s to show a slow-filling false lumen.",
+  ]},
+]},
+{id:"ctp-abdomen", mod:"ctp", title:"Abdominal CT: routine & multiphase", sum:"Routine abdomen, liver phases, pancreas, adrenal and CT cholangiography.", tags:["Abdomen","Liver","Pancreas"], src:BOOK, secs:[
+  {h:"Protocols", table:{head:["Study","Oral","IV contrast and phases","Notes"], rows:[
+    ["Routine abdomen","750–1000 mL of 1–2% positive contrast over about 1 h","60–100 mL · 2–3 mL/s · 40–60 s (book)","This site and most current protocols use 65–70 s portal venous"],
+    ["Triphasic liver","Water","Early arterial 15–20 s, late arterial 35–45 s, portal 60–80 s","Hypervascular lesions, HCC"],
+    ["Biphasic liver","Water","Arterial about 20 s, portal 50–60 s","Liver lesion work-up"],
+    ["Pancreas","Water (neutral)","Phases at about 20 s and 40–50 s","Pancreatic phase gives the best tumour contrast"],
+    ["Adrenal","None","Unenhanced first. If &lt;10 HU, stop. Otherwise scan at 70 s and 15 min","Adenoma if absolute washout >60% or relative >40%. See the adrenal calculator."],
+    ["CT cholangiography","None","IV meglumine iotroxate 150 mL dripped over 60 min, or oral iopanoic acid 6 g beforehand","Biliary anatomy, leaks"],
+  ]}},
+  {h:"Tips", list:[
+    "Use water as oral contrast whenever you need to see enhancing bowel wall, the pancreas or vessels; positive oral contrast hides them.",
+    "Keep a non-contrast series in liver, adrenal and renal-mass protocols as the baseline for measuring enhancement.",
+  ]},
+]},
+{id:"ctp-uro", mod:"ctp", title:"CT urography & renal mass", sum:"Standard and split-bolus urography, and the renal-mass protocol.", tags:["Kidney","Urography","Split bolus"], src:BOOK, secs:[
+  {h:"Standard CT urography", list:[
+    "Unenhanced scan for stones and baseline HU.",
+    "Enhanced phases at about 35–45 s (corticomedullary) and 60–80 s, then an excretory phase. Excretory timing varies; 5–15 min is common.",
+    "Good hydration helps distend the collecting systems.",
+  ]},
+  {h:"Split-bolus urography", list:[
+    "First bolus 50 mL. Wait about 5 minutes for it to reach the collecting systems.",
+    "Second bolus 80 mL at 3 mL/s, then one scan about 100 s later.",
+    "The single run is nephrographic and excretory at once: fewer scans and less dose.",
+  ]},
+  {h:"Renal mass", list:[
+    "About 150 mL at 2–4 mL/s, with an unenhanced run first.",
+    "Corticomedullary 25–70 s, nephrographic 80–180 s, excretory after 180 s.",
+    "The nephrographic phase is best for spotting and characterising masses. Classify cysts with Bosniak 2019.",
+  ]},
+]},
+{id:"ctp-bowel", mod:"ctp", title:"Bowel CT: enterography, enteroclysis, colonography", sum:"Small-bowel distension schedules and virtual colonoscopy.", tags:["Bowel","Enterography","Colonography"], src:BOOK, secs:[
+  {h:"CT enterography", list:[
+    "About 1.5 L of neutral oral contrast over an hour: 500 mL at 60 min, 500 mL at 40 min, 250 mL at 20 min and 250 mL at 10 min before the scan.",
+    "IV contrast about 125 mL at 4 mL/s, scan at about 65 s.",
+    "Thin axial with coronal reconstructions. Look for wall thickening, mural hyperenhancement, strictures and the comb sign.",
+  ]},
+  {h:"CT enteroclysis", list:[
+    "Nasojejunal tube, then methylcellulose by pump at about 40–50 mL/min.",
+    "IV Buscopan reduces peristalsis (check for glaucoma, cardiac disease, prostatism).",
+  ]},
+  {h:"CT colonography", list:[
+    "Bowel preparation with faecal tagging (oral positive contrast) the day before.",
+    "Distend the colon with CO₂ (preferred) or room air through a rectal tube.",
+    "Scan supine and prone so fluid and stool move and the whole colon is distended at least once.",
+    "Screening studies can be low dose (book: ≤50 mAs).",
+  ]},
+]},
+{id:"ctp-angio", mod:"ctp", title:"Body CTA & runoff", sum:"Abdominal CTA and lower-limb runoff.", tags:["CTA","Runoff","Vascular"], src:BOOK, secs:[
+  {h:"Protocols", table:{head:["Study","Coverage","Contrast (volume · rate · delay)","Slices"], rows:[
+    ["Abdominal CTA","Diaphragm to groins","100–130 mL · 3–5 mL/s · 15–20 s or bolus tracking","1–2 mm"],
+    ["Lower-limb runoff","Renal arteries (or diaphragm) to toes","120–150 mL · 3–4 mL/s · 20–30 s or bolus tracking","Thin, MIP and VR"],
+    ["Thoracic aorta","See Cardiac CT & aorta","100–150 mL · 4–5 mL/s · 25–30 s","Thin"],
+  ]}},
+  {h:"Tips", list:[
+    "Runoff: don't outrun the bolus. Match table speed to the contrast, or add a second delayed run of the calves if they are underfilled.",
+    "Use water or no oral contrast for CTA; positive oral contrast gets in the way of MIP and 3D images.",
+  ]},
+]},
+{id:"ctp-msk", mod:"ctp", title:"MSK CT, arthrography & myelography", sum:"Joint and spine CT, CT arthrography volumes and CT myelography.", tags:["MSK","Arthrography","Spine"], src:BOOK, secs:[
+  {h:"Joints and spine", list:[
+    "Thin acquisition (about 0.5–1 mm) with bone and soft-tissue kernels, plus MPR and 3D VR for fractures.",
+    "Scan only the injured side where possible. For the wrist and elbow, raise the arm above the head (prone “superman”) to keep the body out of the beam.",
+    "Spine: 1–2 mm. For infection or tumour, add IV contrast 60–100 mL at 40–50 s.",
+  ]},
+  {h:"CT arthrography: typical volumes", table:{head:["Joint","Volume"], rows:[
+    ["Shoulder","12–15 mL"],["Elbow","7–10 mL"],["Wrist (radiocarpal or midcarpal)","3–4 mL"],["Distal radioulnar joint","1–2 mL"],
+    ["Hip","10–12 mL"],["Knee","20–30 mL"],["Ankle","7–12 mL"],
+  ]}},
+  {h:"CT myelography", list:[
+    "10–15 mL of non-ionic contrast approved for intrathecal use, by lumbar puncture.",
+    "Roll the patient to mix, then scan after about 10–20 minutes.",
+    "Use it when MRI isn't possible (pacemaker, severe claustrophobia) or for CSF leaks and root compression.",
+  ]},
+]},
+{id:"ctp-paeds", mod:"ctp", title:"Paediatric CT", sum:"Fasting, sedation, weight-based contrast and kV/mA settings for children.", tags:["Paediatric","Dose","Sedation"], src:BOOK, secs:[
+  {h:"Preparation", list:[
+    "Fast for about 3 hours before a sedated or contrast study.",
+    "Sedate only under your department's paediatric sedation policy, with trained staff and monitoring.",
+  ]},
+  {h:"Oral sedation doses in the book", table:{head:["Drug","Dose","Maximum"], rows:[
+    ["Chloral hydrate","50–100 mg/kg","2 g"],["Triclofos","30–50 mg/kg","—"],["Pentobarbital","6 mg/kg","200 mg"],
+  ]}},
+  {h:"Contrast", list:[
+    "2 mL/kg of 240 mgI/mL contrast (maximum 4 mL/kg).",
+    "Rate 1.5–2 mL/s through a 22 G cannula, 2–3 mL/s through a 20 G cannula.",
+    "CTA delay: about 12–15 s under 2 years, 20–22 s over 2 years.",
+  ]},
+  {h:"Weight-based settings", table:{head:["Weight","mA","kV"], rows:[
+    ["&lt;15 kg","25","80"],["15–24 kg","30","80"],["25–34 kg","45","80"],["35–44 kg","75","80"],["45–54 kg","100","80–100"],["&gt;54 kg","120–140","100–120"],
+  ]}},
+  {h:"Dose", list:["Use a high pitch (above 1.5) to shorten the scan and reduce motion.","Scan one phase only unless a second is clearly needed.","Limit coverage to the area in question."]},
+]},
+{id:"ctp-intervention", mod:"ctp", title:"CT-guided biopsy & drainage", sum:"Preparation, needle-path rules and after-care for CT-guided procedures.", tags:["Biopsy","Drainage","Intervention"], src:BOOK, secs:[
+  {h:"Before", list:[
+    "Check coagulation and platelets against your department's thresholds. Plan anticoagulant holds in advance.",
+    "Clear fluids only beforehand (book: for 10–12 hours), per local sedation policy.",
+    "Consent, IV access, and a planning scan with a grid or marker on the skin.",
+  ]},
+  {h:"Needle-path rules", list:[
+    "Chest wall: pass along the upper border of the rib to avoid the intercostal bundle under each rib. Avoid the internal mammary vessels next to the sternum.",
+    "Upper abdomen: puncture in expiration to keep the needle below the pleura.",
+    "Adrenal mass: rule out phaeochromocytoma (biochemistry) before any biopsy.",
+    "Pelvis: empty the bladder first.",
+    "Choose the shortest path that avoids vessels, bowel and fissures.",
+  ]},
+  {h:"After", list:[
+    "Check scan for complications such as pneumothorax or bleeding.",
+    "Observe per local policy (book: at least 30 minutes; lung and liver biopsies often need longer).",
+  ]},
+]},
+{id:"ctp-dose", mod:"ctp", title:"CT dose & special techniques", sum:"CTDIvol, DLP, low-dose protocols, dual source, PET-CT and virtual endoscopy.", tags:["Dose","Low dose","PET-CT"], src:BOOK, secs:[
+  {h:"Dose numbers on the console", list:[
+    "CTDIvol (mGy): dose per slice for the scan settings. Compare it with your diagnostic reference levels.",
+    "DLP (mGy·cm) = CTDIvol × scan length.",
+    "Effective dose (mSv) ≈ DLP × a region factor. Commonly used adult factors: head 0.0021, chest 0.014, abdomen-pelvis 0.015.",
+  ]},
+  {h:"Lowering dose", list:[
+    "Automatic tube-current modulation and iterative reconstruction.",
+    "Lower kV for CTA and small patients.",
+    "Scan only the coverage and phases the question needs.",
+    "Low-dose renal colic example from the book: 5 mm, pitch 1.25, 120 kV, 30 mAs.",
+  ]},
+  {h:"Special techniques", table:{head:["Technique","Key points"], rows:[
+    ["Dual source / dual energy","Two tubes about 90° apart. Faster cardiac imaging, iodine maps and virtual non-contrast images."],
+    ["PET-CT","Fast 4–6 h, blood glucose &lt;150 mg/dL, about 10 mCi (370 MBq) FDG, rest quietly, image at about 60 min. Empty the bladder before the scan."],
+    ["Virtual endoscopy","Thin overlapping data. Bronchoscopy thresholds about −520 to −720 HU; colonography in CT colonography."],
+    ["Dynamic CT","Repeated scans over one level to follow enhancement over time (perfusion, some liver and adrenal work)."],
+  ]}},
+]},
+
+/* ---------------- MRI protocols (Bhargava) ---------------- */
+{id:"mrp-general", mod:"mrp", title:"Before any MRI: technique basics", sum:"Prep, gadolinium dose, chemical-shift timing and plane conventions.", tags:["Prep","Gadolinium","In/out phase"], src:BOOK, secs:[
+  {h:"Before the scan", list:[
+    "Safety screening first (see MRI safety screening &amp; zones).",
+    "Fast for about 4–6 hours for abdominal MRI and MRCP.",
+    "Earplugs or headphones for every patient. Prepare claustrophobic patients early.",
+    "IV cannula before positioning if contrast is likely.",
+  ]},
+  {h:"Gadolinium", list:[
+    "Standard dose about 0.1 mmol/kg. Some MRA and perfusion protocols use up to 0.2 mmol/kg.",
+    "Check eGFR and agent group (see Gadolinium contrast (GBCA)).",
+  ]},
+  {h:"Chemical shift (in and out of phase)", table:{head:["Field","Opposed phase TE","In-phase TE"], rows:[
+    ["1.5 T","≈2.3 ms","≈4.6 ms"],["3 T","≈1.15 ms","≈2.3 ms"],
+  ]}},
+  {h:"Tips", list:[
+    "Signal drop on opposed-phase means fat and water in the same voxel: adrenal adenoma, fatty liver.",
+    "Run the opposed-phase echo first (shorter TE), so a drop isn't just T2* decay.",
+  ]},
+]},
+{id:"mrp-brain", mod:"mrp", title:"Brain MRI protocols", sum:"Core sequences and add-ons for routine, MS, epilepsy, stroke, trauma, tumour, pituitary and more.", tags:["Brain","Epilepsy","Pituitary"], src:BOOK, secs:[
+  {h:"Protocols", table:{head:["Protocol","Core sequences","Add-ons and tips"], rows:[
+    ["Routine brain","Sag T1, ax T2, ax FLAIR, ax DWI/ADC, ax T2*/SWI","Post-contrast T1 for infection or tumour"],
+    ["MS / demyelination","Sag 3D FLAIR, ax T2/PD, DWI, post-contrast T1","Magnetisation transfer improves enhancement contrast. Add cervical cord if needed."],
+    ["Epilepsy","Coronal T2 and FLAIR perpendicular to the hippocampus, 3D T1 volume","Hippocampal T2 relaxometry and volumetry (below)"],
+    ["Stroke","DWI/ADC, FLAIR, T2*/SWI, TOF MRA","Perfusion when available; DWI–FLAIR mismatch helps time onset"],
+    ["Trauma","FLAIR, DWI, SWI or T2*","SWI shows microbleeds of diffuse axonal injury"],
+    ["Mass (SOL)","Pre and post-contrast T1, T2, FLAIR, DWI","Perfusion and MR spectroscopy"],
+    ["Pituitary","Thin (2–3 mm) sag and cor T1, cor T2","Dynamic coronal post-contrast T1 for microadenoma"],
+    ["Cranial nerves / IAM","3D heavily T2-weighted (CISS / FIESTA)","Thin post-contrast T1"],
+    ["MRA","3D time-of-flight of the circle of Willis","No contrast needed"],
+    ["MRV","2D TOF or phase contrast","Or contrast-enhanced MRV"],
+    ["CSF flow","Phase contrast at the aqueduct, cardiac gated","VENC about 10–20 cm/s"],
+    ["fMRI","BOLD EPI during a task","Pre-surgical mapping"],
+  ]}},
+  {h:"Hippocampal measurements (book values)", list:[
+    "T2 relaxometry: normal about 94–105 ms. 107 ms or more is abnormal (sclerosis).",
+    "Volumetry: a left–right difference of more than about 0.3 cc is significant.",
+  ]},
+]},
+{id:"mrp-mrs", mod:"mrp", title:"MR spectroscopy", sum:"Metabolite peaks, choice of TE and typical patterns.", tags:["MRS","Tumour","Metabolites"], src:BOOK, secs:[
+  {h:"Metabolites", table:{head:["Peak","ppm","Marker of"], rows:[
+    ["Lipids","0.9–1.3","Necrosis"],
+    ["Lactate","1.33 (doublet)","Anaerobic metabolism. Inverted at TE 144."],
+    ["Alanine","1.48","Meningioma"],
+    ["NAA","2.0","Neurons. The tallest normal peak."],
+    ["Glutamate/glutamine (Glx)","2.1–2.5","Neurotransmitters; hepatic encephalopathy"],
+    ["Creatine (Cr)","3.0","Energy; stable reference"],
+    ["Choline (Cho)","3.2","Cell-membrane turnover; tumours"],
+    ["Myo-inositol (mI)","3.56","Glial marker; short TE only"],
+  ]}},
+  {h:"Which TE", table:{head:["TE","Use"], rows:[
+    ["Short (≈30 ms)","Most peaks, including myo-inositol and Glx"],
+    ["Intermediate (≈144 ms)","Lactate flips below the baseline, separating it from lipid"],
+    ["Long (≈270 ms)","Cleaner baseline; lactate upright again"],
+  ]}},
+  {h:"Typical patterns", list:[
+    "Normal: NAA > Cr > Cho in the “rising” line from Cho to NAA (Hunter's angle about 45°).",
+    "High-grade tumour: choline up, NAA down, often lipid–lactate.",
+    "Abscess: amino acids (0.9), acetate (1.9), succinate (2.4) and lactate.",
+    "Radiation necrosis: all peaks low, with lipid–lactate.",
+    "Canavan disease: very high NAA.",
+  ]},
+]},
+{id:"mrp-headneck", mod:"mrp", title:"Head & neck MRI protocols", sum:"Orbit, temporal bone, sinuses, skull base, neck, brachial plexus and carotids.", tags:["Orbit","Neck","Brachial plexus"], src:BOOK, secs:[
+  {h:"Protocols", table:{head:["Area","Key sequences","Tips"], rows:[
+    ["Orbit","Thin (3 mm) ax and cor T1, fat-suppressed T2 or STIR, post-contrast fat-suppressed T1","Eyes closed and still; screen for metal foreign bodies"],
+    ["Temporal bone / IAM","3D heavily T2-weighted, thin post-contrast T1","Acoustic schwannoma, labyrinthitis"],
+    ["Paranasal sinuses / skull base","Ax and cor T1, T2, post-contrast fat-suppressed T1","Separates tumour from retained secretions; perineural spread"],
+    ["Neck","Ax T1, ax T2 fat-suppressed or STIR, DWI, ax and cor post-contrast fat-suppressed T1","Skull base to thoracic inlet"],
+    ["Brachial plexus","Cor STIR, cor and sag T1, 3D STIR","Cover C4 to T2, both sides for comparison"],
+    ["Carotid MRA","Contrast-enhanced MRA and/or TOF","Dissection: axial fat-suppressed T1 shows the crescent of mural haematoma"],
+    ["Cine airway MRI","Fast dynamic imaging during breathing or sleep","Obstructive sleep apnoea level"],
+  ]}},
+]},
+{id:"mrp-body", mod:"mrp", title:"Breast, cardiac & chest MRI", sum:"Breast timing and implants, cardiac function and mass protocols, thorax.", tags:["Breast","Cardiac","Implants"], src:BOOK, secs:[
+  {h:"Breast", list:[
+    "Scan on days 5–15 of the menstrual cycle to reduce background enhancement.",
+    "Prone in a dedicated breast coil. Pre-contrast, dynamic post-contrast with subtraction, T2 and DWI. See Breast MRI under MRI for kinetic curves.",
+    "Implant protocol: no contrast. Silicone-sensitive and silicone-suppressed sequences look for rupture (linguine sign).",
+  ]},
+  {h:"Cardiac", list:[
+    "LV function: ECG-gated cine (SSFP) in short-axis, 2-, 3- and 4-chamber views, breath-hold.",
+    "Cardiac mass: T1 and T2 with and without fat suppression, first-pass perfusion, late gadolinium enhancement about 10 minutes after contrast.",
+  ]},
+  {h:"Thorax", list:["Mediastinal and chest-wall masses: T1, fat-suppressed T2, post-contrast, with cardiac and respiratory gating."]},
+]},
+{id:"mrp-abdomen", mod:"mrp", title:"Abdominal MRI protocols", sum:"Liver phases, pancreas, MRCP, adrenal, kidney and MR enterography.", tags:["Liver","MRCP","Adrenal"], src:BOOK, secs:[
+  {h:"Protocols", table:{head:["Study","Key sequences","Tips"], rows:[
+    ["Liver","T1 in and out of phase, T2 fat-suppressed, DWI, dynamic post-contrast T1","Pre-contrast, arterial (bolus-timed), portal venous 45–60 s, delayed 120–180 s. Gadoxetate adds a 20 min hepatobiliary phase."],
+    ["Pancreas","As liver plus MRCP","Thin T1 fat-suppressed; pancreatic phase for tumours"],
+    ["MRCP","Heavy T2 thick-slab radial and thin 3D","Fast 4 h. Negative oral contrast (e.g. pineapple juice) can dull fluid in the bowel."],
+    ["Adrenal","T1 in and out of phase","For nodules over about 1 cm. Signal drop on opposed phase = lipid-rich adenoma."],
+    ["Kidney","T1 in/out of phase, T2, DWI, dynamic post-contrast with subtraction","Renal masses; subtraction shows true enhancement"],
+    ["MR enterography / enteroclysis","Coronal SSFP and single-shot T2, DWI, post-contrast T1","Oral PEG or mannitol (or tube infusion for enteroclysis) and IV Buscopan"],
+  ]}},
+]},
+{id:"mrp-pelvis", mod:"mrp", title:"Pelvic MRI protocols", sum:"Female pelvis, prostate and male pelvis, scrotum and perianal fistula.", tags:["Pelvis","Prostate","Fistula"], src:BOOK, secs:[
+  {h:"Protocols", table:{head:["Study","Key sequences","Tips"], rows:[
+    ["Female pelvis","Sag T2, axial oblique T2 to the uterus or cervix, ax T1, DWI, post-contrast T1","Partly full bladder; Buscopan reduces bowel motion"],
+    ["Prostate / male pelvis","High-resolution T2 in three planes, DWI with high b-value, dynamic post-contrast","Report with PI-RADS"],
+    ["Scrotum","T2 and T1 in two planes, post-contrast T1","Support the scrotum on a towel"],
+    ["Perianal fistula","Axial and coronal oblique STIR or T2 fat-suppressed, angled to the anal canal; post-contrast fat-suppressed T1","Classify by Parks; describe the internal opening and abscesses"],
+  ]}},
+]},
+{id:"mrp-angio", mod:"mrp", title:"Body MRA & venography", sum:"Contrast and non-contrast MRA of the aorta, renal, pelvic and leg arteries, and veins.", tags:["MRA","MRV","Vascular"], src:BOOK, secs:[
+  {h:"Protocols", list:[
+    "Contrast-enhanced MRA: a fast 3D T1 gradient-echo during the first pass of contrast. Time it with a test bolus or a fluoroscopic trigger.",
+    "Aorta and renal arteries: breath-hold coronal 3D, with subtraction and MIP.",
+    "Pelvic and leg arteries: a multi-station “bolus chase”, moving the table down the legs with the contrast.",
+    "Non-contrast options: time-of-flight and SSFP-based techniques when gadolinium is unsuitable.",
+    "IVC and venous MRV: delayed (venous phase) contrast imaging or non-contrast techniques.",
+    "MR lymphangiography: gadolinium injected into lymph nodes, then dynamic 3D imaging.",
+  ]},
+]},
+{id:"mrp-msk", mod:"mrp", title:"MSK & spine MRI protocols", sum:"Joint protocols, MR arthrography and spine.", tags:["MSK","Arthrography","Spine"], src:BOOK, secs:[
+  {h:"Joints", table:{head:["Joint","Position and planes","Key sequences"], rows:[
+    ["Shoulder","Arm by the side, thumb up. Oblique coronal along the supraspinatus, oblique sagittal, axial.","PD fat-suppressed, T1"],
+    ["Knee","Slight flexion. Sagittal, coronal, axial.","PD with and without fat suppression, T1 coronal"],
+    ["Hip","Both hips coronal and axial, plus oblique axial on the side of interest","STIR or PD fat-suppressed, T1"],
+    ["TMJ","Oblique sagittal and coronal, mouth closed and open","PD; dynamic open-mouth series"],
+    ["Elbow / wrist / ankle","Dedicated coil, small field of view, three planes","PD fat-suppressed, T1, T2*"],
+  ]}},
+  {h:"MR arthrography", list:[
+    "Use dilute gadolinium. The book's shoulder mix is about 0.2–0.4 mL in 100 mL of saline, with 10–15 mL injected.",
+    "Knee: about 30–40 mL of dilute solution.",
+    "Image with fat-suppressed T1 in three planes, soon after the injection.",
+  ]},
+  {h:"Spine", list:[
+    "Sagittal T1, T2 and STIR; axial T2 through the levels of interest.",
+    "Post-contrast fat-suppressed T1 for infection, tumour and post-operative spine.",
+  ]},
+]},
+{id:"mrp-glossary", mod:"mrp", title:"MRI sequence names by vendor", sum:"The same sequence has a different name on GE, Siemens and Philips.", tags:["Glossary","Vendors","Sequences"], src:BOOK, secs:[
+  {h:"Equivalent names", table:{head:["Sequence","GE","Siemens","Philips"], rows:[
+    ["Fast spin echo","FSE","TSE","TSE"],
+    ["Single-shot fast spin echo","SSFSE","HASTE","SSh-TSE"],
+    ["Spoiled gradient echo","SPGR","FLASH","T1-FFE"],
+    ["Balanced steady state","FIESTA","TrueFISP","Balanced FFE"],
+    ["3D T1 volume (brain)","BRAVO","MPRAGE","3D TFE"],
+    ["3D T1 fat-suppressed (body)","LAVA","VIBE","THRIVE"],
+    ["Heavy T2 3D (IAM)","FIESTA-C","CISS","DRIVE"],
+    ["Susceptibility weighted","SWAN","SWI","SWIp"],
+  ]}},
+  {h:"Abbreviations", table:{head:["Term","Meaning"], rows:[
+    ["STIR","Short tau inversion recovery: fat suppression by inversion time; robust off-centre and at low field"],
+    ["FLAIR","Fluid-attenuated inversion recovery: dark CSF, bright oedema"],
+    ["DWI / ADC","Diffusion-weighted imaging and its apparent diffusion coefficient map"],
+    ["TOF","Time of flight: bright inflowing blood, no contrast"],
+    ["VENC","Velocity encoding: the fastest flow a phase-contrast scan measures without aliasing"],
+    ["PD","Proton density weighting: the MSK workhorse"],
+    ["SSFP","Steady-state free precession: bright blood and fluid, fast"],
+  ]}},
+]},
+
+/* ---------------- Contrast (Bhargava) ---------------- */
+{id:"contrast-agents", mod:"contrast", title:"Contrast agents & premedication", sum:"Osmolality, oral and rectal CT agents, and premedication regimens.", tags:["Osmolality","Oral contrast","Premedication"], src:BOOK, secs:[
+  {h:"Iodinated agents", table:{head:["Group","Osmolality (mOsm/kg)","Notes"], rows:[
+    ["Plasma","≈300","Reference"],
+    ["Iso-osmolar (iodixanol)","≈290","Dimer"],
+    ["Low-osmolar non-ionic (LOCM)","≈400–750","Standard IV agents today"],
+    ["High-osmolar ionic (HOCM)","≈1400–1800","More reactions; not used IV now"],
+  ]}},
+  {h:"Premedication for prior allergic-like reaction", list:[
+    "Oral prednisone 50 mg at 13, 7 and 1 hour before, plus diphenhydramine 50 mg 1 hour before.",
+    "Or oral methylprednisolone 32 mg at 12 and 2 hours before, ± diphenhydramine 50 mg 1 hour before.",
+    "These match the ACR elective regimens. Premedication lowers risk but doesn't remove it, so keep the treatment kit ready.",
+  ]},
+  {h:"Oral and rectal CT agents", list:[
+    "Positive oral: dilute water-soluble iodinated contrast (book: about 30 mL Gastrografin in 1 L of fluid) or dilute barium.",
+    "Book timing: about 400 mL an hour before the scan and another 400 mL immediately before.",
+    "Neutral oral: water, or PEG/mannitol solutions for enterography.",
+    "Rectal: dilute water-soluble contrast for pelvic and colorectal work.",
+  ]},
+  {h:"Note", note:"For reaction treatment doses and kidney-function rules, use Contrast reaction management and Iodinated contrast: kidneys, metformin, premedication. Those topics follow the current ACR Manual.", tone:"info"},
 ]},
 ];
 
@@ -857,6 +1253,130 @@ function figAdrenal(){
   return svg(640,320,"Adrenal nodule decision flow",b);
 }
 
+function figCTPrep(){
+  return cards([
+    {t:"Screen",d:["Prior reaction, asthma,","eGFR within 6 months"]},
+    {t:"Fast",d:["Book: about 6 h","Follow local policy"]},
+    {t:"Consent",d:["Contrast consent","Pregnancy check"]},
+    {t:"Cannula",d:["18–20 G antecubital","Side away from target"]},
+    {t:"Inject",d:["Pump for timed phases","Hand for small volumes"]},
+    {t:"Observe",d:["Cannula in, nearby","about 30 minutes"],tone:"ok"},
+  ],{label:"Contrast CT preparation steps"});
+}
+function figHRCT(){
+  let b=`<path d="M300 52C240 40 172 96 162 200C158 236 160 262 168 278Q232 250 302 262Z" class="t-mid s-mu" stroke-width="1.5"/>
+    <path d="M340 52C400 40 468 96 478 200C482 240 480 274 474 290Q410 270 338 276Z" class="t-mid s-mu" stroke-width="1.5"/>
+    <ellipse cx="338" cy="236" rx="62" ry="44" class="f-mu" opacity=".35"/>
+    <path d="M310 18V122L284 150M330 18V122L356 150" class="s-ink" fill="none" stroke-width="3"/>
+    <path d="M298 112Q330 60 368 112" class="s-ink" fill="none" stroke-width="7" opacity=".55"/>`;
+  b+=tx(186,40,"R",{a:"middle",c:"mu",w:600})+tx(454,40,"L",{a:"middle",c:"mu",w:600});
+  [[96,"1","Aortic arch"],[128,"2","Carina"],[238,"3","2 cm above the right","hemidiaphragm"]].forEach(([y,n,l1,l2])=>{
+    b+=`<line x1="140" y1="${y}" x2="500" y2="${y}" class="s-ac" stroke-width="2" stroke-dasharray="6 4"/>`;
+    b+=`<circle cx="520" cy="${y}" r="11" class="f-ac"/>`+tx(520,y+4.5,n,{a:"middle",c:"inv",w:600,s:12});
+    b+=tx(540,y+5,l1,{w:600})+(l2?tx(540,y+23,l2,{w:600}):"");
+  });
+  b+=`<path d="M168 278Q232 250 302 262" class="s-wa" fill="none" stroke-width="2"/>`+tx(150,300,"Right hemidiaphragm (higher)",{c:"mu",s:12});
+  return svg(680,320,"Frontal chest schematic with the three expiratory HRCT levels",b);
+}
+function figCoronary(){
+  return cards([
+    {t:"Check rate",d:["Target 60–68 bpm","Steady rhythm"]},
+    {t:"Rate control",d:["Metoprolol if needed,","per local policy"]},
+    {t:"Test bolus",d:["Find the peak time","Delay = peak + 6 s"]},
+    {t:"Inject",d:["60–100 mL","at 4–5 mL/s"]},
+    {t:"Scan",d:["ECG-gated,","breath-hold"],tone:"ok"},
+    {t:"Reconstruct",d:["40–80% R-R in 5% steps","RCA 40–50% · LCx 60–70%"]},
+  ],{label:"Coronary CTA steps"});
+}
+function figSplit(){
+  const sx=t=>40+t/400*480,y=104; let b="";
+  b+=`<rect x="${sx(0)}" y="34" width="${sx(300)-sx(0)-4}" height="36" rx="6" class="t-acs"/>`+tx((sx(0)+sx(300))/2,57,"≈5 min wait · bolus 1 → collecting systems",{a:"middle"});
+  b+=`<rect x="${sx(300)}" y="34" width="${sx(400)-sx(300)}" height="36" rx="6" class="t-mid"/>`+tx((sx(300)+sx(400))/2,57,"100 s",{a:"middle",w:600});
+  b+=`<line x1="${sx(0)}" y1="${y}" x2="${sx(400)+20}" y2="${y}" class="s-mu" stroke-width="1.5"/>`;
+  b+=`<circle cx="${sx(0)}" cy="${y}" r="7" class="f-ac"/><circle cx="${sx(300)}" cy="${y}" r="7" class="f-ac"/><circle cx="${sx(400)}" cy="${y}" r="8" class="f-ok"/>`;
+  b+=tx(sx(0),y+28,"Bolus 1",{w:600})+tx(sx(0),y+46,"50 mL",{c:"mu"});
+  b+=tx(sx(300),y+28,"Bolus 2",{a:"end",w:600})+tx(sx(300),y+46,"80 mL at 3 mL/s",{a:"end",c:"mu"});
+  b+=tx(sx(400)+14,y+28,"One scan",{w:600,c:"ok"})+tx(sx(400)+14,y+46,"Nephrographic + excretory",{c:"mu"});
+  return svg(720,170,"Split-bolus CT urography timeline",b);
+}
+function figCTE(){
+  const sx=t=>60+(t+60)/60*500,base=150; let b="";
+  b+=`<line x1="${sx(-60)-20}" y1="${base}" x2="${sx(0)+20}" y2="${base}" class="s-mu" stroke-width="1.5"/>`;
+  [[-60,500],[-40,500],[-20,250],[-10,250]].forEach(([t,v])=>{
+    const h=v/500*90,x=sx(t);
+    b+=`<rect x="${x-18}" y="${base-h}" width="36" height="${h}" rx="4" class="t-acs"/>`+tx(x,base-h-8,v+" mL",{a:"middle",w:600});
+    b+=tx(x,base+20,`${-t} min`,{a:"middle",c:"mu"});
+  });
+  const x=sx(0);
+  b+=`<circle cx="${x}" cy="${base}" r="8" class="f-ok"/>`+tx(x,base+20,"Scan",{a:"middle",w:600,c:"ok"})+tx(x,base+38,"IV 125 mL, 65 s",{a:"middle",c:"mu"});
+  b+=tx(sx(-60)-20,24,"Neutral oral contrast: about 1.5 L over the hour before the scan",{c:"mu"});
+  return svg(640,200,"CT enterography oral contrast drinking schedule",b);
+}
+function figArthro(){
+  const rows=[["Shoulder",12,15],["Elbow",7,10],["Wrist (RC or MC)",3,4],["DRUJ",1,2],["Hip",10,12],["Knee",20,30],["Ankle",7,12]];
+  const x0=170,sx=v=>x0+v/30*420; let b="";
+  rows.forEach(([n,lo,hi],i)=>{
+    const y=8+i*30;
+    b+=tx(x0-12,y+15,n,{a:"end"})+`<rect x="${sx(lo)}" y="${y}" width="${Math.max(sx(hi)-sx(lo),6)}" height="20" rx="4" class="t-acs"/>`+tx(sx(hi)+8,y+15,`${lo}–${hi} mL`,{c:"mu",s:12});
+  });
+  const ay=8+rows.length*30+4;
+  b+=`<line x1="${x0}" y1="${ay}" x2="${sx(30)}" y2="${ay}" class="s-mu"/>`;
+  [0,10,20,30].forEach(v=>{ b+=`<line x1="${sx(v)}" y1="${ay}" x2="${sx(v)}" y2="${ay+5}" class="s-mu"/>`+tx(sx(v),ay+20,v+" mL",{a:"middle",c:"mu",s:12}); });
+  return svg(660,ay+28,"CT arthrography contrast volume by joint",b);
+}
+function figPaeds(){
+  const rows=[["<15 kg",25,"80"],["15–24 kg",30,"80"],["25–34 kg",45,"80"],["35–44 kg",75,"80"],["45–54 kg",100,"80–100"],[">54 kg",130,"100–120","120–140"]];
+  const base=190,cw=100; let b="";
+  rows.forEach(([w,ma,kv,lbl],i)=>{
+    const x=10+i*(cw+6),h=ma/140*140;
+    b+=`<rect x="${x+20}" y="${base-h}" width="${cw-40}" height="${h}" rx="4" class="t-acs"/>`+tx(x+cw/2,base-h-8,`${lbl||ma} mA`,{a:"middle",w:600});
+    b+=tx(x+cw/2,base+20,esc(w),{a:"middle",w:600})+tx(x+cw/2,base+38,kv+" kV",{a:"middle",c:"mu",s:12});
+  });
+  b+=`<line x1="10" y1="${base}" x2="640" y2="${base}" class="s-mu"/>`;
+  return svg(650,236,"Paediatric CT tube current and voltage by weight",b);
+}
+function figRelax(){
+  const x0=40,W=560,sx=v=>x0+(v-85)/30*W; let b="";
+  b+=`<rect x="${sx(85)}" y="36" width="${sx(94)-sx(85)}" height="26" class="t-mid"/>`;
+  b+=`<rect x="${sx(94)}" y="36" width="${sx(105)-sx(94)}" height="26" class="t-ok"/>`;
+  b+=`<rect x="${sx(105)}" y="36" width="${sx(107)-sx(105)}" height="26" class="t-mid"/>`;
+  b+=`<rect x="${sx(107)}" y="36" width="${sx(115)-sx(107)}" height="26" class="t-warn"/>`;
+  b+=tx((sx(94)+sx(105))/2,26,"Normal 94–105 ms",{a:"middle",w:600,c:"ok"})+tx((sx(107)+sx(115))/2,26,"≥107 ms: abnormal",{a:"middle",w:600,c:"wa"});
+  for(let v=85;v<=115;v+=5){ b+=`<line x1="${sx(v)}" y1="62" x2="${sx(v)}" y2="68" class="s-mu"/>`+tx(sx(v),84,v,{a:"middle",c:"mu",s:12}); }
+  b+=tx(x0+W/2,104,"Hippocampal T2 relaxation time (ms)",{a:"middle",c:"mu",s:12});
+  return svg(640,112,"Hippocampal T2 relaxometry ranges",b);
+}
+function figMRS(){
+  const peaks={mI:3.56,Cho:3.2,Cr:3.0,NAA:2.0,Lac:1.3};
+  const panel=(x0,title,h,line)=>{
+    const W=270,top=40,H=150,base=top+H,px=p=>x0+(4.0-p)/3.4*W;
+    let d="";
+    for(let x=0;x<=W;x++){ const p=4.0-x/W*3.4; let y=0; for(const k in h) y+=h[k]*Math.exp(-(((p-peaks[k])/0.055)**2)); d+=(x?"L":"M")+(x0+x)+" "+(base-y*(H-20)).toFixed(1); }
+    let b=tx(x0+W/2,20,title,{a:"middle",w:600,s:14})+`<path d="${d}" class="s-ac" fill="none" stroke-width="2"/>`;
+    b+=`<line x1="${x0}" y1="${base}" x2="${x0+W}" y2="${base}" class="s-mu"/>`;
+    [4,3,2,1].forEach(p=>{ b+=`<line x1="${px(p)}" y1="${base}" x2="${px(p)}" y2="${base+5}" class="s-mu"/>`+tx(px(p),base+19,p,{a:"middle",c:"mu",s:12}); });
+    const top_=k=>base-h[k]*(H-20)-6;
+    b+=tx(px(peaks.Cho)-3,top_("Cho"),"Cho",{a:"end",s:12,w:600})+tx(px(peaks.Cr)+3,top_("Cr"),"Cr",{s:12,w:600});
+    b+=tx(px(peaks.NAA),top_("NAA"),"NAA",{a:"middle",s:12,w:600})+tx(px(peaks.Lac),top_("Lac"),h.Lac>0.2?"Lipid/Lac":"",{a:"middle",s:12,w:600});
+    if(line) b+=`<line x1="${px(peaks.Cho)}" y1="${top_("Cho")-14}" x2="${px(peaks.NAA)}" y2="${top_("NAA")-14}" class="s-ok" stroke-dasharray="4 3"/>`+tx(px(peaks.NAA)+14,top_("NAA")+16,"Hunter's angle",{c:"ok",s:12});
+    return b;
+  };
+  let b=panel(20,"Normal",{mI:.3,Cho:.55,Cr:.65,NAA:1,Lac:0},1);
+  b+=panel(350,"High-grade tumour",{mI:.15,Cho:1,Cr:.42,NAA:.28,Lac:.7},0);
+  b+=tx(320,226,"ppm",{a:"middle",c:"mu",s:12});
+  return svg(640,232,"Schematic MR spectra: normal brain and high-grade tumour",b);
+}
+function figBiopsy(){
+  return cards([
+    {t:"Check",d:["Coagulation, platelets,","anticoagulant holds"]},
+    {t:"Plan",d:["Skin grid, planning scan","Shortest safe path"]},
+    {t:"Puncture",d:["Over the upper rib border","Expiration (upper abdo)"]},
+    {t:"Confirm",d:["Scan the needle tip","before sampling"]},
+    {t:"Check scan",d:["Pneumothorax,","bleeding"],tone:"warn"},
+    {t:"Observe",d:["Book: at least 30 min","Lung, liver: longer"],tone:"ok"},
+  ],{label:"CT-guided biopsy steps"});
+}
+
 [
   ["ct-phases",0,"Timeline after injection",figPhases,"The scale changes after 2 minutes. Portal venous is the routine phase."],
   ["mammo-views",1,"CC and MLO at a glance",figViews],
@@ -891,6 +1411,16 @@ function figAdrenal(){
   ["pregnancy",0,"Decision steps",figPreg],
   ["lungrads",0,"Categories at a glance",figLungRADS,"4X (category 3 or 4 with extra suspicious features) is managed as 4B."],
   ["adrenal",1,"Decision flow",figAdrenal],
+  ["ctp-general",0,"Workflow at a glance",figCTPrep],
+  ["ctp-chest",1,"HRCT: where to take the expiratory images",figHRCT,"Schematic frontal view. Prone images are taken through the lung bases."],
+  ["ctp-cardiac",1,"Coronary CTA in six steps",figCoronary,"Check beta-blocker contraindications and your department's heart-rate protocol."],
+  ["ctp-uro",1,"Split bolus at a glance",figSplit],
+  ["ctp-bowel",0,"Enterography drinking schedule",figCTE],
+  ["ctp-msk",1,"CT arthrography volumes",figArthro,"Typical ranges. Stop if the patient feels pressure or the joint is fully distended."],
+  ["ctp-paeds",3,"Tube current by weight",figPaeds,"Book values. Modern scanners with dose modulation may use their own paediatric presets."],
+  ["ctp-intervention",0,"Procedure at a glance",figBiopsy],
+  ["mrp-brain",2,"Hippocampal T2 at a glance",figRelax,"Book values. Values vary between scanners; use your department's normal range."],
+  ["mrp-mrs",0,"Normal vs high-grade tumour",figMRS,"Schematic spectra. ppm runs right to left, as on the scanner."],
 ].forEach(([id,at,h,fn,cap])=>{ const t=TOPICS.find(x=>x.id===id); if(t) t.secs.splice(at,0,{h,fig:fn,cap}); });
 
 /* ---------- see it & watch it ---------- */
@@ -913,6 +1443,18 @@ const MEDIA={
   "pregnancy":["imaging in pregnancy","imaging in pregnancy radiation contrast"],"dose-ref":["radiation dose","radiation dose from medical imaging"],
   "tirads":["TI-RADS","ACR TI-RADS thyroid nodule"],"fleischner":["Fleischner","Fleischner guidelines 2017 lung nodules"],
   "lungrads":["Lung-RADS","Lung-RADS 2022"],"adrenal":["adrenal washout","adrenal washout CT"],"bosniak":["Bosniak","Bosniak 2019 classification"],
+  "ctp-general":["CT contrast","CT contrast injection patient preparation"],"ctp-head":["CT angiography circle of Willis","CT head protocol CTA perfusion"],
+  "ctp-neck":["CT neck","CT neck protocol carotid angiography"],"ctp-chest":["HRCT","HRCT chest protocol expiratory prone"],
+  "ctp-cardiac":["coronary CT angiography","coronary CT angiography protocol heart rate"],"ctp-abdomen":["triphasic liver CT","multiphase liver CT protocol"],
+  "ctp-uro":["CT urography","split bolus CT urography"],"ctp-bowel":["CT enterography","CT enterography protocol"],
+  "ctp-angio":["CT angiography runoff","CT runoff lower extremity protocol"],"ctp-msk":["CT arthrography","CT arthrography technique"],
+  "ctp-paeds":["paediatric CT","pediatric CT dose protocol"],"ctp-intervention":["CT-guided biopsy","CT guided biopsy technique"],
+  "ctp-dose":["CT dose index","CTDIvol DLP explained"],"mrp-general":["chemical shift imaging","MRI in phase out of phase"],
+  "mrp-brain":["MRI brain epilepsy protocol","MRI brain protocols"],"mrp-mrs":["MR spectroscopy","MR spectroscopy brain explained"],
+  "mrp-headneck":["MRI orbit","MRI head and neck protocol"],"mrp-body":["breast implant rupture MRI","cardiac MRI protocol"],
+  "mrp-abdomen":["MRCP","MRI liver protocol phases"],"mrp-pelvis":["perianal fistula MRI","prostate MRI protocol"],
+  "mrp-angio":["MR angiography","contrast enhanced MR angiography"],"mrp-msk":["MR arthrography","MR arthrography shoulder technique"],
+  "mrp-glossary":["MRI sequence names","MRI sequence names GE Siemens Philips"],"contrast-agents":["contrast media osmolality","oral contrast CT"],
 };
 function seeHTML(t){
   const [rp,yt]=MEDIA[t.id]||[t.title,t.title], e=encodeURIComponent;
@@ -983,7 +1525,7 @@ function renderList(){
   const ts=allTopics().filter(t=>(state.mod==="all"||(state.mod==="mine"?t.custom:t.mod===state.mod)) && (!q||t.search.includes(q)));
   let html="";
   if(state.mod==="all" && !q){
-    html+=`<p class="intro"><strong>${TOPICS.length} reference topics</strong> across CT, mammography, MRI, ultrasound, X-ray, fluoroscopy, contrast safety and reporting systems. Open any topic to add your department's own settings in its notes, or add a full protocol of your own.</p>`;
+    html+=`<p class="intro"><strong>${TOPICS.length} reference topics</strong> across CT, mammography, MRI, ultrasound, X-ray, fluoroscopy, contrast safety and reporting systems, plus scan-by-scan CT and MRI protocol sets. Open any topic to add your department's own settings in its notes, or add a full protocol of your own.</p>`;
   }
   if(state.mod==="mine"){
     html+=`<div class="group"><h2>My protocols <small>${ts.length}</small></h2>`;
@@ -1004,7 +1546,7 @@ function renderList(){
   $("#main").innerHTML=html;
 }
 function disclaimer(){
-  return `<footer class="disc">A quick reference drawn from ACR guidance, the Fleischner Society and standard radiography texts. Protocols, doses and thresholds vary between institutions and guidelines change. Your department's protocols and the current source documents take precedence.</footer>`;
+  return `<footer class="disc">A quick reference drawn from ACR guidance, the Fleischner Society, standard radiography texts, and Bhargava &amp; Bhargava's <i>CT and MRI Protocol</i> (3rd ed.). Protocols, doses and thresholds vary between institutions and guidelines change. Your department's protocols and the current source documents take precedence.</footer>`;
 }
 
 /* ---------- topic ---------- */
@@ -1043,6 +1585,7 @@ function renderTopic(){
   let html=`<article class="topic"><div><button class="btn ghost" type="button" data-back>← All topics</button></div>
     <header><p class="eyebrow">${esc(MOD_NAME[t.mod])}${t.custom?" · My protocol":""}</p><h1>${esc(t.title)}</h1></header>`;
   if(t.sum) html+=`<p class="lede">${esc(t.sum)}</p>`;
+  if(t.src) html+=`<p class="src">Summarised from ${t.src}. Check values against your department's protocol.</p>`;
   if(t.custom){
     html+=`<section class="sec prose">${bodyHTML(t.body)||'<p class="hint">This protocol has no content yet.</p>'}</section>`;
     html+=`<div class="row">${canEdit()?`<button class="btn" type="button" data-edit="${esc(t.docId)}">Edit protocol</button><span id="del-wrap"><button class="btn danger" type="button" data-del-ask>Delete</button></span>`:""}${t.updatedAt?`<span class="hint">Updated ${esc(fmtDate(t.updatedAt))}</span>`:""}</div>`;
