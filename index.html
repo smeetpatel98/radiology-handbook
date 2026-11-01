@@ -44,7 +44,9 @@ const MODS = [
   {id:"mrp", name:"MRI protocols"},
   {id:"us", name:"Ultrasound"},
   {id:"xr", name:"X-ray"},
+  {id:"xrp", name:"X-ray positioning"},
   {id:"fluoro", name:"Fluoroscopy"},
+  {id:"phys", name:"Physics & radiation safety"},
   {id:"contrast", name:"Contrast & safety"},
   {id:"report", name:"Reporting systems"},
 ];
@@ -52,6 +54,10 @@ const MOD_NAME = Object.fromEntries(MODS.map(m=>[m.id,m.name]));
 
 // Source credit for the protocol topics summarised from the CT and MRI protocol book.
 const BOOK="Bhargava &amp; Bhargava, <i>CT and MRI Protocol: A Practical Approach</i>, 3rd ed. (2018)";
+const CLARK="Whitley et al., <i>Clark's Positioning in Radiography</i>, 12th ed. (2005)";
+const SBSUS="Bhargava, <i>Step by Step in Ultrasound</i>";
+const KARTH="Karthikeyan, <i>Step by Step CT Scan</i>";
+const THAY="Thayalan, <i>The Physics of Radiology and Imaging</i>";
 
 const TOPICS = [
 /* ---------------- CT ---------------- */
@@ -816,6 +822,255 @@ const TOPICS = [
   ]},
   {h:"Note", note:"For reaction treatment doses and kidney-function rules, use Contrast reaction management and Iodinated contrast: kidneys, metformin, premedication. Those topics follow the current ACR Manual.", tone:"info"},
 ]},
+/* ---------------- X-ray positioning (Clark's) ---------------- */
+{id:"xrp-basics", mod:"xrp", title:"X-ray basics in plain words", sum:"The direction words, the standard tube distance and the checks to do on every X-ray.", tags:["Terms","Distance","Checklist"], src:CLARK, secs:[
+  {h:"Direction words", table:{head:["Word","Plain meaning"], rows:[
+    ["AP (antero-posterior)","Beam enters the front of the body and leaves at the back"],
+    ["PA (postero-anterior)","Beam enters the back and leaves at the front"],
+    ["Lateral","Beam goes through from side to side"],
+    ["Oblique","Body or beam turned part-way between front-on and side-on"],
+    ["Axial","Beam runs along the length of the body part"],
+    ["Cranial / caudal angle","Tube tilted towards the head / towards the feet"],
+    ["Central ray","The middle of the X-ray beam. “Centre to” means aim this at that spot."],
+    ["FFD","Focus-to-film distance: how far the tube is from the detector"],
+  ]}},
+  {h:"Distance", list:[
+    "Most table work uses 100 cm, because grids are usually made for that distance. If the grid is focused at 100 cm, keep the tube at 100 cm.",
+    "Moving the tube further away gives a sharper image but needs more exposure.",
+  ]},
+  {h:"Every X-ray: quick routine", steps:[
+    "Check the right patient, right side and right body part.",
+    "Ask about pregnancy where the rules require it.",
+    "Remove anything that could show on the image.",
+    "Position, then centre, then collimate to the area needed.",
+    "Add the left or right marker.",
+    "Give the breathing instruction if needed, then expose.",
+    "Check the image: whole area shown, correct rotation, sharp, marker visible.",
+  ]},
+]},
+{id:"xrp-hand", mod:"xrp", title:"Hand, fingers & wrist positioning", sum:"Where to aim for the hand, fingers, thumb, wrist and scaphoid.", tags:["Hand","Wrist","Scaphoid"], src:CLARK, secs:[
+  {h:"Where to aim", table:{head:["View","Aim the central ray at"], rows:[
+    ["Hand PA","Head of the 3rd metacarpal"],
+    ["Hand oblique","Head of the 5th metacarpal, then angle the tube towards the head of the 3rd"],
+    ["Hand lateral","Head of the 2nd metacarpal"],
+    ["Finger PA and lateral","The middle joint (PIP) of that finger"],
+    ["Thumb lateral","The big knuckle of the thumb (1st MCP joint)"],
+    ["Thumb AP","Base of the 1st metacarpal"],
+    ["Wrist PA","Midway between the bony points on each side (radial and ulnar styloids)"],
+    ["Wrist lateral","Radial styloid (thumb side)"],
+    ["Wrist oblique","Midway between the two styloids"],
+    ["Scaphoid PA and oblique","Midway between the styloids, with the hand tilted towards the little finger (ulnar deviation)"],
+    ["Scaphoid posterior oblique","Ulnar styloid"],
+  ]}},
+]},
+{id:"xrp-arm", mod:"xrp", title:"Forearm, elbow & humerus positioning", sum:"Where to aim for the forearm, elbow and upper arm.", tags:["Elbow","Forearm","Humerus"], src:CLARK, secs:[
+  {h:"Where to aim", table:{head:["View","Aim the central ray at"], rows:[
+    ["Forearm AP and lateral","Middle of the forearm, halfway between wrist and elbow"],
+    ["Elbow AP","Joint space, 2.5 cm below the midpoint between the two side bumps (epicondyles)"],
+    ["Elbow lateral","Lateral epicondyle (outer bump)"],
+    ["Radial head lateral","Lateral epicondyle"],
+    ["Ulnar groove axial","Medial epicondyle (inner bump)"],
+    ["Humerus AP and lateral","Midway between shoulder and elbow"],
+  ]}},
+  {h:"Injured patients", list:["If the elbow can't straighten, take the AP with either the upper arm or the forearm flat on the detector.","If the arm can't be moved, keep the arm still and move the tube instead. Keep the beam at a right angle to the bone."]},
+]},
+{id:"xrp-shoulder", mod:"xrp", title:"Shoulder, clavicle & scapula positioning", sum:"Where to aim for the shoulder girdle.", tags:["Shoulder","Clavicle","Scapula"], src:CLARK, secs:[
+  {h:"Where to aim", table:{head:["View","Aim the central ray at"], rows:[
+    ["Shoulder AP (trauma)","Coracoid process (the bony point felt below the outer clavicle)"],
+    ["Shoulder lateral / outlet","Head of the humerus, angled 10° towards the feet"],
+    ["AP outlet","Coracoid process, angled 30° towards the feet"],
+    ["AP 25° caudal","Coracoid process, angled 25° towards the feet"],
+    ["Infero-superior (axial)","Into the armpit, angled as little as possible towards the trunk"],
+    ["AC joint AP","Outer end of the clavicle at the joint"],
+    ["Clavicle PA or AP","Middle of the clavicle"],
+    ["Clavicle infero-superior","Middle of the clavicle, angled 30° towards the head (45° if lying supine)"],
+    ["Sternoclavicular joints","Just below the sternal notch"],
+    ["Scapula lateral","Middle of the inner edge of the scapula"],
+  ]}},
+]},
+{id:"xrp-foot", mod:"xrp", title:"Foot, ankle & calcaneum positioning", sum:"Where to aim for the toes, foot, ankle and heel.", tags:["Foot","Ankle","Calcaneum"], src:CLARK, secs:[
+  {h:"Where to aim", table:{head:["View","Aim the central ray at"], rows:[
+    ["Foot dorsi-plantar","Cuboid–navicular joint, midway between the navicular bump and the bump at the base of the 5th metatarsal"],
+    ["All toes","3rd toe joint (metatarso-phalangeal)"],
+    ["Big toe lateral","1st metatarso-phalangeal joint"],
+    ["Ankle AP and mortise","Midway between the two ankle bones, beam at 90° to the line joining them"],
+    ["Ankle lateral","2.5 cm below the medial malleolus (inner ankle bone)"],
+    ["Ankle lateral through plaster","Lateral malleolus, using a horizontal beam"],
+    ["Calcaneum axial","Sole of the heel at the level of the 5th metatarsal bump, angled 40° towards the head"],
+  ]}},
+]},
+{id:"xrp-leg", mod:"xrp", title:"Tibia, knee & femur positioning", sum:"Where to aim for the lower leg, knee and thigh.", tags:["Knee","Tibia","Femur"], src:CLARK, secs:[
+  {h:"Where to aim", table:{head:["View","Aim the central ray at"], rows:[
+    ["Tibia and fibula AP / lateral","Centre of the detector. Include both knee and ankle joints."],
+    ["Knee AP","2.5 cm below the tip of the kneecap, through the joint space"],
+    ["Knee lateral","Middle of the top edge of the medial tibial condyle"],
+    ["Knee lateral (trauma)","Top edge of the lateral tibial condyle, with a horizontal beam"],
+    ["Knee PA oblique","The upper side's tibial condyle"],
+    ["Patella skyline","Behind or under the kneecap, beam running along its back surface. Keep the beam away from the pelvis."],
+    ["Femur AP / lateral","Centre of the detector"],
+  ]}},
+]},
+{id:"xrp-pelvis", mod:"xrp", title:"Pelvis & hip positioning", sum:"Where to aim for the pelvis, hip and sacro-iliac joints.", tags:["Pelvis","Hip","SI joints"], src:CLARK, secs:[
+  {h:"Where to aim", table:{head:["View","Aim the central ray at"], rows:[
+    ["Pelvis AP","Midline, with the detector centred midway between the top of the pubic bone and the level of the front hip bones (ASIS)"],
+    ["Single hip AP","2.5 cm down the line that crosses the middle of the ASIS-to-pubis line at a right angle"],
+    ["Hip lateral (frog)","Femoral pulse in the groin"],
+    ["Hip horizontal beam lateral","Through the groin, midway between femoral pulse and greater trochanter"],
+    ["SI joints AP","Midline at the level of the back hip dimples, angled 5–15° towards the feet (if taken prone)"],
+    ["SI joint oblique","2.5 cm inside the ASIS on the raised side"],
+    ["Ilium oblique","ASIS on the side being examined"],
+  ]}},
+  {h:"Trauma", list:["Never roll a patient with a possible hip fracture onto the side, and never bend the leg. Use the horizontal beam lateral."]},
+]},
+{id:"xrp-spine", mod:"xrp", title:"Spine positioning", sum:"Where to aim for the cervical, thoracic and lumbar spine, sacrum and coccyx.", tags:["C-spine","T-spine","L-spine"], src:CLARK, secs:[
+  {h:"Where to aim", table:{head:["View","Aim the central ray at"], rows:[
+    ["C-spine lateral","Below the mastoid, level with the Adam's apple. Shoulders down so C7 shows."],
+    ["C-spine AP","Midline, tube angled 5–15° towards the head"],
+    ["Odontoid (open mouth)","Centre of the open mouth"],
+    ["C-spine oblique","Middle of the neck"],
+    ["Swimmer's view","Midline, just above the far shoulder"],
+    ["T-spine AP","2.5 cm below the sternal angle"],
+    ["T-spine lateral","5 cm in front of the spinous processes"],
+    ["L-spine AP","Midline at the lowest edge of the ribs (L3)"],
+    ["L-spine lateral","7.5 cm in front of the L3 spinous process, at the lowest rib edge"],
+    ["L5/S1 lateral","7.5 cm in front of the L5 spinous process"],
+    ["L5/S1 AP","Midline at ASIS level, angled 10–20° towards the head"],
+    ["Sacrum lateral","Midline of the table, level with the back hip dimples"],
+    ["Coccyx AP","2.5 cm above the pubic bone, angled 15° towards the feet"],
+  ]}},
+  {h:"Safety", note:"In a suspected neck injury, don't flex or move the neck. Do the lateral first, with a horizontal beam, and have it checked before moving the patient."},
+]},
+{id:"xrp-chest", mod:"xrp", title:"Chest, ribs, sternum & airway positioning", sum:"Where to aim for chest, heart, ribs, sternum and neck soft tissue.", tags:["Chest","Ribs","Sternum"], src:CLARK, secs:[
+  {h:"Where to aim", table:{head:["View","Aim the central ray at","Breathing"], rows:[
+    ["Chest PA","Level of T8 (spinous process), beam at 90° to the detector","Full breath in, hold"],
+    ["Chest lateral","Mid-axillary line (middle of the side of the chest)","Full breath in, hold"],
+    ["Chest AP (trolley or bed)","Start at the sternal notch, then angle to the detector centre","Full breath in, if able"],
+    ["Heart lateral","Level of T6","Full breath in, hold"],
+    ["Sternum lateral","2.5 cm below the sternal angle","Full breath in, hold"],
+    ["Neck soft tissue AP","C4, angled 10° towards the head","Forced breath out"],
+    ["Neck soft tissue lateral","Below the mastoid, level with the Adam's apple","Forced breath out"],
+    ["Thoracic inlet AP","Sternal notch","Forced breath out"],
+  ]}},
+]},
+{id:"xrp-skull", mod:"xrp", title:"Skull & facial bones positioning", sum:"Basic skull and face views, using the orbito-meatal line.", tags:["Skull","Face","Sinuses"], src:CLARK, secs:[
+  {h:"The key line", p:"The orbito-meatal line (OM line) runs from the outer corner of the eye to the ear hole. Most skull angles are measured from it."},
+  {h:"Where to aim", table:{head:["View","Aim and angle"], rows:[
+    ["Skull lateral","Horizontal beam at a right angle to the midline of the head"],
+    ["Occipito-frontal","Along the midline, perpendicular to the Bucky"],
+    ["Fronto-occipital 30° (Towne's)","Tube angled towards the feet, 30° to the OM line, midline"],
+    ["Submento-vertical (base)","At a right angle to the OM line, midway between the ear holes"],
+    ["Sella lateral","2.5 cm forward of the ear hole along the OM line, then 2.5 cm up"],
+    ["Occipito-mental 30° (face)","Tube angled 30° towards the feet, leaving at the lower edge of the eye sockets"],
+  ]}},
+]},
+
+/* ---------------- Ultrasound additions ---------------- */
+{id:"us-sizes", mod:"us", title:"Normal organ sizes (book values)", sum:"Quick size limits for the abdomen and pelvis, plus the bladder volume formula.", tags:["Normals","Measurements","Bladder volume"], src:SBSUS, secs:[
+  {h:"Abdomen", table:{head:["Organ","Normal"], rows:[
+    ["Gallbladder wall","Under 4 mm (up to 7 mm after a meal)"],
+    ["Gallbladder size","Under 11 cm long, under 4 cm across"],
+    ["Common hepatic duct","Under 5 mm"],
+    ["Common bile duct","Under 6 mm; under 9 mm after gallbladder removal"],
+    ["Pancreatic duct","Under 2 mm"],
+    ["Kidney","9–12 cm long, 4–6 cm wide, 2.5–3.5 cm thick. More than 1 cm difference between sides is abnormal."],
+    ["Kidney tissue thickness","1.3–2.5 cm"],
+    ["Stomach wall (distended)","3–5 mm"],
+    ["Aorta","Usually under 2.3 cm in men and 1.9 cm in women"],
+    ["Common iliac artery","Up to 1.4–1.5 cm in men, 1.2 cm in women"],
+  ]}},
+  {h:"Pelvis and small parts", table:{head:["Organ","Normal"], rows:[
+    ["Bladder wall (full)","Under 4 mm"],
+    ["Prostate","About 4 cm side to side, 3.5 cm top to bottom, 2.5 cm front to back"],
+    ["Testis","3–5 cm long, 2–4 cm wide, 3 cm front to back"],
+    ["Uterus after puberty","About 10 × 5 × 4 cm"],
+    ["Uterus before puberty","About 6 cm long"],
+    ["Ovary volume","5.5–10 cm³ before menopause, 2.5–3.5 cm³ after"],
+    ["Eye axial length","24 mm"],
+  ]}},
+  {h:"Bladder volume", list:["Volume (mL) = width × length × depth (in cm) × 0.52.","Measure before and after the patient empties the bladder."]},
+  {h:"Note", note:"Limits vary with age, sex and department. A number just outside the range is not a diagnosis. Use your department's cut-offs.", tone:"info"},
+]},
+{id:"us-early-preg", mod:"us", title:"Early pregnancy & fetal measurements", sum:"What should be seen and when, and how to take the basic measurements.", tags:["Obstetrics","Yolk sac","BPD"], src:SBSUS, secs:[
+  {h:"Early pregnancy", list:[
+    "Mean sac diameter (MSD) = the three sac measurements added together, divided by 3.",
+    "Yolk sac: seen vaginally by an MSD of 8 mm. Seen through the abdomen at about 10–15 mm, and should always be seen by 20 mm.",
+    "Normal yolk sac: no more than 5.6 mm wide between 5 and 10 weeks.",
+    "Heartbeat: routinely seen vaginally once the crown–rump length (CRL) is over 5 mm.",
+  ]},
+  {h:"Estimating age", table:{head:["Stage","Measure"], rows:[
+    ["5–10 weeks","Gestational sac size"],["6–10 weeks","Longest length of the embryo"],["Up to 14 weeks","CRL"],["After that","BPD, head and abdomen size, femur length"],
+  ]}},
+  {h:"Taking the BPD", list:[
+    "Use the level of the thalami, with the cavum septum pellucidum in front.",
+    "Measure across the widest part, from the outer edge of the near skull to the inner edge of the far skull.",
+    "Occipito-frontal diameter: same level, outer edge to outer edge.",
+  ]},
+]},
+{id:"us-artifacts", mod:"us", title:"Ultrasound artifacts", sum:"Common false images and what causes them.", tags:["Artifacts","Physics"], src:SBSUS, secs:[
+  {h:"Common artifacts", table:{head:["Artifact","What you see","Why"], rows:[
+    ["Reverberation","Repeating parallel lines","Sound bounces back and forth between strong reflectors"],
+    ["Comet tail","Short bright tail","A type of reverberation, e.g. tiny crystals in the gallbladder wall"],
+    ["Mirror image","A copy of a structure on the far side of a strong reflector, e.g. diaphragm","Sound takes a bounced path"],
+    ["Refraction","Structure shown in the wrong place","The beam bends between tissues"],
+    ["Section thickness","False echoes inside fluid","The beam has thickness and catches tissue beside the cyst"],
+    ["Side lobe","False echoes from outside the main beam","Weak extra beams"],
+    ["Speckle","Grainy texture","Interference between tiny scatterers"],
+  ]}},
+  {h:"Basic numbers", list:["Scanners assume sound travels 1540 m/s in soft tissue. In fat it is slower (about 1450 m/s), which can shift or distort images.","Sound in air is about 330 m/s. Air stops the beam, which is why gel is needed."]},
+]},
+
+/* ---------------- CT technique (Karthikeyan) ---------------- */
+{id:"ctp-tech", mod:"ctp", title:"CT scanner settings & artifacts", sum:"Pitch, gantry and image reconstruction in plain words, and how to fix common artifacts.", tags:["Pitch","Artifacts","Post-processing"], src:KARTH, secs:[
+  {h:"Plain-language terms", table:{head:["Term","Meaning"], rows:[
+    ["Gantry","The ring holding the tube and detectors. It can tilt up to 30° on many scanners. Openings range from about 50 to 85 cm."],
+    ["Pitch","How far the table moves in one rotation, compared with the beam width. Higher pitch is faster with less dose, but can lose detail."],
+    ["Isotropic","Voxels are the same size in every direction, so side views look as sharp as axial ones."],
+    ["MPR","Rebuilding images in coronal, sagittal or curved planes"],
+    ["MIP","Shows the brightest pixels: useful for vessels and lung nodules"],
+    ["Volume rendering","A 3D picture of bones or vessels"],
+  ]}},
+  {h:"Artifacts", table:{head:["Artifact","Looks like","How to reduce"], rows:[
+    ["Motion","Blur, streaks, double edges","Shorter scan, breath-hold, immobilise, ECG gating for the heart"],
+    ["Metal","Bright and dark streaks","Remove metal; use metal-reduction software if available"],
+    ["Beam hardening","Dark bands between dense bones","Correct positioning; scanner corrections"],
+    ["Partial volume","Blurred edges where two tissues share one voxel","Thinner slices"],
+    ["Stair-step","Jagged edges on reformats","Thin, overlapping slices"],
+    ["Ring","Rings around the centre","Faulty or uncalibrated detector: calibrate and call service"],
+    ["Cone beam","Distortion at the edges of wide detectors","Scanner reconstruction corrections"],
+  ]}},
+]},
+
+/* ---------------- Physics & safety (Thayalan) ---------------- */
+{id:"phys-xray", mod:"phys", title:"X-ray physics made simple", sum:"kV, mAs, distance, scatter and grids: what each changes in the image.", tags:["kVp","mAs","Grid"], src:THAY, secs:[
+  {h:"What each control does", table:{head:["Control","Plain meaning"], rows:[
+    ["kVp","Beam strength: how well X-rays get through. Higher kVp means more penetration, more scatter and less contrast."],
+    ["mAs","Amount of X-rays. Twice the mAs means twice the dose."],
+    ["Filter","Metal sheet that removes weak X-rays that would only add skin dose"],
+    ["Collimation","Narrowing the beam: less dose and less scatter"],
+    ["Grid","Lines of lead that block scatter. Better contrast, but needs more dose. Ratios run from 4:1 to 16:1."],
+    ["AEC","Automatic exposure: sensors end the exposure when enough has been received"],
+  ]}},
+  {h:"Key rules", list:[
+    "Inverse square law: double the distance and the radiation drops to a quarter.",
+    "Half-value layer: the thickness of material that cuts the beam by half.",
+    "Heel effect: the beam is weaker on the anode side. A smaller field reduces the effect.",
+    "Photoelectric absorption gives contrast, and is strong in bone and at low energy.",
+    "Compton scatter happens at all energies, and is the main source of scatter fog and of staff dose.",
+  ]},
+]},
+{id:"phys-safety", mod:"phys", title:"Radiation units, limits & protection", sum:"Dose units, yearly limits, badges and pregnancy at work.", tags:["mSv","Dose limits","Badge"], src:THAY, secs:[
+  {h:"Units", list:["1 Sv = 1000 mSv. 1 mSv = 100 mrem.","mSv is the number used to compare risk between exams."]},
+  {h:"Yearly limits in the book (ICRP 60)", table:{head:["Area","Worker (mSv/year)","Public (mSv/year)"], rows:[
+    ["Whole body","20 (5-year average)","1"],["Eye lens","150","15"],["Skin","500","50"],["Hands and feet","500","50"],
+  ]}},
+  {h:"Newer rule", note:"ICRP lowered its recommended worker eye-lens limit to 20 mSv/year in 2011, and limits differ by country. Check your national regulator's current figures."},
+  {h:"Everyday dose", list:["Average yearly dose in the USA: about 6.2 mSv, of which about half is natural background (3.1 mSv).","Radon gives about 2.1 mSv of that background dose."]},
+  {h:"Badges and protection", list:[
+    "Wear the badge under the lead apron for whole-body dose. A collar badge outside the apron estimates thyroid dose.",
+    "Pregnant workers wear a dosimeter on the abdomen under the apron. The fetus is treated as a member of the public.",
+    "Three basics: less time, more distance, more shielding.",
+  ]},
+]},
 ];
 
 /* ---------- helpers ---------- */
@@ -1377,6 +1632,21 @@ function figBiopsy(){
   ],{label:"CT-guided biopsy steps"});
 }
 
+function figInverse(){
+  const rows=[["1 m",100,"100%"],["2 m",25,"25%"],["3 m",11,"11%"],["4 m",6,"6%"]]; let b="";
+  rows.forEach(([d,v,l],i)=>{ const y=8+i*36;
+    b+=tx(60,y+18,d,{a:"end",w:600})+`<rect x="74" y="${y}" width="${v*4.6}" height="26" rx="4" class="t-acs"/>`+tx(82+v*4.6,y+18,l,{c:"mu"}); });
+  return svg(640,156,"Radiation falls with the square of distance",b);
+}
+function figEarlyPreg(){
+  return cards([
+    {t:"MSD 8 mm",d:["Yolk sac seen","vaginally"]},
+    {t:"MSD 10–15 mm",d:["Yolk sac often seen","through the abdomen"]},
+    {t:"MSD 20 mm",d:["Yolk sac should","always be seen"],tone:"warn"},
+    {t:"CRL over 5 mm",d:["Heartbeat routinely","seen vaginally"],tone:"ok"},
+  ],{cols:2,label:"Early pregnancy milestones"});
+}
+
 [
   ["ct-phases",0,"Timeline after injection",figPhases,"The scale changes after 2 minutes. Portal venous is the routine phase."],
   ["mammo-views",1,"CC and MLO at a glance",figViews],
@@ -1412,6 +1682,8 @@ function figBiopsy(){
   ["lungrads",0,"Categories at a glance",figLungRADS,"4X (category 3 or 4 with extra suspicious features) is managed as 4B."],
   ["adrenal",1,"Decision flow",figAdrenal],
   ["ctp-general",0,"Workflow at a glance",figCTPrep],
+  ["phys-xray",2,"Distance is the easiest protection",figInverse],
+  ["us-early-preg",1,"Milestones",figEarlyPreg,"Book values. Follow your department's early pregnancy guideline before any conclusion."],
   ["ctp-chest",1,"HRCT: where to take the expiratory images",figHRCT,"Schematic frontal view. Prone images are taken through the lung bases."],
   ["ctp-cardiac",1,"Coronary CTA in six steps",figCoronary,"Check beta-blocker contraindications and your department's heart-rate protocol."],
   ["ctp-uro",1,"Split bolus at a glance",figSplit],
@@ -1454,6 +1726,14 @@ const MEDIA={
   "mrp-headneck":["MRI orbit","MRI head and neck protocol"],"mrp-body":["breast implant rupture MRI","cardiac MRI protocol"],
   "mrp-abdomen":["MRCP","MRI liver protocol phases"],"mrp-pelvis":["perianal fistula MRI","prostate MRI protocol"],
   "mrp-angio":["MR angiography","contrast enhanced MR angiography"],"mrp-msk":["MR arthrography","MR arthrography shoulder technique"],
+  "xrp-basics":["radiographic positioning","x-ray positioning basics"],"xrp-hand":["scaphoid views","hand wrist x-ray positioning"],
+  "xrp-arm":["elbow radiograph","elbow x-ray positioning"],"xrp-shoulder":["shoulder radiograph","shoulder x-ray positioning"],
+  "xrp-foot":["ankle radiograph","foot ankle x-ray positioning"],"xrp-leg":["knee radiograph","knee x-ray positioning"],
+  "xrp-pelvis":["pelvis radiograph","pelvis hip x-ray positioning"],"xrp-spine":["cervical spine radiograph","spine x-ray positioning"],
+  "xrp-chest":["chest radiograph","chest x-ray positioning"],"xrp-skull":["skull radiograph","skull x-ray positioning"],
+  "us-sizes":["normal ultrasound measurements","abdominal ultrasound normal measurements"],"us-early-preg":["early pregnancy ultrasound","early pregnancy ultrasound"],
+  "us-artifacts":["ultrasound artifacts","ultrasound artifacts explained"],"ctp-tech":["CT artifacts","CT artifacts explained"],
+  "phys-xray":["x-ray physics","kVp mAs explained"],"phys-safety":["radiation protection","radiation protection dose limits"],
   "mrp-glossary":["MRI sequence names","MRI sequence names GE Siemens Philips"],"contrast-agents":["contrast media osmolality","oral contrast CT"],
 };
 function seeHTML(t){
@@ -1525,7 +1805,7 @@ function renderList(){
   const ts=allTopics().filter(t=>(state.mod==="all"||(state.mod==="mine"?t.custom:t.mod===state.mod)) && (!q||t.search.includes(q)));
   let html="";
   if(state.mod==="all" && !q){
-    html+=`<p class="intro"><strong>${TOPICS.length} reference topics</strong> across CT, mammography, MRI, ultrasound, X-ray, fluoroscopy, contrast safety and reporting systems, plus scan-by-scan CT and MRI protocol sets. Open any topic to add your department's own settings in its notes, or add a full protocol of your own.</p>`;
+    html+=`<p class="intro"><strong>${TOPICS.length} reference topics</strong> across CT, mammography, MRI, ultrasound, X-ray, fluoroscopy, contrast safety and reporting systems, plus scan-by-scan CT and MRI protocols, X-ray positioning and physics. Open any topic to add your department's own settings in its notes, or add a full protocol of your own.</p>`;
   }
   if(state.mod==="mine"){
     html+=`<div class="group"><h2>My protocols <small>${ts.length}</small></h2>`;
@@ -1546,7 +1826,7 @@ function renderList(){
   $("#main").innerHTML=html;
 }
 function disclaimer(){
-  return `<footer class="disc">A quick reference drawn from ACR guidance, the Fleischner Society, standard radiography texts, and Bhargava &amp; Bhargava's <i>CT and MRI Protocol</i> (3rd ed.). Protocols, doses and thresholds vary between institutions and guidelines change. Your department's protocols and the current source documents take precedence.</footer>`;
+  return `<footer class="disc">A quick reference drawn from ACR guidance, the Fleischner Society, standard radiography texts, and the textbooks credited on each topic. Protocols, doses and thresholds vary between institutions and guidelines change. Your department's protocols and the current source documents take precedence.</footer>`;
 }
 
 /* ---------- topic ---------- */

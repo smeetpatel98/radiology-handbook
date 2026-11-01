@@ -6,6 +6,7 @@ A quick-reference website for radiology: CT, mammography, MRI, ultrasound, X-ray
 - Each topic has a **department notes** box. Notes and custom protocols are saved in the browser (localStorage). Use **Back up** and **Restore** to move them between devices.
 - TI-RADS and adrenal washout calculators are built in.
 - **CT protocols** and **MRI protocols** sections give scan-by-scan parameters (position, coverage, contrast volume, rate and delay, slices, sequences). They are summarised from Bhargava & Bhargava, *CT and MRI Protocol: A Practical Approach*, 3rd ed. (2018), and each of those topics names the source. Where the book is older than current ACR guidance, the Contrast & safety topics take precedence.
+- **X-ray positioning**, **Physics & radiation safety** and the extra ultrasound and CT technique topics are plain-language summaries of *Clark's Positioning in Radiography*, *The Physics of Radiology and Imaging*, *Step by Step in Ultrasound* and *Step by Step CT Scan*. Each topic names its source.
 
 ## Editing content
 
