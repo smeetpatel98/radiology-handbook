@@ -1058,6 +1058,22 @@ const TOPICS = [
     "Compton scatter happens at all energies, and is the main source of scatter fog and of staff dose.",
   ]},
 ]},
+{id:"phys-layouts", mod:"phys", title:"Model room layouts: CT & X-ray", sum:"Room sizes, lead shielding and equipment placement for a CT room and an X-ray room.", tags:["Room layout","Shielding","Lead"], secs:[
+  {h:"Key numbers", table:{head:["Item","CT room","X-ray room"], rows:[
+    ["Examination room","625 × 400 cm (25 m²)","450 × 400 cm (18 m²)"],
+    ["Control area","Separate room, 200 × 400 cm","Inside the room, behind a mobile protective barrier (MPB)"],
+    ["Walls","23 cm (9 inch) brick","23 cm (9 inch) brick"],
+    ["Doors","Double-leaf patient door and service door, each lined with 2.0 mm lead","Single-leaf door lined with 2.0 mm lead"],
+    ["Viewing glass","100 × 80 cm, 2.0 mm lead equivalent","Lead glass in the MPB (see the note below)"],
+  ]}},
+  {h:"Plain meaning", list:[
+    "Lead equivalent: the material blocks as much radiation as that thickness of lead.",
+    "The operator always stands behind the barrier and must be able to see the patient through the glass.",
+    "Keep doors closed during exposure, because the shielding only works as a complete barrier.",
+  ]},
+  {h:"Check the X-ray viewing glass", note:"The X-ray layout gives two values: its legend says 1.7 mm lead equivalent, while the label on the drawing says 2.0 mm. Confirm the required value with your regulator."},
+  {h:"Note", note:"These are model plans from the two layout documents. A real installation needs the shielding plan and approval your national regulator requires.", tone:"info"},
+]},
 {id:"phys-safety", mod:"phys", title:"Radiation units, limits & protection", sum:"Dose units, yearly limits, badges and pregnancy at work.", tags:["mSv","Dose limits","Badge"], src:THAY, secs:[
   {h:"Units", list:["1 Sv = 1000 mSv. 1 mSv = 100 mrem.","mSv is the number used to compare risk between exams."]},
   {h:"Yearly limits in the book (ICRP 60)", table:{head:["Area","Worker (mSv/year)","Public (mSv/year)"], rows:[
@@ -1632,6 +1648,43 @@ function figBiopsy(){
   ],{label:"CT-guided biopsy steps"});
 }
 
+const roomDoor=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="s-wa" stroke-width="6"/>`;
+const roomNum=(x,y,n)=>`<circle cx="${x}" cy="${y}" r="10" class="f-ac"/>`+tx(x,y+4,n,{a:"middle",c:"inv",w:600,s:11});
+function figCTRoom(){
+  const x0=46,y0=48,W=594,H=288,xp=x0+144; let b="";
+  b+=`<rect x="${x0}" y="${y0}" width="${W}" height="${H}" class="f-inv s-ink" stroke-width="5"/><line x1="${xp}" y1="${y0}" x2="${xp}" y2="${y0+H}" class="s-ink" stroke-width="5"/>`;
+  b+=tx(x0+72,34,"200 cm",{a:"middle",c:"mu"})+tx(xp+225,34,"625 cm",{a:"middle",c:"mu"})+tx(30,y0+H/2,"400 cm",{a:"middle",c:"mu"}).replace("<text ",`<text transform="rotate(-90 30 ${y0+H/2})" `);
+  b+=roomDoor(xp,y0+6,xp,y0+50)+tx(xp+10,y0+24,"Service door, 2.0 mm lead",{c:"wa",s:12});
+  b+=`<line x1="${xp}" y1="${y0+88}" x2="${xp}" y2="${y0+160}" class="s-ok" stroke-width="7"/>`+roomNum(xp+18,y0+124,5);
+  b+=`<rect x="${x0+32}" y="${y0+78}" width="84" height="74" rx="3" class="t-acs"/>`+roomNum(x0+74,y0+115,3);
+  b+=`<rect x="${x0+32}" y="${y0+162}" width="84" height="56" rx="3" class="t-mid"/>`+roomNum(x0+74,y0+190,4);
+  b+=roomDoor(x0+14,y0+H,x0+70,y0+H)+tx(x0+14,y0+H+22,"Control room door",{c:"mu",s:12});
+  b+=`<rect x="${xp+64}" y="${y0+88}" width="230" height="50" rx="4" class="t-mid"/>`+roomNum(xp+150,y0+113,2);
+  b+=`<rect x="${xp+264}" y="${y0+52}" width="72" height="122" rx="6" class="t-acs"/>`+roomNum(xp+322,y0+152,1);
+  b+=`<line x1="${xp+78}" y1="${y0+113}" x2="${xp+380}" y2="${y0+113}" class="s-ac" stroke-dasharray="6 4"/><circle cx="${xp+300}" cy="${y0+113}" r="4" class="f-ac"/>`+tx(xp+300,y0+42,"Iso centre",{a:"middle",c:"ac",s:12});
+  b+=roomDoor(xp+24,y0+H,xp+112,y0+H)+tx(xp+24,y0+H+22,"Double door, 2.0 mm lead",{c:"wa",s:12});
+  b+=tx(xp+230,y0+244,"CT examination room",{a:"middle",w:600})+tx(x0+72,y0+24,"Control",{a:"middle",w:600});
+  return svg(660,364,"Model CT room layout",b);
+}
+function figXRRoom(){
+  const x0=64,y0=48,W=360,H=320; let b="";
+  b+=`<rect x="${x0}" y="${y0}" width="${W}" height="${H}" class="f-inv s-ink" stroke-width="5"/>`;
+  b+=tx(x0+W/2,34,"450 cm",{a:"middle",c:"mu"})+tx(40,y0+H/2,"400 cm",{a:"middle",c:"mu"}).replace("<text ",`<text transform="rotate(-90 40 ${y0+H/2})" `);
+  b+=`<rect x="${x0+140}" y="${y0+10}" width="36" height="24" class="t-mid"/><rect x="${x0+192}" y="${y0+10}" width="36" height="24" class="t-mid"/>`+roomNum(x0+158,y0+22,5)+roomNum(x0+210,y0+22,6);
+  b+=`<line x1="${x0+4}" y1="${y0+62}" x2="${x0+W-4}" y2="${y0+62}" class="s-ac" stroke-dasharray="6 4"/>`;
+  b+=`<rect x="${x0+100}" y="${y0+52}" width="70" height="20" rx="3" class="t-acs"/>`+roomNum(x0+135,y0+62,3);
+  b+=`<rect x="${x0+6}" y="${y0+132}" width="28" height="46" rx="3" class="t-acs"/>`+roomNum(x0+20,y0+155,7);
+  b+=`<line x1="${x0+4}" y1="${y0+155}" x2="${x0+W-4}" y2="${y0+155}" class="s-ac" stroke-dasharray="6 4"/>`;
+  b+=`<rect x="${x0+84}" y="${y0+122}" width="180" height="66" rx="3" class="t-mid"/>`+roomNum(x0+246,y0+140,1);
+  b+=`<rect x="${x0+166}" y="${y0+114}" width="46" height="82" rx="3" class="t-acs"/>`+roomNum(x0+189,y0+155,2);
+  b+=`<line x1="${x0+135}" y1="${y0+72}" x2="${x0+135}" y2="${y0+130}" class="s-mu" stroke-width="3"/><rect x="${x0+116}" y="${y0+130}" width="38" height="32" rx="3" class="t-warn"/>`+roomNum(x0+135,y0+146,4);
+  b+=`<path d="M${x0+290} ${y0+118}L${x0+280} ${y0+132}V${y0+178}L${x0+290} ${y0+192}" class="s-ok" fill="none" stroke-width="6"/>`+roomNum(x0+264,y0+108,9);
+  b+=`<rect x="${x0+296}" y="${y0+132}" width="34" height="46" rx="3" class="t-acs"/>`+roomNum(x0+313,y0+155,8);
+  b+=roomDoor(x0+240,y0+H,x0+324,y0+H)+tx(x0+282,y0+H+22,"Door, 2.0 mm lead",{a:"middle",c:"wa",s:12});
+  b+=tx(x0+24,y0+278,"X-ray examination room",{w:600});
+  [[1,"Examination table"],[2,"Spot film device"],[3,"Column stand"],[4,"X-ray tube head"],["5, 6","Unit electronics"],[7,"Chest stand"],[8,"Control unit"],[9,"Protective barrier with lead glass"]].forEach(([n,l],i)=>{ b+=tx(452,70+i*24,`${n}  ${l}`,{s:12.5}); });
+  return svg(660,396,"Model X-ray room layout",b);
+}
 function figInverse(){
   const rows=[["1 m",100,"100%"],["2 m",25,"25%"],["3 m",11,"11%"],["4 m",6,"6%"]]; let b="";
   rows.forEach(([d,v,l],i)=>{ const y=8+i*36;
@@ -1683,6 +1736,8 @@ function figEarlyPreg(){
   ["adrenal",1,"Decision flow",figAdrenal],
   ["ctp-general",0,"Workflow at a glance",figCTPrep],
   ["phys-xray",2,"Distance is the easiest protection",figInverse],
+  ["phys-layouts",0,"CT room plan",figCTRoom,"1 Gantry · 2 Table · 3 Control unit · 4 Electronics · 5 Viewing glass. Redrawn as a guide, not to exact scale."],
+  ["phys-layouts",1,"X-ray room plan",figXRRoom,"Redrawn as a guide, not to exact scale."],
   ["us-early-preg",1,"Milestones",figEarlyPreg,"Book values. Follow your department's early pregnancy guideline before any conclusion."],
   ["ctp-chest",1,"HRCT: where to take the expiratory images",figHRCT,"Schematic frontal view. Prone images are taken through the lung bases."],
   ["ctp-cardiac",1,"Coronary CTA in six steps",figCoronary,"Check beta-blocker contraindications and your department's heart-rate protocol."],
@@ -1733,7 +1788,7 @@ const MEDIA={
   "xrp-chest":["chest radiograph","chest x-ray positioning"],"xrp-skull":["skull radiograph","skull x-ray positioning"],
   "us-sizes":["normal ultrasound measurements","abdominal ultrasound normal measurements"],"us-early-preg":["early pregnancy ultrasound","early pregnancy ultrasound"],
   "us-artifacts":["ultrasound artifacts","ultrasound artifacts explained"],"ctp-tech":["CT artifacts","CT artifacts explained"],
-  "phys-xray":["x-ray physics","kVp mAs explained"],"phys-safety":["radiation protection","radiation protection dose limits"],
+  "phys-layouts":["CT scanner","radiology room shielding design"],"phys-xray":["x-ray physics","kVp mAs explained"],"phys-safety":["radiation protection","radiation protection dose limits"],
   "mrp-glossary":["MRI sequence names","MRI sequence names GE Siemens Philips"],"contrast-agents":["contrast media osmolality","oral contrast CT"],
 };
 function seeHTML(t){
